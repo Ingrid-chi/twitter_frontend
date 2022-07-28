@@ -1,13 +1,11 @@
 <template>
-  <div id="app">
+  <div id="twitter">
     <router-view />
   </div>
 </template>
 
 <script>
 export default {
-  name: "App",
-};
+  name: 'App'
+}
 </script>
-<style>
-</style>
