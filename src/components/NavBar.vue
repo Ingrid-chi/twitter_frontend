@@ -2,12 +2,14 @@
   <div class="wrapper">
 
     <div class="navBar">
-        <div class="navBar__logo">
+      <div class="navBar__menu">
+        <div class="navBar__menu__logo">
           <img class="navBar__logo__img" src="./../assets/logo.png" alt="">
         </div>
 
         <NavTab />
         <AdminNavTab />
+        </div>
 
         <div class="navBar__sign-out">
           <img
@@ -40,11 +42,11 @@ export default {
   flex-direction: column;
   justify-content: space-between;
 
-  &__logo {
-    padding: 13px 0px 30px 13px;
-    &__img {
+  &__menu{
+    &__logo {
       width: 40px;
       height: 40px;
+      margin: 13px 0px 30px 13px;
     }
   }
 

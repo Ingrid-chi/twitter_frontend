@@ -1,0 +1,21 @@
+@import "./common";
+@import "./font";
+@import "./variables";
+
+// btn
+%btn-default {
+  @extend %primary-p;
+  color: $main-orange;
+  padding: 8px 16px;
+  border: 1px solid $main-orange;
+  border-radius: 50px;
+}
+
+%btn-checked {
+  @extend %primary-p;
+  color: $white;
+  padding: 8px 16px;
+  border: 1px solid $main-orange;
+  border-radius: 50px;
+  background-color: $main-orange;
+}

@@ -19,7 +19,22 @@
            <p class="popularUserList__container__nameDetail__account secondary-bol">{{ user.account }}</p>
         </div>
 
-        <button class="popularUserList__container__btn">跟隨</button>
+        <button class="popularUserList__container__btnFollowed"
+        v-if="user.isFollowed"
+        type="button"
+        @click.stop.prevent="deleteFollow"
+        >
+        正在跟隨
+        </button>
+
+        <button class="popularUserList__container__btnUnfollowed"
+        v-else
+        type="button"
+        @click.stop.prevent="addFollow"
+        >
+        跟隨
+        </button>
+        
       </div>
     </div>
 
@@ -33,57 +48,57 @@ const dummyData = {
       id: 1,
       name: "Pizza Hut",
       account: "@pizzahut",
-      isFollowing: false,
       image: "logo-gary.png",
+      isFollowed: true,
     },
     {
       id: 2,
       name: "Pizza Hut",
       account: "@pizzahut",
-      isFollowing: false,
       image: "logo-gary.png",
+      isFollowed: true,
     },
     {
       id: 3,
       name: "Pizza Hut",
       account: "@pizzahut",
-      isFollowing: false,
       image: "logo-gary.png",
+      isFollowed: false,
     },
     {
       id: 4,
       name: "Pizza Hut",
       account: "@pizzahut",
-      isFollowing: false,
       image: "logo-gary.png",
+      isFollowed: false,
     },
     {
       id: 5,
       name: "Pizza Hut",
       account: "@pizzahut",
-      isFollowing: false,
       image: "logo-gary.png",
+      isFollowed: false,
     },
     {
       id: 6,
       name: "Pizza Hut",
       account: "@pizzahut",
-      isFollowing: false,
       image: "logo-gary.png",
+      isFollowed: false,
     },
     {
       id: 7,
       name: "Pizza Hut",
       account: "@pizzahut",
-      isFollowing: false,
       image: "logo-gary.png",
+      isFollowed: false,
     },
     {
       id: 8,
       name: "Pizza Hut",
       account: "@pizzahut",
-      isFollowing: false,
       image: "logo-gary.png",
+      isFollowed: false,
     },
   ]
 };
@@ -96,12 +111,24 @@ export default {
 
   data() {
     return {
-    users: dummyData.users,
+    users: dummyData.users
     }
   },
 
-    methods: {
-    
+  methods: {
+    addFollow() {
+      this.user = {
+        ...this.user,
+        isFollowed: true,
+      }
+    },
+
+    deleteFollow() {
+      this.user = {
+        ...this.user,
+        isFollowed: false,
+      }
+    },
   },
 
 };
@@ -146,12 +173,11 @@ export default {
         color: $third-gray;
       }
     }
-    &__btn {
-      @extend %primary-p;
-      color: $main-orange;
-      padding: 8px 16px;
-      border: 1px solid $main-orange;
-      border-radius: 50px;
+    &__btnUnfollowed {
+      @extend %btn-default;
+    }
+    &__btnFollowed {
+      @extend %btn-checked;
     }
   }
 }
