@@ -29,11 +29,11 @@ const routes = [
   //   component: Home
   // },
   //個人及他人資料
-  // {
-  //   path: '/:account',
-  //   name: 'user',
-  //   component: () => import('../views/User.vue')
-  // },
+  {
+    path: '/user1',
+    name: 'user',
+    component: () => import('../views/CurrentUser.vue')
+  },
   //個人所有推文
   // {
   //   path: '/:account/tweets',
