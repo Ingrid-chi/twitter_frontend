@@ -15,3 +15,16 @@ export const menuItems = [
     image: "setting.png"
   },
 ];
+
+export const adminMenuItems = [
+  {
+    id: 1,
+    title: "推文清單",
+    image: "home.png",
+  },
+  {
+    id: 2,
+    title: "使用者列表",
+    image: "info.png",
+  },
+];

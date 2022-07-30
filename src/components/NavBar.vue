@@ -7,8 +7,10 @@
           <img class="navBar__logo__img" src="./../assets/logo.png" alt="">
         </div>
 
+        <!-- 前後台的 NavTab -->
         <NavTab />
         <AdminNavTab />
+
         </div>
 
         <div class="navBar__sign-out">
@@ -24,12 +26,14 @@
 
 <script>
 import NavTab from './../components/NavTab';
+import AdminNavTab from './../components/AdminNavTab';
 
 export default {
   name: "NavBar",
 
   components: {
     NavTab,
+    AdminNavTab,
   },
 
 };
