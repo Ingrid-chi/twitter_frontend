@@ -71,11 +71,11 @@ const routes = [
   //   component: () => import('../views/Followings.vue')
   // },
   //個人設定
-  // {
-  //   path: '/:account/setting',
-  //   name: 'setting',
-  //   component: () => import('../views/User.vue')
-  // },
+  {
+    path: '/user1/setting',
+    name: 'setting',
+    component: () => import('../views/Setting.vue')
+  },
   // {
   //   path: '/admin',
   //   exact: true,

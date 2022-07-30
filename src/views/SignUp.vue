@@ -1,90 +1,92 @@
 <template>
-  <div class="signup signup__container">
-    <div class="signup__container__img">
-      <img :src="logoImage" alt="" />
+  <div class="wrapper">
+    <div class="signup signup__container">
+      <div class="signup__container__img">
+        <img :src="logoImage" alt="" />
+      </div>
+      <form
+        autocomplete="off"
+        class="signup__form"
+        @submit.prevent.stop="handleSubmit"
+      >
+        <div class="signup__form__wrapper__title">
+          <h3 class="signup__form__title">建立你的帳號</h3>
+        </div>
+
+        <div class="signup__form__wrapper__account">
+          <label for="account">帳號</label>
+          <input
+            id="account"
+            v-model="account"
+            name="account"
+            type="text"
+            placeholder="請輸入帳號"
+            maxlength="50"
+            autofocus
+          />
+        </div>
+        <div class="signup__form__wrapper__name">
+          <label for="name">名稱</label>
+          <input
+            id="name"
+            v-model="name"
+            name="name"
+            type="text"
+            placeholder="請輸入使用者名稱"
+          />
+        </div>
+
+        <div class="signup__form__wrapper__email">
+          <label for="email">Email</label>
+          <input
+            id="email"
+            v-model="email"
+            name="email"
+            type="email"
+            placeholder="請輸入Email"
+            autofocus
+          />
+        </div>
+
+        <div class="signup__form__wrapper__password">
+          <label for="password">密碼</label>
+          <input
+            id="password"
+            v-model="password"
+            name="password"
+            type="password"
+            placeholder="請設定密碼"
+            autofocus
+          />
+        </div>
+
+        <div class="signup__form__wrapper__password-check">
+          <label for="password-check">密碼確認</label>
+          <input
+            id="password-check"
+            v-model="passwordCheck"
+            name="passwordCheck"
+            type="password"
+            placeholder="請再次輸入密碼"
+          />
+        </div>
+        <div class="signup__form__wrapper__btn">
+          <button
+            class="signup__form__btn"
+            :disabled="isProcessing"
+            type="submit"
+          >
+            註冊
+          </button>
+        </div>
+
+        <div class="signup__form__wrapper__link">
+          <p>
+            <router-link to="/signin">取消 </router-link>
+          </p>
+        </div>
+      </form>
     </div>
-    <form
-      autocomplete="off"
-      class="signup__form"
-      @submit.prevent.stop="handleSubmit"
-    >
-      <div class="signup__form__wrapper__title">
-        <h3 class="signup__form__title">建立你的帳號</h3>
-      </div>
-
-      <div class="signup__form__wrapper__account">
-        <label for="account">帳號</label>
-        <input
-          id="account"
-          v-model="account"
-          name="account"
-          type="text"
-          placeholder="請輸入帳號"
-          maxlength="50"
-          autofocus
-        />
-      </div>
-      <div class="signup__form__wrapper__name">
-        <label for="name">名稱</label>
-        <input
-          id="name"
-          v-model="name"
-          name="name"
-          type="text"
-          placeholder="請輸入使用者名稱"
-        />
-      </div>
-
-      <div class="signup__form__wrapper__email">
-        <label for="email">Email</label>
-        <input
-          id="email"
-          v-model="email"
-          name="email"
-          type="email"
-          placeholder="請輸入Email"
-          autofocus
-        />
-      </div>
-
-      <div class="signup__form__wrapper__password">
-        <label for="password">密碼</label>
-        <input
-          id="password"
-          v-model="password"
-          name="password"
-          type="password"
-          placeholder="請設定密碼"
-          autofocus
-        />
-      </div>
-
-      <div class="signup__form__wrapper__password-check">
-        <label for="password-check">密碼確認</label>
-        <input
-          id="password-check"
-          v-model="passwordCheck"
-          name="passwordCheck"
-          type="password"
-          placeholder="請再次輸入密碼"
-        />
-      </div>
-      <div class="signup__form__wrapper__btn">
-        <button
-          class="signup__form__btn"
-          :disabled="isProcessing"
-          type="submit"
-        >
-          註冊
-        </button>
-      </div>
-
-      <div class="signup__form__wrapper__link">
-        <p>
-          <router-link to="/signin">取消 </router-link>
-        </p>
-      </div>
-    </form>
   </div>
 </template>
 
@@ -135,6 +137,11 @@ export default {
     font-weight: 400;
     color: #b5b5be;
   }
+}
+.wrapper {
+  margin: 0 auto;
+  max-width: 1140px;
+  max-height: 100vh;
 }
 .signup {
   &__container {

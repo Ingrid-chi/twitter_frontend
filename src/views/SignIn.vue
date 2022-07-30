@@ -1,70 +1,72 @@
 <template>
-  <div class="signin signin__container">
-    <div class="signin__container__img">
-      <img :src="logoImage" alt="logo.title" />
-    </div>
-
-    <form
-      autocomplete="off"
-      class="signin__form"
-      @submit.prevent.stop="handleSubmit"
-    >
-      <div class="signin__form__wrapper__title">
-        <h3 class="signin__form__title">登入Alphitter</h3>
+  <div class="wrapper">
+    <div class="signin signin__container">
+      <div class="signin__container__img">
+        <img :src="logoImage" alt="logo.title" />
       </div>
 
-      <div class="signin__form__wrapper__account">
-        <label for="account">帳號</label>
-        <input
-          id="account"
-          v-model="account"
-          name="account"
-          type="account"
-          placeholder="請輸入帳號"
-          maxlength="50"
-          autofocus
-        />
-      </div>
+      <form
+        autocomplete="off"
+        class="signin__form"
+        @submit.prevent.stop="handleSubmit"
+      >
+        <div class="signin__form__wrapper__title">
+          <h3 class="signin__form__title">登入Alphitter</h3>
+        </div>
 
-      <div class="signin__form__wrapper__password">
-        <label for="password">密碼</label>
-        <input
-          id="password"
-          v-model="password"
-          name="password"
-          type="password"
-          class=""
-          placeholder="請輸入密碼"
-          maxlength="50"
-          autofocus
-        />
-      </div>
+        <div class="signin__form__wrapper__account">
+          <label for="account">帳號</label>
+          <input
+            id="account"
+            v-model="account"
+            name="account"
+            type="account"
+            placeholder="請輸入帳號"
+            maxlength="50"
+            autofocus
+          />
+        </div>
 
-      <div class="signin__form__wrapper__btn">
-        <button
-          class="signin__form__btn"
-          :disabled="isProcessing"
-          type="submit"
-        >
-          登入
-        </button>
-      </div>
+        <div class="signin__form__wrapper__password">
+          <label for="password">密碼</label>
+          <input
+            id="password"
+            v-model="password"
+            name="password"
+            type="password"
+            class=""
+            placeholder="請輸入密碼"
+            maxlength="50"
+            autofocus
+          />
+        </div>
 
-      <div class="signin__form__wrapper__links">
-        <p>
-          <router-link class="signin__form__link__signup" to="/signup">
-            註冊
-          </router-link>
-          <span>．</span>
-          <router-link
-            class="signin__form__link__admin-signin"
-            to="/admin/signin"
+        <div class="signin__form__wrapper__btn">
+          <button
+            class="signin__form__btn"
+            :disabled="isProcessing"
+            type="submit"
           >
-            後台登入
-          </router-link>
-        </p>
-      </div>
-    </form>
+            登入
+          </button>
+        </div>
+
+        <div class="signin__form__wrapper__links">
+          <p>
+            <router-link class="signin__form__link__signup" to="/signup">
+              註冊
+            </router-link>
+            <span>．</span>
+            <router-link
+              class="signin__form__link__admin-signin"
+              to="/admin/signin"
+            >
+              後台登入
+            </router-link>
+          </p>
+        </div>
+      </form>
+    </div>
   </div>
 </template>
 <script>
@@ -147,6 +149,11 @@ export default {
     font-weight: 400;
     color: #b5b5be;
   }
+}
+.wrapper {
+  margin: 0 auto;
+  max-width: 1140px;
+  max-height: 100vh;
 }
 .signin {
   &__container {
