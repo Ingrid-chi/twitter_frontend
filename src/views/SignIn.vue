@@ -1,7 +1,7 @@
 <template>
   <div class="signin signin__container">
     <div class="signin__container__img">
-      <img :src="this.logoImage" alt="" />
+      <img :src="logoImage" alt="logo.title" />
     </div>
 
     <form
@@ -22,6 +22,7 @@
           type="account"
           placeholder="請輸入帳號"
           maxlength="50"
+          autofocus
         />
       </div>
 
@@ -35,6 +36,7 @@
           class=""
           placeholder="請輸入密碼"
           maxlength="50"
+          autofocus
         />
       </div>
 
@@ -67,14 +69,20 @@
 </template>
 <script>
 import authorizationAPI from "./../apis/authorization";
+import { commonItems } from "../configs/commonConfigs";
 export default {
   data() {
     return {
       account: "",
       password: "",
-      logoImage: require("../../public/alpha-icon@2x.png"),
       isProcessing: false,
+      logo: commonItems.logo,
     };
+  },
+  computed: {
+    logoImage() {
+      return require(`../assets/${this.logo.image}`);
+    },
   },
   methods: {
     async handleSubmit() {
