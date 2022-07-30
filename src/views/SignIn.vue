@@ -53,6 +53,7 @@
           <router-link class="signin__form__link__signup" to="/signup">
             註冊
           </router-link>
+          <span>．</span>
           <router-link
             class="signin__form__link__admin-signin"
             to="/admin/signin"
@@ -112,7 +113,33 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-// %form-row-wrapper
+%form-wrapper {
+  height: 54px;
+  margin-top: 40px;
+  background-color: #f5f8fa;
+  border-radius: 2px;
+  border-bottom: 2px solid $primary-gray;
+  padding: 2px 10.55px;
+  label {
+    @extend %secondary-p;
+    height: 22px;
+    display: block;
+    text-align: left;
+    line-height: 22px;
+    font-weight: 400;
+    color: #696974;
+  }
+  input {
+    @extend %primary-p;
+    height: 26px;
+    display: block;
+    border: none;
+    background-color: #f5f8fa;
+    line-height: 26px;
+    font-weight: 400;
+    color: #b5b5be;
+  }
+}
 .signin {
   &__container {
     width: 356px;
@@ -132,27 +159,47 @@ export default {
         margin-top: 24px;
       }
       &__account {
-        height: 52px;
-        margin-top: 40px;
-        background-color: #f5f8fa;
-        label {
-          @extend %primary-p;
-          display: block;
-          text-align: left;
-        }
-        input {
-          @extend %secondary-p;
-          display: block;
-        }
+        @extend %form-wrapper;
       }
       &__password {
         margin-top: 32px;
+        @extend %form-wrapper;
       }
       &__btn {
+        height: 46px;
         margin-top: 40px;
+        border-radius: 50px;
+        background-color: $main-orange;
       }
       &__links {
+        @extend %primary-p;
         margin-top: 22px;
+        display: flex;
+        justify-content: flex-end;
+        color: $black;
+      }
+    }
+    &__btn {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      font-weight: 400;
+      font-size: 20px;
+      color: #fff;
+    }
+    p {
+      width: 136px;
+      height: 36px;
+      padding-right: 12px;
+      display: flex;
+      justify-content: space-between;
+    }
+    a {
+      color: $primary-blue;
+      text-decoration: underline;
+      &:hover {
+        cursor: pointer;
       }
     }
   }
