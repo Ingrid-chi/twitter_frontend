@@ -10,6 +10,13 @@
         <div class="CurrentUser__container__content">
           <CurrentUserInfo />
 
+          <div class="CurrentUser__container__content__items"
+          v-for="item in currentUserContentItems"
+          :key="item.id"
+          >
+            <button>{{ item.title }}</button>
+          </div>
+
           <CurrentUserTweets />
           <CurrentUserReplies />
           <CurrentUserLikes />
@@ -27,6 +34,7 @@
 import NavBar from "./../components/NavBar";
 import PopularUser from "./../components/PopularUser";
 import CurrentUserInfo from "./../components/CurrentUserInfo";
+import { currentUserContentItems } from '../configs/contentConfigs';
 
 export default {
   name: "CurrentUser",
@@ -36,6 +44,13 @@ export default {
     PopularUser,
     CurrentUserInfo,
   },
+
+  data() {
+    return {
+    currentUserContentItems: currentUserContentItems,
+    }
+  },
+
 };
 </script>
 
@@ -60,6 +75,8 @@ export default {
       height: 100%;
       background-color: $line-gray;
     }
+
+    
   }
 }
 </style>

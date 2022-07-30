@@ -98,10 +98,16 @@ export default {
   &__background {
     position: absolute;
     z-index: -1;
+    max-width: 100%;
     max-height: 200px;
+    // 超出範圍不顯示
     overflow: hidden;
     &__img {
-      max-width: 639px;
+      // 自動等比縮放
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
     }
   }
 

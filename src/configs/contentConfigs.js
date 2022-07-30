@@ -28,3 +28,18 @@ export const adminMenuItems = [
     image: "info.png",
   },
 ];
+
+export const currentUserContentItems = [
+  {
+    id: 1,
+    title: "推文",
+  },
+  {
+    id: 2,
+    title: "回覆",
+  },
+  {
+    id: 3,
+    title: "喜歡的內容",
+  },
+];
