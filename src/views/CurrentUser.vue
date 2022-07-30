@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div class="CurrentUser-wrapper">
     <div class="CurrentUser">
       <NavBar />
 
@@ -28,8 +28,8 @@
 
           <!-- 推文、回覆、喜歡的內容 內容 -->
           <CurrentUserTweets />
-          <CurrentUserReplies />
-          <CurrentUserLikes />
+          <!-- <CurrentUserReplies />
+          <CurrentUserLikes /> -->
         </div>
 
         <div class="CurrentUser__container__line-right"></div>
@@ -44,6 +44,7 @@
 import NavBar from "./../components/NavBar";
 import PopularUser from "./../components/PopularUser";
 import CurrentUserInfo from "./../components/CurrentUserInfo";
+import CurrentUserTweets from "./../components/CurrentUserTweets";
 import { currentUserContentItems } from "../configs/contentConfigs";
 
 export default {
@@ -53,6 +54,7 @@ export default {
     NavBar,
     PopularUser,
     CurrentUserInfo,
+    CurrentUserTweets,
   },
 
   data() {
@@ -64,7 +66,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.wrapper {
+.CurrentUser-wrapper {
   margin: 0 auto;
   max-width: 1140px;
   max-height: 100vh;

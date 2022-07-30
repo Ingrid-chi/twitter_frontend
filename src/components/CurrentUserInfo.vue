@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div class="CurrentUserInfo-wrapper">
     <!-- 上方回上一頁 icon們 -->
     <div class="CurrentUserInfo-title">
       <div class="CurrentUserInfo-title__icon">
