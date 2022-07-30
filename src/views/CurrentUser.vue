@@ -4,19 +4,29 @@
       <NavBar />
 
       <div class="CurrentUser__container">
-
         <div class="CurrentUser__container__line-left"></div>
 
         <div class="CurrentUser__container__content">
           <CurrentUserInfo />
 
-          <div class="CurrentUser__container__content__items"
-          v-for="item in currentUserContentItems"
-          :key="item.id"
-          >
-            <button>{{ item.title }}</button>
+          <!-- 推文、回覆、喜歡的內容 btn -->
+          <div class="CurrentUser__container__content__items">
+            <div
+              class="CurrentUser__container__content__items__item"
+              v-for="item in currentUserContentItems"
+              :key="item.id"
+            >
+              <button
+                class="CurrentUser__container__content__items__item__btn primary-bold"
+              >
+                {{ item.title }}
+              </button>
+            </div>
           </div>
 
+          <div class="CurrentUser__container__content__bottom"></div>
+
+          <!-- 推文、回覆、喜歡的內容 內容 -->
           <CurrentUserTweets />
           <CurrentUserReplies />
           <CurrentUserLikes />
@@ -34,7 +44,7 @@
 import NavBar from "./../components/NavBar";
 import PopularUser from "./../components/PopularUser";
 import CurrentUserInfo from "./../components/CurrentUserInfo";
-import { currentUserContentItems } from '../configs/contentConfigs';
+import { currentUserContentItems } from "../configs/contentConfigs";
 
 export default {
   name: "CurrentUser",
@@ -47,10 +57,9 @@ export default {
 
   data() {
     return {
-    currentUserContentItems: currentUserContentItems,
-    }
+      currentUserContentItems: currentUserContentItems,
+    };
   },
-
 };
 </script>
 
@@ -76,7 +85,32 @@ export default {
       background-color: $line-gray;
     }
 
-    
+    // 推文、回覆、喜歡的內容 btn
+    &__content {
+      &__items {
+        display: flex;
+        flex-direction: row;
+        &__item {
+          width: 130px;
+          height: 52px;
+          display: flex;
+          justify-content: center;
+          &__btn {
+            color: $primary-gray;
+            &:hover {
+              width: 100%;
+              height: 52px;
+              color: $main-orange;
+              border-bottom: 2px solid $main-orange;
+            }
+          }
+        }
+      }
+
+      &__bottom {
+        border-bottom: 1px solid $line-gray;
+      }
+    }
   }
 }
 </style>

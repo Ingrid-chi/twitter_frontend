@@ -149,7 +149,7 @@ export default {
 // 跟隨中 & 跟隨者
 .CurrentUserInfo-followTotal {
   display: flex;
-  padding: 0 0 31px 16.13px;
+  padding: 0 0 16px 16.13px;
 
   &__following {
     @extend %secondary-p;

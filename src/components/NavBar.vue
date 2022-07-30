@@ -8,8 +8,8 @@
         </div>
 
         <!-- 前後台的 NavTab -->
-        <NavTab />
-        <AdminNavTab />
+        <NavTab v-if="!isAdmin" />
+        <AdminNavTab v-else />
 
         </div>
 
@@ -35,6 +35,13 @@ export default {
     NavTab,
     AdminNavTab,
   },
+
+  props: {
+    isAdmin: {
+      type: Boolean,
+      default: false,
+    }
+  }
 
 };
 </script>
