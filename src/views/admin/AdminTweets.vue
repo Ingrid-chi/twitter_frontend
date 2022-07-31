@@ -24,7 +24,7 @@ import adminAPI from '../../apis/admin';
 import { Toast } from '../../utils/helpers';
 
 export default {
-  name: 'TweetsList',
+  name: 'AdminTweets',
   components: {
     TweetsListCard,
     NavBar,
