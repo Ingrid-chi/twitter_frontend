@@ -1,6 +1,6 @@
 <template>
   <div class="list-wrapper">
-    <NavBar />
+    <NavBar isAdmin="true" />
     <div class="content">
       <div class="header">
         <h4 class="header__title">推文清單</h4>
