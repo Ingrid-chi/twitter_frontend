@@ -76,5 +76,11 @@ export default {
       }
     }
   }
+
+  // 修改 router-link 顏色
+  a {
+    text-decoration: none;
+    color: $primary-black;
+  }
 }
 </style>

@@ -16,14 +16,18 @@
       <!-- 密碼 -->
       <div class="adminSignIn-container__input-password">
         <p class="adminSignIn-container__input-password__title">密碼</p>
-        <input type="password" placeholder="請輸入密碼"  v-model="password" />
+        <input type="password" placeholder="請輸入密碼" v-model="password" />
       </div>
 
-      <!-- 登入 btn -->
-      <button @click="handleLogin">登入</button>
+      <div class="btn-group">
+        <!-- 登入 btn -->
+        <button class="btn-group__admin-signin" @click="handleLogin">
+          登入
+        </button>
 
-      <!-- 前台登入 -->
-      <button>前台登入</button>
+        <!-- 前台登入 -->
+        <button class="btn-group__front-signin">前台登入</button>
+      </div>
     </div>
   </div>
 </template>
@@ -57,7 +61,7 @@ export default {
           throw new Error(data.message);
         }
 
-        localStorage.setItem('admin-token', data.data.token)
+        localStorage.setItem("admin-token", data.data.token);
         this.$router.push({ name: "admin-tweets" });
       } catch (error) {
         const { response } = error;
@@ -105,15 +109,39 @@ export default {
     width: 356px;
     height: 54px;
     background-color: #f5f8fa;
+    border-radius: 2px;
     border-bottom: 2px solid $primary-gray;
     margin-bottom: 32px;
     padding: 2px 10px;
-    color: #b5b5be;
+    // color: #b5b5be;
 
     &__title {
       line-height: 22px;
       @extend %secondary-p;
       color: #696974;
+    }
+  }
+
+  .btn-group {
+    display: block;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    
+    &__admin-signin {
+      width: 356px;
+      height: 46px;
+      border-radius: 50px;
+      background-color: $main-orange;
+      color: $white;
+      font-size: 20px;
+      margin: 8px 0 30px 0;
+    }
+    &__front-signin {
+      @extend %primary-p;
+      color: $primary-blue;
+      border-bottom: 1px solid $primary-blue;
+      padding: 0;
     }
   }
 }
