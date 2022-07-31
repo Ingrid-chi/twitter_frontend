@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import NotFound from '../views/NotFound.vue'
-// import Home from '../views/Home.vue'
+import Home from '../views/Home.vue'
 import SignIn from '../views/SignIn.vue'
 
 Vue.use(VueRouter)
@@ -23,17 +23,17 @@ const routes = [
     component: () => import('../views/SignUp.vue')
   },
   //主畫面
-  // {
-  //   path: '/home',
-  //   name: 'home',
-  //   component: Home
-  // },
+  {
+    path: '/home',
+    name: 'home',
+    component: Home
+  },
   //個人及他人資料
-  // {
-  //   path: '/:account',
-  //   name: 'user',
-  //   component: () => import('../views/User.vue')
-  // },
+  {
+    path: '/user1',
+    name: 'user',
+    component: () => import('../views/CurrentUser.vue')
+  },
   //個人所有推文
   // {
   //   path: '/:account/tweets',
@@ -71,11 +71,11 @@ const routes = [
   //   component: () => import('../views/Followings.vue')
   // },
   //個人設定
-  // {
-  //   path: '/:account/setting',
-  //   name: 'setting',
-  //   component: () => import('../views/User.vue')
-  // },
+  {
+    path: '/user1/setting',
+    name: 'setting',
+    component: () => import('../views/Setting.vue')
+  },
   // {
   //   path: '/admin',
   //   exact: true,

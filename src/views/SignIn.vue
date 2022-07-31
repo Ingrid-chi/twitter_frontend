@@ -1,73 +1,236 @@
 <template>
-  <div class="">
-    <img :src="this.logoImage" alt="" />
-    <form autocomplete="off" class="" @submit.prevent.stop="handleSubmit">
-      <div class="">
-        <h1 class="">登入Alphitter</h1>
+  <div class="wrapper">
+    <div class="signin signin__container">
+      <div class="signin__container__img">
+        <img :src="logoImage" alt="logo.title" />
       </div>
 
-      <div class="">
-        <label for="">帳號</label>
-        <input
-          id="account"
-          v-model="account"
-          name="account"
-          type="account"
-          placeholder="請輸入帳號"
-          maxlength="50"
-        />
-      </div>
+      <form
+        autocomplete="off"
+        class="signin__form"
+        @submit.prevent.stop="handleSubmit"
+      >
+        <div class="signin__form__wrapper__title">
+          <h3 class="signin__form__title">登入Alphitter</h3>
+        </div>
 
-      <div class="">
-        <label for="password">密碼</label>
-        <input
-          id="password"
-          v-model="password"
-          name="password"
-          type="password"
-          class=""
-          placeholder="請輸入密碼"
-          maxlength="50"
-        />
-      </div>
+        <div class="signin__form__wrapper__account">
+          <label for="account">帳號</label>
+          <input
+            id="account"
+            v-model="account"
+            name="account"
+            type="account"
+            placeholder="請輸入帳號"
+            maxlength="50"
+            autofocus
+          />
+        </div>
 
-      <button class="" :disabled="isProcessing" type="submit">登入</button>
+        <div class="signin__form__wrapper__password">
+          <label for="password">密碼</label>
+          <input
+            id="password"
+            v-model="password"
+            name="password"
+            type="password"
+            class=""
+            placeholder="請輸入密碼"
+            maxlength="50"
+            autofocus
+          />
+        </div>
 
-      <div class="">
-        <p>
-          <router-link to="/signup"> 註冊 </router-link>
-          <router-link to="/admin/signin"> 後台登入 </router-link>
-        </p>
-      </div>
-    </form>
+        <div class="signin__form__wrapper__btn">
+          <button
+            class="signin__form__btn"
+            :disabled="isProcessing"
+            type="submit"
+          >
+            登入
+          </button>
+        </div>
+
+        <div class="signin__form__wrapper__links">
+          <p>
+            <router-link class="signin__form__link__signup" to="/signup">
+              註冊
+            </router-link>
+            <span>．</span>
+            <router-link
+              class="signin__form__link__admin-signin"
+              to="/admin/signin"
+            >
+              後台登入
+            </router-link>
+          </p>
+        </div>
+      </form>
+    </div>
   </div>
 </template>
 <script>
+import authorizationAPI from "./../apis/authorization";
+import { commonItems } from "../configs/commonConfigs";
 export default {
   data() {
     return {
       account: "",
       password: "",
-      logoImage: require("../../public/alpha-icon@2x.png"),
       isProcessing: false,
+      logo: commonItems.logo,
     };
   },
+  computed: {
+    logoImage() {
+      return require(`../assets/${this.logo.image}`);
+    },
+  },
+  watch: {
+    account() {
+      if (this.account.length >= 50) {
+        alert("上限50");
+      }
+    },
+    password() {
+      if (this.password.length >= 50) {
+        alert("上限50");
+      }
+    },
+  },
   methods: {
-    handleSubmit() {
-      if (!this.account || !this.password) {
-        console.log("請輸入帳密");
+    async handleSubmit() {
+      try {
+        if (!this.account || !this.password) {
+          alert("不要空");
+        }
+        this.isProcessing = true;
+        const response = await authorizationAPI.signIn({
+          email: this.account,
+          password: this.password,
+        });
+        const { data } = response;
+        if (data.status !== "success") {
+          throw new Error(data.message);
+        }
+        console.log("data", data);
+        // 將伺服器回傳的 token 保存在 localStorage 中
+        localStorage.setItem("token", data.token);
+        // 透過 setCurrentUser 把使用者資料存到 Vuex 的 state 中
+        // this.$store.commit('setCurrentUser', data.user)
+        // 成功登入後進行轉址
+        this.$router.push("/user1");
+      } catch (error) {
+        this.isProcessing = false;
+        this.password = "";
+        alert('帳號或密碼錯誤')
+        // 顯示錯誤提示
+        // Toast.fire({
+        //   icon: 'warning',
+        //   title: '輸入的帳號密碼有誤'
+        // })
+        console.error(error.message);
       }
-      if (this.account.length >= 50 || this.password >= 50) {
-        console.log("帳號或密碼字數需50字以下");
-      }
-      this.isProcessing = true;
-      const data = JSON.stringify({
-        email: this.email,
-        password: this.password,
-      });
-      // TODO: 向後端驗證使用者登入資訊是否合法
-      console.log("data", data);
     },
   },
 };
 </script>
+<style lang="scss" scoped>
+%form-wrapper {
+  height: 54px;
+  margin-top: 40px;
+  background-color: #f5f8fa;
+  border-radius: 2px;
+  border-bottom: 2px solid $primary-gray;
+  padding: 2px 10.55px;
+  label {
+    @extend %secondary-p;
+    height: 22px;
+    display: block;
+    text-align: left;
+    line-height: 22px;
+    font-weight: 400;
+    color: #696974;
+  }
+  input {
+    @extend %primary-p;
+    height: 26px;
+    width: 100%;
+    display: block;
+    border: none;
+    background-color: #f5f8fa;
+    line-height: 26px;
+    font-weight: 400;
+    color: #b5b5be;
+  }
+}
+.wrapper {
+  margin: 0 auto;
+  max-width: 1140px;
+  max-height: 100vh;
+}
+.signin {
+  &__container {
+    width: 356px;
+    position: relative;
+    top: 64px;
+    margin: 0 auto;
+    text-align: center;
+    &__img {
+      width: 50px;
+      height: 50px;
+      margin: 0 auto;
+    }
+  }
+  &__form {
+    &__wrapper {
+      &__title {
+        margin-top: 24px;
+      }
+      &__account {
+        @extend %form-wrapper;
+      }
+      &__password {
+        margin-top: 32px;
+        @extend %form-wrapper;
+      }
+      &__btn {
+        height: 46px;
+        margin-top: 40px;
+        border-radius: 50px;
+        background-color: $main-orange;
+      }
+      &__links {
+        @extend %primary-p;
+        margin-top: 22px;
+        display: flex;
+        justify-content: flex-end;
+        color: $black;
+      }
+    }
+    &__btn {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      font-weight: 400;
+      font-size: 20px;
+      color: #fff;
+    }
+    p {
+      width: 136px;
+      height: 36px;
+      padding-right: 12px;
+      display: flex;
+      justify-content: space-between;
+    }
+    a {
+      color: $primary-blue;
+      text-decoration: underline;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+}
+</style>
