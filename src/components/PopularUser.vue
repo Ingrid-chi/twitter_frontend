@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div class="popularUser-wrapper">
     <div class="popularUserList">
       <h4 class="popularUserList__title">推薦跟隨</h4>
       <div class="popularUserList__line"></div>
