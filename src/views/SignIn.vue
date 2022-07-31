@@ -86,11 +86,23 @@ export default {
       return require(`../assets/${this.logo.image}`);
     },
   },
+  watch: {
+    account() {
+      if (this.account.length >= 50) {
+        alert("上限50");
+      }
+    },
+    password() {
+      if (this.password.length >= 50) {
+        alert("上限50");
+      }
+    },
+  },
   methods: {
     async handleSubmit() {
       try {
         if (!this.account || !this.password) {
-          console.log("不要空");
+          alert("不要空");
         }
         this.isProcessing = true;
         const response = await authorizationAPI.signIn({
@@ -107,10 +119,11 @@ export default {
         // 透過 setCurrentUser 把使用者資料存到 Vuex 的 state 中
         // this.$store.commit('setCurrentUser', data.user)
         // 成功登入後進行轉址
-        this.$router.push("/signup");
+        this.$router.push("/user1");
       } catch (error) {
         this.isProcessing = false;
         this.password = "";
+        alert('帳號或密碼錯誤')
         // 顯示錯誤提示
         // Toast.fire({
         //   icon: 'warning',
@@ -142,6 +155,7 @@ export default {
   input {
     @extend %primary-p;
     height: 26px;
+    width: 100%;
     display: block;
     border: none;
     background-color: #f5f8fa;

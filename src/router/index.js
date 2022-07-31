@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import NotFound from '../views/NotFound.vue'
-// import Home from '../views/Home.vue'
+import Home from '../views/Home.vue'
 import SignIn from '../views/SignIn.vue'
 
 Vue.use(VueRouter)
@@ -23,11 +23,11 @@ const routes = [
     component: () => import('../views/SignUp.vue')
   },
   //主畫面
-  // {
-  //   path: '/home',
-  //   name: 'home',
-  //   component: Home
-  // },
+  {
+    path: '/home',
+    name: 'home',
+    component: Home
+  },
   //個人及他人資料
   {
     path: '/user1',

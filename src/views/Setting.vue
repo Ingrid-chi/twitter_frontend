@@ -90,6 +90,7 @@
 <script>
 import NavBar from "./../components/NavBar";
 
+
 export default {
   components: {
     NavBar,
@@ -136,7 +137,7 @@ export default {
   &__container {
     display: grid;
     grid-template-columns: 1px 1fr 1px;
-    // padding: 24px 23px 0 23px;
+    padding: 0 24px 0 20px;
     &__line-left,
     &__line-right {
       width: 1px;
