@@ -1,3 +1,4 @@
+src > components > admin > TweetCard.vue
 <template>
   <div class="card-wrapper">
     <img class="card-wrapper__img" :src="tweet.User.avatar" />
@@ -7,7 +8,7 @@
           {{ tweet.User.name }}
         </p>
         <div class="card-wrapper__content__header__subtitle">
-          <p>{{ "@" + tweet.User.account }}</p>
+          <p>{{ '@' + tweet.User.account }}</p>
           <span>・</span>
           <p>{{ tweet.createdAt | fromNow }}</p>
         </div>
@@ -15,15 +16,23 @@
       <div class="card-wrapper__content__description">
         {{ tweet.description }}
       </div>
-      <div class="card-wrapper__content__cancel-btn">x</div>
+      <button
+        @click.stop.prevent="deleteTweet(tweet.id)"
+        class="card-wrapper__content__cancel-btn"
+      >
+        <img src="../../assets/delete.png" width="15" height="15" alt="">
+      </button>
     </div>
   </div>
 </template>
 
 <script>
-import { fromNowFilter } from "../../utils/mixins";
+import { fromNowFilter } from '../../utils/mixins';
+import adminAPI from '../../apis/admin';
+import { Toast } from '../../utils/helpers';
+
 export default {
-  name: "TweetsListCard",
+  name: 'TweetsListCard',
   props: {
     tweet: {
       type: Object,
@@ -31,6 +40,28 @@ export default {
     },
   },
   mixins: [fromNowFilter],
+  methods: {
+    async deleteTweet(tweetId) {
+      try {
+        const response = await adminAPI.tweet.delete(tweetId);
+        const { data } = response.data;
+
+        if (response.data.status !== 'success') {
+          throw new Error(response.data.statusText);
+        }
+
+        this.$emit('after-delete-tweet', {
+          id: data.tweet.id,
+        });
+      } catch (error) {
+        console.log(error);
+        Toast.fire({
+          icon: 'error',
+          title: '無法刪除推文，請稍後再試',
+        });
+      }
+    },
+  },
 };
 </script>
 
