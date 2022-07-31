@@ -16,11 +16,11 @@
       <!-- 密碼 -->
       <div class="adminSignIn-container__input-password">
         <p class="adminSignIn-container__input-password__title">密碼</p>
-        <input type="text" placeholder="請輸入密碼" />
+        <input type="password" placeholder="請輸入密碼"  v-model="password" />
       </div>
 
       <!-- 登入 btn -->
-      <button>登入</button>
+      <button @click="handleLogin">登入</button>
 
       <!-- 前台登入 -->
       <button>前台登入</button>
@@ -29,12 +29,45 @@
 </template>
 
 <script>
+import adminAPI from "../../apis/admin";
+import { Toast } from "../../utils/helpers";
 export default {
   data() {
     return {
-      account: ''
-    }
-  }
+      account: "",
+      password: "",
+    };
+  },
+  methods: {
+    async handleLogin() {
+      try {
+        if (this.account === "" || this.password === "") {
+          Toast.fire({
+            icon: "error",
+            title: "請輸入帳號密碼",
+          });
+        }
+        const response = await adminAPI.admin.signIn({
+          account: this.account,
+          password: this.password,
+        });
+        const { data } = response;
+
+        if (data.status !== "success") {
+          throw new Error(data.message);
+        }
+
+        localStorage.setItem('admin-token', data.data.token)
+        this.$router.push({ name: "admin-tweets" });
+      } catch (error) {
+        const { response } = error;
+        Toast.fire({
+          icon: "error",
+          title: response.data.message,
+        });
+      }
+    },
+  },
 };
 </script>
 
@@ -75,7 +108,7 @@ export default {
     border-bottom: 2px solid $primary-gray;
     margin-bottom: 32px;
     padding: 2px 10px;
-    color: #B5B5BE;
+    color: #b5b5be;
 
     &__title {
       line-height: 22px;
