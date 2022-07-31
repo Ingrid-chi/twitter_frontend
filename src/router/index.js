@@ -85,7 +85,7 @@ const routes = [
   {
     path: '/admin/signin',
     name: 'admin-signin',
-    component: () => import('../views/AdminSignIn.vue')
+    component: () => import('../views/admin/AdminSignIn.vue')
   },
   //後臺管理tweets們
   // {

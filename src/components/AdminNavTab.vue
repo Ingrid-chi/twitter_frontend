@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div class="adminNavTab-wrapper">
 
     <div class="adminNavTab">
         <div class="adminNavTab__menu"
