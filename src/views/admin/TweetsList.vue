@@ -1,6 +1,6 @@
 <template>
   <div class="list-wrapper">
-    <NavBar isAdmin="true" />
+    <NavBar :isAdmin="true" />
     <div class="content">
       <div class="header">
         <h4 class="header__title">推文清單</h4>
@@ -277,7 +277,7 @@ export default {
           throw new Error(response.statusText);
         }
 
-        this.tweets = data.tweets;
+        this.tweets = data;
       } catch (error) {
         Toast.fire({
           icon: 'error',
