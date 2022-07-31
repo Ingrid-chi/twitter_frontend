@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div class="CurrentUserInfo-wrapper">
     <!-- 上方回上一頁 icon們 -->
     <div class="CurrentUserInfo-title">
       <div class="CurrentUserInfo-title__icon">
@@ -98,10 +98,16 @@ export default {
   &__background {
     position: absolute;
     z-index: -1;
+    max-width: 100%;
     max-height: 200px;
+    // 超出範圍不顯示
     overflow: hidden;
     &__img {
-      max-width: 639px;
+      // 自動等比縮放
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
     }
   }
 
@@ -143,7 +149,7 @@ export default {
 // 跟隨中 & 跟隨者
 .CurrentUserInfo-followTotal {
   display: flex;
-  padding: 0 0 31px 16.13px;
+  padding: 0 0 16px 16.13px;
 
   &__following {
     @extend %secondary-p;
