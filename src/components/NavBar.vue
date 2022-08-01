@@ -13,7 +13,7 @@
 
         </div>
 
-        <div class="navBar__sign-out">
+        <div class="navBar__sign-out" @click.stop.prevent="handleLogOut()">
           <img
            class="navBar__sign-out__img"
            src="./../assets/sign-out.png" width="18" height="18" alt="">
@@ -41,6 +41,18 @@ export default {
       type: Boolean,
       default: false,
     }
+  },
+
+  methods: {
+    handleLogOut() {
+      if (this.isAdmin) {
+        localStorage.removeItem('admin-token');
+        this.$router.push({ name: "admin-signin" });
+      } else {
+        localStorage.removeItem('token');
+        this.$router.push({ name: "sign-in" });
+      }
+    }
   }
 
 };
@@ -48,7 +60,7 @@ export default {
 
 <style lang="scss" scoped>
 .navBar {
-  height: 100%;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -66,6 +78,7 @@ export default {
     align-items: center;
     color: $primary-black;
     padding: 0px 0px 20px 19px;
+    cursor: pointer;
     &__img {
       width: 18px;
       height: 18px;
