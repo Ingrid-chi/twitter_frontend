@@ -1,61 +1,61 @@
 <template>
-  <div class="CurrentUserInfo-wrapper">
+  <div class="currentUserInfo-wrapper">
     <!-- 上方回上一頁 icon們 -->
-    <div class="CurrentUserInfo-title">
-      <div class="CurrentUserInfo-title__icon">
+    <div class="currentUserInfo-title">
+      <div class="currentUserInfo-title__icon">
         <img src="./../assets/back.png" alt="" />
       </div>
 
-      <div class="CurrentUserInfo-title__detail">
-        <h5 class="CurrentUserInfo-title__detail__name">John Doe</h5>
-        <div class="CurrentUserInfo-title__detail__tweetsTotal secondary-bold">
+      <div class="currentUserInfo-title__detail">
+        <h5 class="currentUserInfo-title__detail__name">John Doe</h5>
+        <div class="currentUserInfo-title__detail__tweetsTotal secondary-bold">
           25 推文
         </div>
       </div>
     </div>
 
     <!-- 個人資料內容 -->
-    <div class="CurrentUserInfo-detail">
-      <div class="CurrentUserInfo-detail__background">
+    <div class="currentUserInfo-detail">
+      <div class="currentUserInfo-detail__background">
         <img
-          class="CurrentUserInfo-detail__background__img"
+          class="currentUserInfo-detail__background__img"
           src="https://i.picsum.photos/id/10/2500/1667.jpg?hmac=J04WWC_ebchx3WwzbM-Z4_KC_LeLBWr5LZMaAkWkF68"
           alt=""
         />
       </div>
 
-      <div class="CurrentUserInfo-detail__avatar">
+      <div class="currentUserInfo-detail__avatar">
         <img
-          class="CurrentUserInfo-detail__avatar__img"
+          class="currentUserInfo-detail__avatar__img"
           src="https://randomuser.me/api/portraits/lego/2.jpg"
           alt=""
         />
       </div>
 
-      <div class="CurrentUserInfo-detail__nameDetail">
-        <h5 class="CurrentUserInfo-detail__nameDetail__name">John Doe</h5>
-        <p class="CurrentUserInfo-detail__nameDetail__account">@heyjohn</p>
-        <p class="CurrentUserInfo-detail__nameDetail__description">
+      <div class="currentUserInfo-detail__nameDetail">
+        <h5 class="currentUserInfo-detail__nameDetail__name">John Doe</h5>
+        <p class="currentUserInfo-detail__nameDetail__account">@heyjohn</p>
+        <p class="currentUserInfo-detail__nameDetail__description">
           Amet mini molit non deserunt ullamco est sit aliqua dolor do amet
           sint.
         </p>
       </div>
 
-      <button class="CurrentUserInfo-detail__edit">編輯個人資料</button>
+      <button class="currentUserInfo-detail__edit">編輯個人資料</button>
     </div>
 
     <!-- 跟隨中 & 跟隨者 可連結的地方-->
-    <div class="CurrentUserInfo-followTotal">
-      <div class="CurrentUserInfo-followTotal__following">
+    <div class="currentUserInfo-followTotal">
+      <div class="currentUserInfo-followTotal__following">
         <a href="#">
-          <label class="CurrentUserInfo-followTotal__following__count">34個</label>
-          <label class="CurrentUserInfo-followTotal__following__text">跟隨中</label>
+          <label class="currentUserInfo-followTotal__following__count">34個</label>
+          <label class="currentUserInfo-followTotal__following__text">跟隨中</label>
         </a>
       </div>
-      <div class="CurrentUserInfo-followTotal__follower">
+      <div class="currentUserInfo-followTotal__follower">
         <a href="#">
-          <label class="CurrentUserInfo-followTotal__follower__count">59位</label>
-          <label class="CurrentUserInfo-followTotal__follower__text">跟隨者</label>
+          <label class="currentUserInfo-followTotal__follower__count">59位</label>
+          <label class="currentUserInfo-followTotal__follower__text">跟隨者</label>
         </a>
       </div>
     </div>
@@ -72,7 +72,7 @@ export default {
 
 <style lang="scss" scoped>
 // 上方回上一頁 icon們
-.CurrentUserInfo-title {
+.currentUserInfo-title {
   display: flex;
   align-items: center;
   padding: 16px 0 17px 28px;
@@ -93,7 +93,7 @@ export default {
 }
 
 // 個人資料內容
-.CurrentUserInfo-detail {
+.currentUserInfo-detail {
   position: relative;
   &__background {
     position: absolute;
@@ -147,7 +147,7 @@ export default {
 }
 
 // 跟隨中 & 跟隨者
-.CurrentUserInfo-followTotal {
+.currentUserInfo-followTotal {
   display: flex;
   padding: 0 0 16px 16.13px;
 

@@ -2,6 +2,14 @@ import { apiHelper } from "../utils/helpers";
 const getToken = () => localStorage.getItem("admin-token");
 
 export default {
+  admin: {
+    signIn({ account, password }) {
+      return apiHelper.post("/admin/users", {
+        account,
+        password,
+      });
+    },
+  },
   tweet: {
     get() {
       return apiHelper.get("/admin/tweets", {

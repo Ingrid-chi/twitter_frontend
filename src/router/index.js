@@ -85,14 +85,14 @@ const routes = [
   {
     path: '/admin/signin',
     name: 'admin-signin',
-    component: () => import('../views/AdminSignIn.vue')
+    component: () => import('../views/admin/AdminSignIn.vue')
   },
   //後臺管理tweets們
-  // {
-  //   path: '/admin/tweets',
-  //   name: 'admin-users',
-  //   component: () => import('../views/AdminTweets.vue')
-  // },
+  {
+    path: '/admin/tweets',
+    name: 'admin-tweets',
+    component: () => import('../views/admin/AdminTweets.vue')
+  },
   //後臺管理使用者們
   // {
   //   path: '/admin/users',
