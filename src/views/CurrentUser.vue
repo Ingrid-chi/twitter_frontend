@@ -1,38 +1,38 @@
 <template>
-  <div class="CurrentUser-wrapper">
-    <div class="CurrentUser">
+  <div class="currentUser-wrapper">
+    <div class="currentUser">
       <NavBar />
 
-      <div class="CurrentUser__container">
-        <div class="CurrentUser__container__line-left"></div>
+      <div class="currentUser__container">
+        <div class="currentUser__container__line-left"></div>
 
-        <div class="CurrentUser__container__content">
-          <CurrentUserInfo />
+        <div class="currentUser__container__content">
+          <currentUserInfo />
 
           <!-- 推文、回覆、喜歡的內容 btn -->
-          <div class="CurrentUser__container__content__items">
+          <div class="currentUser__container__content__items">
             <div
-              class="CurrentUser__container__content__items__item"
+              class="currentUser__container__content__items__item"
               v-for="item in currentUserContentItems"
               :key="item.id"
             >
               <button
-                class="CurrentUser__container__content__items__item__btn primary-bold"
+                class="currentUser__container__content__items__item__btn primary-bold"
               >
                 {{ item.title }}
               </button>
             </div>
           </div>
 
-          <div class="CurrentUser__container__content__bottom"></div>
+          <div class="currentUser__container__content__bottom"></div>
 
           <!-- 推文、回覆、喜歡的內容 內容 -->
-          <CurrentUserTweets />
-          <!-- <CurrentUserReplies />
-          <CurrentUserLikes /> -->
+          <currentUserTweets />
+          <!-- <currentUserReplies />
+          <currentUserLikes /> -->
         </div>
 
-        <div class="CurrentUser__container__line-right"></div>
+        <div class="currentUser__container__line-right"></div>
       </div>
 
       <PopularUser />
@@ -66,13 +66,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.CurrentUser-wrapper {
+.currentUser-wrapper {
   margin: 0 auto;
   max-width: 1140px;
   max-height: 100vh;
 }
 
-.CurrentUser {
+.currentUser {
   display: grid;
   grid-template-columns: 178px auto 273px;
 
