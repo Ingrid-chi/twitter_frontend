@@ -1,5 +1,5 @@
 <template>
-  <div class="CurrentUserTweets-wrapper">
+  <div class="currentUserTweets-wrapper">
 
   </div>
 </template>

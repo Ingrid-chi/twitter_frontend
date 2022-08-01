@@ -21,11 +21,13 @@ export const adminMenuItems = [
     id: 1,
     title: "推文清單",
     image: "home.png",
+    path: "/admin/tweets",
   },
   {
     id: 2,
     title: "使用者列表",
     image: "info.png",
+    path: "/admin/users",
   },
 ];
 
