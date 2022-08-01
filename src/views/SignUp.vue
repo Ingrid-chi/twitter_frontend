@@ -2,7 +2,7 @@
   <div class="wrapper">
     <div class="signup signup__container">
       <div class="signup__container__img">
-        <img :src="logoImage" alt="" />
+        <img :src="logoImage" :alt="logo.title" />
       </div>
       <form
         autocomplete="off"

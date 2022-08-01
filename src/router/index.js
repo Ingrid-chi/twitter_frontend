@@ -40,12 +40,12 @@ const routes = [
   //   name: 'tweets',
   //   component: () => import('../views/Tweets.vue')
   // },
-  //每一則tweet
-  // {
-  //   path: '/:account/tweets/:id',
-  //   name: 'tweet',
-  //   component: () => import('../views/Tweet.vue')
-  // },
+  //每一則tweet所有回覆
+  {
+    path: '/user1/tweets/1',
+    name: 'tweet',
+    component: () => import('../views/TweetReplies.vue')
+  },
   //個人所有回覆
   // {
   //   path: '/:account/replies',

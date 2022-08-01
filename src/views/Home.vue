@@ -23,6 +23,9 @@
             </div>
             <button class="content__btn">推文</button>
           </div>
+          <div class="home__container__content__bottom">
+            <CurrentUserTweets />
+          </div>
         </div>
         <div class="home__container__line-right"></div>
       </div>
@@ -33,14 +36,24 @@
 <script>
 import NavBar from "./../components/NavBar";
 import PopularUser from "./../components/PopularUser";
+import CurrentUserTweets from "./../components/CurrentUserTweets";
 export default {
   components: {
     NavBar,
     PopularUser,
+    CurrentUserTweets,
   },
 };
 </script>
 <style lang="scss" scoped>
+%modal-btn {
+  width: 64px;
+  height: 40px;
+  border-radius: 50px;
+  background-color: $main-orange;
+  line-height: 24px;
+  color: white;
+}
 .wrapper {
   margin: 0 auto;
   max-width: 1140px;
@@ -54,18 +67,20 @@ export default {
     display: grid;
     grid-template-columns: 1px 1fr 1px;
     padding: 0px 24px 0 20px;
+
     &__line-left,
     &__line-right {
       width: 1px;
       height: 100%;
       background-color: $line-gray;
     }
+
     .content {
       &__wrapper {
         &__title {
           height: 72px;
           border-bottom: 1px solid $line-gray;
-          padding-left: 23px;
+          padding-left: 25px;
         }
         &__tweet {
           position: relative;
@@ -85,6 +100,7 @@ export default {
           height: 50px;
           margin-right: 8px;
           border-radius: 50%;
+          object-fit: cover;
         }
         &__input {
           width: 100%;
@@ -96,17 +112,12 @@ export default {
           color: $secondary-gray;
         }
       }
+
       &__btn {
-        width: 64px;
-        height: 40px;
+        @extend %modal-btn;
         position: absolute;
         top: 72px;
         right: 24.69px;
-        border-radius: 50px;
-        background-color: $main-orange;
-        line-height: 24px;
-
-        color: white;
       }
     }
   }

@@ -2,7 +2,7 @@
   <div class="wrapper">
     <div class="signin signin__container">
       <div class="signin__container__img">
-        <img :src="logoImage" alt="logo.title" />
+        <img :src="logoImage" :alt="logo.title" />
       </div>
 
       <form
