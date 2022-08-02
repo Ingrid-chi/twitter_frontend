@@ -6,7 +6,7 @@
         <h4 class="header__title">推文清單</h4>
       </div>
       <div class="list">
-        <TweetsListCard
+        <AdminTweetsListCard
           v-for="tweet in tweets"
           :key="tweet.id"
           :tweet="tweet"
@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import TweetsListCard from '../../components/admin/TweetsListCard';
+import AdminTweetsListCard from '../../components/admin/AdminTweetsListCard';
 import NavBar from '../../components/NavBar';
 import adminAPI from '../../apis/admin';
 import { Toast } from '../../utils/helpers';
@@ -26,7 +26,7 @@ import { Toast } from '../../utils/helpers';
 export default {
   name: 'AdminTweets',
   components: {
-    TweetsListCard,
+    AdminTweetsListCard,
     NavBar,
   },
   data() {

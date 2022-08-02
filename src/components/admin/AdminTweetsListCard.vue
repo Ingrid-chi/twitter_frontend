@@ -32,7 +32,7 @@ import adminAPI from '../../apis/admin';
 import { Toast } from '../../utils/helpers';
 
 export default {
-  name: 'TweetsListCard',
+  name: 'AdminTweetsListCard',
   props: {
     tweet: {
       type: Object,
@@ -51,7 +51,7 @@ export default {
         }
 
         this.$emit('after-delete-tweet', {
-          id: data.tweet.id,
+          id: data.id,
         });
       } catch (error) {
         console.log(error);

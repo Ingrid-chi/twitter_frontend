@@ -10,7 +10,25 @@
       <!-- 帳號 -->
       <div class="adminSignIn-container__input-account">
         <p class="adminSignIn-container__input-account__title">帳號</p>
-        <input v-model="account" type="text" placeholder="請輸入帳號" />
+        <input
+          :class="{ error: account.length >= 50, finished: account !== '' }"
+          v-model="account"
+          type="text"
+          placeholder="請輸入帳號"
+          @keydown="limited"
+        />
+        <div class="adminSignIn-container__input-account__account">
+          <p
+            v-show="account.length >= 50"
+            style="color: red"
+            class="adminSignIn-container__input-account__account__message secondary-bold"
+          >
+            帳號上限50字
+          </p>
+          <p class="adminSignIn-container__input-account__account__limited secondary-bold">
+            {{ account.length + "/50" }}
+          </p>
+        </div>
       </div>
 
       <!-- 密碼 -->
@@ -26,7 +44,11 @@
         </button>
 
         <!-- 前台登入 -->
-        <button class="btn-group__front-signin">前台登入</button>
+        <router-link class="btn-group__front-signin" :to="{ name: 'sign-in' }"
+          ><button class="btn-group__front-signin">
+            前台登入
+          </button></router-link
+        >
       </div>
     </div>
   </div>
@@ -51,6 +73,12 @@ export default {
             title: "請輸入帳號密碼",
           });
         }
+        if (this.account.length > 50 || this.password.length > 50) {
+          Toast.fire({
+            icon: "error",
+            title: "帳號密碼上限50個字",
+          });
+        }
         const response = await adminAPI.admin.signIn({
           account: this.account,
           password: this.password,
@@ -69,6 +97,16 @@ export default {
           icon: "error",
           title: response.data.message,
         });
+      }
+    },
+
+    // 限制 input 字數不能超過 50
+    // keyCode !== 8，除了鍵盤上 delete (8) 以外的，全部不能輸入
+    limited(e) {
+      if (this.account.length >= 50) {
+        if (e.keyCode !== 8) {
+          e.preventDefault();
+        }
       }
     },
   },
@@ -103,6 +141,17 @@ export default {
     border: none;
     line-height: 26px;
     @extend %primary-p;
+
+    width: 100%;
+    padding: 2px 10px;
+    border-bottom: 2px solid $primary-gray;
+
+    &:focus {
+      border-bottom: 2px solid #50B5FF;
+    }
+    &.error {
+      border-bottom: 2px solid #FC5A5A;
+    }
   }
   &__input-account,
   &__input-password {
@@ -110,15 +159,28 @@ export default {
     height: 54px;
     background-color: #f5f8fa;
     border-radius: 2px;
-    border-bottom: 2px solid $primary-gray;
     margin-bottom: 32px;
-    padding: 2px 10px;
-    // color: #b5b5be;
 
     &__title {
       line-height: 22px;
       @extend %secondary-p;
       color: #696974;
+      padding: 2px 0 0 10px;
+    }
+
+    &__account {
+      position: relative;
+      &__message {
+        color: $error-red;
+        @extend %min-p;
+      }
+      &__limited {
+        position: absolute;
+        top: 0;
+        right: 0;
+        color: #696974;
+        @extend %min-p;
+      }
     }
   }
 
@@ -127,7 +189,7 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    
+
     &__admin-signin {
       width: 356px;
       height: 46px;

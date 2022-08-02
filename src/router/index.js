@@ -8,31 +8,31 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
-    name: 'root',
-    redirect: '/signin'
+    path: "/",
+    name: "root",
+    redirect: "/signin",
   },
   {
-    path: '/signin',
-    name: 'sign-in',
-    component: SignIn
+    path: "/signin",
+    name: "sign-in",
+    component: SignIn,
   },
   {
-    path: '/signup',
-    name: 'sign-up',
-    component: () => import('../views/SignUp.vue')
+    path: "/signup",
+    name: "sign-up",
+    component: () => import("../views/SignUp.vue"),
   },
   //主畫面
   {
-    path: '/home',
-    name: 'home',
-    component: Home
+    path: "/home",
+    name: "home",
+    component: Home,
   },
   //個人及他人資料
   {
-    path: '/user1',
-    name: 'user',
-    component: () => import('../views/CurrentUser.vue')
+    path: "/user1",
+    name: "user",
+    component: () => import("../views/CurrentUser.vue"),
   },
   //個人所有推文
   // {
@@ -72,9 +72,9 @@ const routes = [
   // },
   //個人設定
   {
-    path: '/user1/setting',
-    name: 'setting',
-    component: () => import('../views/Setting.vue')
+    path: "/user1/setting",
+    name: "setting",
+    component: () => import("../views/Setting.vue"),
   },
   // {
   //   path: '/admin',
@@ -83,28 +83,28 @@ const routes = [
   // },
   // 後臺登入
   {
-    path: '/admin/signin',
-    name: 'admin-signin',
-    component: () => import('../views/admin/AdminSignIn.vue')
+    path: "/admin/signin",
+    name: "admin-signin",
+    component: () => import("../views/admin/AdminSignIn.vue"),
   },
   //後臺管理tweets們
   {
-    path: '/admin/tweets',
-    name: 'admin-tweets',
-    component: () => import('../views/admin/AdminTweets.vue')
+    path: "/admin/tweets",
+    name: "admin-tweets",
+    component: () => import("../views/admin/AdminTweets.vue"),
   },
   //後臺管理使用者們
-  // {
-  //   path: '/admin/users',
-  //   name: 'admin-users',
-  //   component: () => import('../views/AdminUsers.vue')
-  // },
   {
-    path: '*',
-    name: 'not-found',
-    component: NotFound
-  }
-]
+    path: "/admin/users",
+    name: "admin-users",
+    component: () => import("../views/admin/AdminUsers.vue"),
+  },
+  {
+    path: "*",
+    name: "not-found",
+    component: NotFound,
+  },
+];
 
 const router = new VueRouter({
   routes
