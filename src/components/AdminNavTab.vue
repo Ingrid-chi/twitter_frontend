@@ -5,7 +5,6 @@
         class="adminNavTab__menu"
         v-for="adminMenuItem in adminMenuItems"
         :key="adminMenuItem.id"
-        @click="changeTab(adminMenuItem.id)"
       >
         <img
           class="adminNavTab__menu__img"
@@ -16,7 +15,7 @@
           <h5
             :class="[
               'adminNavTab__menu__title',
-              { checked: adminMenuItem.id === currentTagId },
+              { checked: adminMenuItem.path === currentTabPath },
             ]"
           >
             {{ adminMenuItem.title }}
@@ -36,16 +35,17 @@ export default {
   data() {
     return {
       adminMenuItems: adminMenuItems,
-      currentTagId: 1,
+      currentTabPath: '/admin/tweets'
     };
+  },
+
+  created() {
+    this.currentTabPath = this.$route.path
   },
 
   methods: {
     getImg(img) {
       return require(`../assets/${img}`);
-    },
-    changeTab(tabId) {
-      this.currentTagId = tabId;
     },
   },
 };

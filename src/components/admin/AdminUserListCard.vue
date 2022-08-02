@@ -1,9 +1,11 @@
 <template>
   <div class="card-wrapper">
     <img
+      v-if="user.cover"
       class="card-wrapper__background-img"
-      src="https://picsum.photos/200/300"
+      :src="user.cover"
     />
+    <div v-else class="card-wrapper__default-cover" />
     <img
       class="card-wrapper__avatar"
       :src="user.avatar || images.defaultAvatar"
@@ -75,6 +77,12 @@ export default {
     border-radius: 10px 10px 0 0;
     height: 140px;
     object-fit: cover;
+  }
+
+  &__default-cover {
+    border-radius: 10px 10px 0 0;
+    height: 140px;
+    background-color: $third-gray;
   }
 
   &__avatar {

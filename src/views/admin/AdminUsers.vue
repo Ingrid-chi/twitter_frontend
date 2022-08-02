@@ -6,7 +6,7 @@
         <h4>使用者列表</h4>
       </div>
       <div class="users-list__content">
-        <UserListCard v-for="user in users" :key="user.id" :user="user" />
+        <AdminUserListCard v-for="user in users" :key="user.id" :user="user" />
       </div>
     </div>
   </div>
@@ -14,7 +14,7 @@
 
 <script>
 import NavBar from '../../components/NavBar';
-import UserListCard from '../../components/admin/UserListCard';
+import AdminUserListCard from '../../components/admin/AdminUserListCard';
 import adminAPI from '../../apis/admin';
 import { Toast } from '../../utils/helpers';
 
@@ -22,7 +22,7 @@ export default {
   name: 'UsersList',
   components: {
     NavBar,
-    UserListCard,
+    AdminUserListCard,
   },
   data() {
     return {
@@ -37,8 +37,6 @@ export default {
       try {
         const response = await adminAPI.users.get();
         const { data } = response.data;
-
-        console.log(response)
 
         if (response.status !== 200) {
           throw new Error(response.statusText)
