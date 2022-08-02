@@ -28,8 +28,11 @@
             />
             <img class="content__like-icon" :src="likeIcon" :alt="like.title" />
           </div>
+          
+          <TweetReplyList />   
         </div>
         <div class="tweet-replies__container__line-right"></div>
+           
       </div>
       <PopularUser />
     </div>
@@ -39,6 +42,7 @@
 import NavBar from "./../components/NavBar";
 import PopularUser from "./../components/PopularUser";
 import TweetReply from "./../components/TweetReply";
+import TweetReplyList from "./../components/TweetReplyList";
 import { commonItems } from "../configs/commonConfigs";
 
 export default {
@@ -53,6 +57,7 @@ export default {
     NavBar,
     PopularUser,
     TweetReply,
+    TweetReplyList,
   },
   computed: {
     backIcon() {

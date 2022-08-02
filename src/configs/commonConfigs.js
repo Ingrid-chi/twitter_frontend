@@ -12,8 +12,12 @@ export const commonItems = {
     image: "like.png"
   },
   reply: {
-    title: "reply",
-    image: "reply.png"
+    title: "cloud",
+    image: "cloud.png"
+  },
+  logoGray: {
+    title: "logo-gray",
+    image: "logo-gray.png"
   }
 
 };

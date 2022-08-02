@@ -91,20 +91,133 @@
 </template>
 
 <script>
+import authorizationAPI from "./../apis/authorization";
+import { Toast } from "./../utils/helpers";
 import { commonItems } from "../configs/commonConfigs";
 
 export default {
   data() {
     return {
-      // account: "",
-      // password: "",
-      // isProcessing: false,
+      account: "",
+      password: "",
+      email: "",
+      name: "",
+      passwordCheck: "",
+      isProcessing: false,
       logo: commonItems.logo,
     };
   },
   computed: {
     logoImage() {
       return require(`../assets/${this.logo.image}`);
+    },
+  },
+  watch: {
+    account() {
+      if (this.account.length >= 50) {
+        Toast.fire({
+          icon: "error",
+          title: "字數上限為50字",
+        });
+        this.account = "";
+        return;
+      }
+    },
+    name() {
+      if (this.name.length >= 50) {
+        Toast.fire({
+          icon: "error",
+          title: "字數上限為50字",
+        });
+        this.name = "";
+        return;
+      }
+    },
+    email() {
+      if (this.email.length >= 50) {
+        Toast.fire({
+          icon: "error",
+          title: "字數上限為50字",
+        });
+        this.email = "";
+        return;
+      }
+    },
+    password() {
+      if (this.password.length >= 50) {
+        Toast.fire({
+          icon: "error",
+          title: "字數上限為50字",
+        });
+        this.password = "";
+        return;
+      }
+    },
+    passwordCheck() {
+      if (this.passwordCheck.length >= 50) {
+        Toast.fire({
+          icon: "error",
+          title: "字數上限為50字",
+        });
+        this.passwordCheck = "";
+        return;
+      }
+    },
+  },
+  methods: {
+    async handleSubmit() {
+      try {
+        if (
+          !this.name ||
+          !this.email ||
+          !this.password ||
+          !this.passwordCheck
+        ) {
+          Toast.fire({
+            icon: "error",
+            title: "請輸入所有欄位",
+          });
+          return;
+        }
+        if (this.password !== this.passwordCheck) {
+          Toast.fire({
+            icon: "error",
+            title: "兩次輸入的密碼不同",
+          });
+          return;
+        }
+        this.isProcessing = true;
+
+        const response = await authorizationAPI.signUp({
+          email: this.email,
+          account: this.account,
+          name: this.name,
+          password: this.password,
+          checkPassword: this.passwordCheck,
+        });
+
+        Toast.fire({
+          icon: "success",
+          title: "成功註冊",
+        });
+
+        // 成功登入後進行轉址
+        this.$router.push("/signin");
+        console.log("response", response);
+
+        // if (response.status === "error") {
+        //   // 錯誤處理
+        //   throw new Error(response.message);
+        // }
+      } catch (error) {
+        this.isProcessing = false;
+        Toast.fire({
+          icon: "error",
+          title: `${error.response.data.message}`,
+        });
+
+        console.log("!!", error.response.data);
+      }
     },
   },
 };
@@ -130,6 +243,7 @@ export default {
   input {
     @extend %primary-p;
     height: 26px;
+    width: 100%;
     display: block;
     border: none;
     background-color: #f5f8fa;

@@ -71,6 +71,7 @@
 </template>
 <script>
 import authorizationAPI from "./../apis/authorization";
+import { Toast } from "./../utils/helpers";
 import { commonItems } from "../configs/commonConfigs";
 export default {
   data() {
@@ -89,12 +90,22 @@ export default {
   watch: {
     account() {
       if (this.account.length >= 50) {
-        alert("上限50");
+        Toast.fire({
+          icon: "error",
+          title: "字數上限為50字",
+        });
+        this.account = "";
+        return;
       }
     },
     password() {
       if (this.password.length >= 50) {
-        alert("上限50");
+        Toast.fire({
+          icon: "error",
+          title: "字數上限為50字",
+        });
+        this.password = "";
+        return;
       }
     },
   },
@@ -102,34 +113,45 @@ export default {
     async handleSubmit() {
       try {
         if (!this.account || !this.password) {
-          alert("不要空");
+          // alert("不要空");
+          Toast.fire({
+            icon: "error",
+            title: "請輸入帳號密碼",
+          });
+          return;
         }
         this.isProcessing = true;
         const response = await authorizationAPI.signIn({
-          email: this.account,
+          account: this.account,
           password: this.password,
         });
-        const { data } = response;
-        if (data.status !== "success") {
-          throw new Error(data.message);
-        }
-        console.log("data", data);
+        // 假設不開攔截器
+        // 假設開攔截器
+        console.log("response", response);
+
+        // const { data } = response;
+        // if (data.status !== "success") {
+        //   throw new Error(data.message);
+        // }
+
         // 將伺服器回傳的 token 保存在 localStorage 中
-        localStorage.setItem("token", data.token);
+        // localStorage.setItem("token", data.token);
         // 透過 setCurrentUser 把使用者資料存到 Vuex 的 state 中
         // this.$store.commit('setCurrentUser', data.user)
+
         // 成功登入後進行轉址
-        this.$router.push("/user1");
+        this.$router.push("/home");
       } catch (error) {
         this.isProcessing = false;
-        this.password = "";
-        alert('帳號或密碼錯誤')
-        // 顯示錯誤提示
-        // Toast.fire({
-        //   icon: 'warning',
-        //   title: '輸入的帳號密碼有誤'
-        // })
-        console.error(error.message);
+        // this.password = "";
+        //顯示錯誤提示
+
+        Toast.fire({
+          icon: "warning",
+          title: `${error.response.data.message}`,
+        });
+
+        console.log("!!", error.response.data);
       }
     },
   },
