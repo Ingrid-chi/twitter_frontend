@@ -44,13 +44,12 @@ export default {
     async fetchTweets() {
       try {
         const response = await adminAPI.tweet.get();
-        const { data } = response.data;
 
-        if (response.status !== 200) {
-          throw new Error(response.statusText);
+        if (response.status !== 'success') {
+          throw new Error(response.message);
         }
 
-        this.tweets = data;
+        this.tweets = response.tweets;
       } catch (error) {
         Toast.fire({
           icon: 'error',

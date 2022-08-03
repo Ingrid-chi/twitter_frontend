@@ -36,10 +36,10 @@ export default {
     async fetchUsers() {
       try {
         const response = await adminAPI.users.get();
-        const { data } = response.data;
+        const { data } = response;
 
-        if (response.status !== 200) {
-          throw new Error(response.statusText)
+        if (response.status !== "Success") {
+          throw new Error(response.message)
         }
         
         this.users = data;
