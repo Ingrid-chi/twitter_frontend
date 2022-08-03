@@ -20,22 +20,24 @@
                 type="text"
                 wrap="hard"
                 maxlength="140"
-                @click="showModal"
                 placeholder="有甚麼新鮮事?"
               ></textarea>
             </div>
             <button class="content__btn">推文</button>
           </div>
           <div class="home__container__content__bottom">
-            <CurrentUserTweets />
+            <CurrentUserTweets
+              v-for="tweet in tweets"
+              :key="tweet.id"
+              :tweet="tweet"
+            />
+            <!-- <CurrentUserTweets  /> -->
           </div>
         </div>
         <div class="home__container__line-right"></div>
       </div>
       <PopularUser />
     </div>
-    <MainTweet v-show="show" @hide-modal="hideModal" @submit="submit">
-    </MainTweet>
   </div>
 </template>
 
@@ -43,7 +45,9 @@
 import NavBar from "./../components/NavBar";
 import PopularUser from "./../components/PopularUser";
 import CurrentUserTweets from "./../components/CurrentUserTweets";
-import MainTweet from "./../components/MainTweet";
+
+import { mapState } from "vuex";
+
 export default {
   data() {
     return {
@@ -54,7 +58,9 @@ export default {
     NavBar,
     PopularUser,
     CurrentUserTweets,
-    MainTweet,
+  },
+  computed: {
+    ...mapState(["tweets"]),
   },
   methods: {
     hideModal() {

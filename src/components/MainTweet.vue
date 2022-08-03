@@ -29,6 +29,8 @@
 </template>
 <script>
 import { commonItems } from "../configs/commonConfigs";
+import { mapMutations } from "vuex";
+
 export default {
   name: "MainTweet",
   data() {
@@ -50,6 +52,8 @@ export default {
     },
   },
   methods: {
+    ...mapMutations(["createTweet"]),
+
     hideModal() {
       this.$emit("hide-modal");
       this.warn = false;
@@ -57,6 +61,23 @@ export default {
     },
 
     submit() {
+      // 1. 呼叫 API，告訴 API description
+      // 2. API 回前端資訊
+      // 3. 將上述資訊放到 createTweet
+
+      this.createTweet({
+        id: 60,
+        description: this.tweetText,
+        userId: 10,
+        createdAt: "2022-07-31T11:13:44.000Z",
+        likeCount: 0,
+        replyCount: 0,
+        User: {
+          name: "user1",
+          account: "user1",
+          avatar: "https://loremflickr.com/320/240/cat/?lock=93.54589374664013",
+        },
+      });
       this.$emit("submit");
     },
     showWarn() {

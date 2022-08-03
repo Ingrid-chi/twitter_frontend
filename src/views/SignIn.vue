@@ -135,7 +135,7 @@ export default {
         // }
 
         // 將伺服器回傳的 token 保存在 localStorage 中
-        // localStorage.setItem("token", data.token);
+        localStorage.setItem("token", response.data.token);
         // 透過 setCurrentUser 把使用者資料存到 Vuex 的 state 中
         // this.$store.commit('setCurrentUser', data.user)
 
