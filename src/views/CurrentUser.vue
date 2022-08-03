@@ -13,23 +13,25 @@
 
           <!-- 推文、回覆、喜歡的內容 頁籤 -->
           <div class="currentUser__container__content__items">
-            <!-- <div class="currentUser__container__content__items__item"> -->
-              <button
-                v-for="item in currentUserContentItems"
-                :key="item.id"
-                class="currentUser__container__content__items__btn primary-bold"
-              >
-                {{ item.title }}
-              </button>
-            <!-- </div> -->
+            <button
+              v-for="item in currentUserContentItems"
+              :key="item.id"
+              :class="[
+                'currentUser__container__content__items__btn primary-bold',
+                { checked: item.id === itemId },
+              ]"
+              @click.stop.prevent="getItemId(item.id)"
+            >
+              {{ item.title }}
+            </button>
           </div>
 
           <div class="currentUser__container__content__bottom"></div>
 
           <!-- 推文、回覆、喜歡的內容 內容 -->
-          <CurrentUserTweets />
-          <CurrentUserReply />
-          <CurrentUserLike />
+          <CurrentUserTweets v-if="itemId === 1" />
+          <CurrentUserReply v-else-if="itemId === 2" />
+          <CurrentUserLike v-else />
         </div>
 
         <div class="currentUser__container__line-right"></div>
@@ -64,7 +66,14 @@ export default {
   data() {
     return {
       currentUserContentItems: currentUserContentItems,
+      itemId: 1,
     };
+  },
+
+  methods: {
+    getItemId(itemId) {
+      this.itemId = itemId;
+    },
   },
 };
 </script>

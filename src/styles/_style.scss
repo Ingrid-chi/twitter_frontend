@@ -44,4 +44,10 @@
     color: $main-orange;
     border-bottom: 2px solid $main-orange;
   }
+  &.checked {
+    width: 130px;
+    height: 52px;
+    color: $main-orange;
+    border-bottom: 2px solid $main-orange;
+  }
 }

@@ -48,6 +48,7 @@
     <div class="currentUserInfo-followTotal">
       <div class="currentUserInfo-followTotal__following">
         <router-link 
+        href="#"
         to="/:account/followers"
         >
           <label class="currentUserInfo-followTotal__following__count"
@@ -59,14 +60,17 @@
         </router-link>
       </div>
       <div class="currentUserInfo-followTotal__follower">
-        <a href="#">
+        <router-link 
+        href="#"
+        to="/:account/followers"
+        >
           <label class="currentUserInfo-followTotal__follower__count"
             >59位</label
           >
           <label class="currentUserInfo-followTotal__follower__text"
             >跟隨者</label
           >
-        </a>
+        </router-link>
       </div>
     </div>
   </div>

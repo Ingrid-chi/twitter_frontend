@@ -1,18 +1,19 @@
+// navTab 系列
 export const menuItems = [
   {
     id: 1,
     title: "首頁",
-    image: "home.png"
+    image: "home.png",
   },
   {
     id: 2,
     title: "個人資料",
-    image: "info.png"
+    image: "info.png",
   },
   {
     id: 3,
     title: "設定",
-    image: "setting.png"
+    image: "setting.png",
   },
 ];
 
@@ -31,6 +32,7 @@ export const adminMenuItems = [
   },
 ];
 
+// currentUser 系列
 export const currentUserContentItems = [
   {
     id: 1,
@@ -43,5 +45,16 @@ export const currentUserContentItems = [
   {
     id: 3,
     title: "喜歡的內容",
+  },
+];
+
+export const currentUserFollowPanelItems = [
+  {
+    id: 1,
+    title: "追隨者",
+  },
+  {
+    id: 2,
+    title: "正在追隨",
   },
 ];
