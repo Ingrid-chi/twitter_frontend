@@ -1,40 +1,51 @@
 <template>
   <div class="navTab-wrapper">
-
     <div class="navTab">
-        <div class="navTab__menu"
-        v-for="menuItem in menuItems" 
-          :key="menuItem.id">
-          <img 
-          class="navTab__menu__img"
-          :src="getImg(menuItem.image)" alt="" />
-          <h5 class="navTab__menu__title">{{ menuItem.title }}</h5>
-        </div>
+      <div
+        class="navTab__menu"
+        v-for="menuItem in menuItems"
+        :key="menuItem.id"
+      >
+        <img class="navTab__menu__img" :src="getImg(menuItem.image)" alt="" />
+        <h5 class="navTab__menu__title">{{ menuItem.title }}</h5>
+      </div>
 
-        <button class="navTab__btn">推文</button>
+      <button class="navTab__btn" @click="showModal">推文</button>
     </div>
-
+    <MainTweet v-show="show" @hide-modal="hideModal" @submit="submit">
+    </MainTweet>
   </div>
 </template>
 
 <script>
-import { menuItems } from '../configs/contentConfigs';
-
+import { menuItems } from "../configs/contentConfigs";
+import MainTweet from "./../components/MainTweet";
 export default {
   name: "NavTab",
 
   data() {
     return {
-    menuItems: menuItems,
-    }
+      menuItems: menuItems,
+      show: false,
+    };
   },
-
-    methods: {
+  components: {
+    MainTweet,
+  },
+  methods: {
     getImg(img) {
       return require(`../assets/${img}`);
     },
+    hideModal() {
+      this.show = false;
+    },
+    showModal() {
+      this.show = true;
+    },
+    submit() {
+      this.show = false;
+    },
   },
-
 };
 </script>
 
@@ -60,7 +71,7 @@ export default {
       &.checked {
         color: $main-orange;
       }
-    }  
+    }
   }
 
   &__btn {
@@ -72,6 +83,5 @@ export default {
     font-size: 20px;
     font-weight: 400;
   }
-
 }
 </style>

@@ -15,13 +15,23 @@
                 src="https://randomuser.me/api/portraits/lego/2.jpg"
                 alt="userImg"
               />
-              <input
+              <textarea
                 class="content__tweet__input"
                 type="text"
+                wrap="hard"
+                maxlength="140"
                 placeholder="有甚麼新鮮事?"
-              />
+              ></textarea>
             </div>
             <button class="content__btn">推文</button>
+          </div>
+          <div class="home__container__content__bottom">
+            <CurrentUserTweets
+              v-for="tweet in tweets"
+              :key="tweet.id"
+              :tweet="tweet"
+            />
+            <!-- <CurrentUserTweets  /> -->
           </div>
         </div>
         <div class="home__container__line-right"></div>
@@ -30,17 +40,52 @@
     </div>
   </div>
 </template>
+
 <script>
 import NavBar from "./../components/NavBar";
 import PopularUser from "./../components/PopularUser";
+import CurrentUserTweets from "./../components/CurrentUserTweets";
+
+import { mapState } from "vuex";
+
 export default {
+  data() {
+    return {
+      show: false,
+    };
+  },
   components: {
     NavBar,
     PopularUser,
+    CurrentUserTweets,
+  },
+  computed: {
+    ...mapState(["tweets"]),
+  },
+  methods: {
+    hideModal() {
+      // 取消弹窗回调
+      this.show = false;
+    },
+    showModal() {
+      this.show = true;
+    },
+
+    submit() {
+      this.show = false;
+    },
   },
 };
 </script>
 <style lang="scss" scoped>
+// %modal-btn {
+//   width: 64px;
+//   height: 40px;
+//   border-radius: 50px;
+//   background-color: $main-orange;
+//   line-height: 24px;
+//   color: white;
+// }
 .wrapper {
   margin: 0 auto;
   max-width: 1140px;
@@ -54,18 +99,20 @@ export default {
     display: grid;
     grid-template-columns: 1px 1fr 1px;
     padding: 0px 24px 0 20px;
+
     &__line-left,
     &__line-right {
       width: 1px;
       height: 100%;
       background-color: $line-gray;
     }
+
     .content {
       &__wrapper {
         &__title {
           height: 72px;
           border-bottom: 1px solid $line-gray;
-          padding-left: 23px;
+          padding-left: 25px;
         }
         &__tweet {
           position: relative;
@@ -85,28 +132,25 @@ export default {
           height: 50px;
           margin-right: 8px;
           border-radius: 50%;
+          object-fit: cover;
         }
         &__input {
           width: 100%;
           border: none;
+          background-color: transparent;
+          resize: none;
+          outline: none;
           display: inline-block;
-          line-height: 26px;
-          font-weight: 700;
-          font-size: 18px;
+          @include font(26px, 700, 18px);
           color: $secondary-gray;
         }
       }
+
       &__btn {
-        width: 64px;
-        height: 40px;
+        @extend %modal-btn;
         position: absolute;
         top: 72px;
         right: 24.69px;
-        border-radius: 50px;
-        background-color: $main-orange;
-        line-height: 24px;
-
-        color: white;
       }
     }
   }

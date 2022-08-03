@@ -4,6 +4,7 @@ module.exports = {
       scss: {
         additionalData: `
           @import "@/styles/_reset.scss";
+          @import "@/styles/_mixin.scss";
           @import "@/styles/_variables.scss";
           @import "@/styles/_font.scss";
           @import "@/styles/_common.scss";
