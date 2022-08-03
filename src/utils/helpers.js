@@ -7,9 +7,25 @@ export const apiHelper = axios.create({
   baseURL,
 });
 
+
 export const Toast = Swal.mixin({
   toast: true,
-  position: "top-end",
+  position: 'top-end',
   showConfirmButton: false,
-  timer: 3000,
-});
+  timer: 3000
+})
+
+apiHelper.interceptors.response.use(
+  response => {
+    return response.data
+  },
+  errResponse => Promise.reject(errResponse)
+)
+
+// export const catchHandler = promise => {
+//   return promise.catch(errResponse => ({
+//     statusCode: errResponse?.code ?? 500,
+//     ...errResponse?.response?.data ?? {},
+//   })
+//   )
+// }

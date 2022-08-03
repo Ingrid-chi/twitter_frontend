@@ -1,6 +1,5 @@
 <template>
   <div class="currentUserTweets-wrapper">
-    
     <div class="tweets-container">
       <div class="tweets-container__avatar">
         <img src="./../assets/logo-gray.png" alt="" />
@@ -22,9 +21,7 @@
 
         <!-- description -->
         <p class="tweets-container__detail__description">
-          Nulla Lorem mollit cupidatat irure. Laborum magna nulla duis ullamco
-          cillum dolor. Voluptate exercitation incididunt aliquip deserunt
-          reprehenderit elit laborum.
+          {{ tweet.description }}
         </p>
 
         <!-- reply & like icon -->
@@ -35,7 +32,7 @@
               <img src="./../assets/replied.png" alt="" />
             </div>
             <div class="tweets-container__detail__count-panel__reply__count">
-              13
+              {{ tweet.replyCount }}
             </div>
           </div>
 
@@ -45,7 +42,7 @@
               <img src="./../assets/like.png" alt="" />
             </div>
             <div class="tweets-container__detail__count-panel__like__count">
-              76
+              {{ tweet.likeCount }}
             </div>
           </div>
         </div>
@@ -59,8 +56,13 @@
 <script>
 export default {
   name: "CurrentUserTweets",
-
   components: {},
+  props: {
+    tweet: {
+      type: Object,
+      default: () => ({}),
+    },
+  },
 };
 </script>
 
