@@ -28,11 +28,10 @@
             />
             <img class="content__like-icon" :src="likeIcon" :alt="like.title" />
           </div>
-          
-          <TweetReplyList />   
+
+          <TweetReplyList />
         </div>
         <div class="tweet-replies__container__line-right"></div>
-           
       </div>
       <PopularUser />
     </div>
@@ -73,8 +72,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap");
-
 .wrapper {
   margin: 0 auto;
   max-width: 1140px;
@@ -120,6 +117,7 @@ export default {
         height: 68px;
         display: flex;
         align-items: center;
+        border-bottom: 1px solid $line-gray;
         padding-left: 19.49px;
       }
     }
@@ -132,55 +130,10 @@ export default {
       display: inline-block;
       margin-right: 19px;
     }
-    &__tweet {
-      display: grid;
-      grid-template-columns: 50px 1fr;
-      grid-template-rows: 25px 25px 1fr 22px;
-      grid-gap: 0 8px;
-      grid-template-areas:
-        "img name "
-        "img account "
-        "text text "
-        "time time ";
-      &__img {
-        height: 50px;
-        width: 50px;
-        margin-bottom: 8px;
-        object-fit: cover;
-      }
-      &__name {
-        grid-area: name;
-        line-height: 26px;
-        font-weight: 700;
-      }
-      &__account {
-        grid-area: account;
-        margin-bottom: 8px;
-        line-height: 22px;
-        font-size: 14px;
-        color: $secondary-gray;
-      }
-      &__text {
-        grid-area: text;
-        margin-bottom: 8px;
-        font-size: 24px;
-        display: -webkit-box;
-        -webkit-line-clamp: 3;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-      }
-      &__time {
-        @extend %secondary-p;
-        grid-area: time;
-        margin-bottom: 8px;
-        line-height: 22px;
-        font-weight: 500;
-        color: $secondary-gray;
-      }
-    }
     &__reply-nums {
       margin-right: 4px;
-      font-family: "Montserrat", sans-serif;
+      @include font-reset;
+      // font-family: "Montserrat", sans-serif;
       font-weight: 700;
       font-size: 19px;
     }

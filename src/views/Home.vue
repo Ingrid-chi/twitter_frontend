@@ -15,11 +15,14 @@
                 src="https://randomuser.me/api/portraits/lego/2.jpg"
                 alt="userImg"
               />
-              <input
+              <textarea
                 class="content__tweet__input"
                 type="text"
+                wrap="hard"
+                maxlength="140"
+                @click="showModal"
                 placeholder="有甚麼新鮮事?"
-              />
+              ></textarea>
             </div>
             <button class="content__btn">推文</button>
           </div>
@@ -31,29 +34,52 @@
       </div>
       <PopularUser />
     </div>
+    <MainTweet v-show="show" @hide-modal="hideModal" @submit="submit">
+    </MainTweet>
   </div>
 </template>
+
 <script>
 import NavBar from "./../components/NavBar";
 import PopularUser from "./../components/PopularUser";
 import CurrentUserTweets from "./../components/CurrentUserTweets";
+import MainTweet from "./../components/MainTweet";
 export default {
+  data() {
+    return {
+      show: false,
+    };
+  },
   components: {
     NavBar,
     PopularUser,
     CurrentUserTweets,
+    MainTweet,
+  },
+  methods: {
+    hideModal() {
+      // 取消弹窗回调
+      this.show = false;
+    },
+    showModal() {
+      this.show = true;
+    },
+
+    submit() {
+      this.show = false;
+    },
   },
 };
 </script>
 <style lang="scss" scoped>
-%modal-btn {
-  width: 64px;
-  height: 40px;
-  border-radius: 50px;
-  background-color: $main-orange;
-  line-height: 24px;
-  color: white;
-}
+// %modal-btn {
+//   width: 64px;
+//   height: 40px;
+//   border-radius: 50px;
+//   background-color: $main-orange;
+//   line-height: 24px;
+//   color: white;
+// }
 .wrapper {
   margin: 0 auto;
   max-width: 1140px;
@@ -105,10 +131,11 @@ export default {
         &__input {
           width: 100%;
           border: none;
+          background-color: transparent;
+          resize: none;
+          outline: none;
           display: inline-block;
-          line-height: 26px;
-          font-weight: 700;
-          font-size: 18px;
+          @include font(26px, 700, 18px);
           color: $secondary-gray;
         }
       }

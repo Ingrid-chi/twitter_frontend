@@ -19,5 +19,10 @@ export const commonItems = {
     title: "logo-gray",
     image: "logo-gray.png"
   }
+  ,
+  deleteOrange: {
+    title: "delete-orange",
+    image: "delete-orange.png"
+  }
 
 };

@@ -15,12 +15,12 @@ export const Toast = Swal.mixin({
   timer: 3000
 })
 
-// apiHelper.interceptors.response.use(
-//   response => {
-//     return response.data
-//   },
-//   errResponse => Promise.reject(errResponse)
-// )
+apiHelper.interceptors.response.use(
+  response => {
+    return response.data
+  },
+  errResponse => Promise.reject(errResponse)
+)
 
 // export const catchHandler = promise => {
 //   return promise.catch(errResponse => ({

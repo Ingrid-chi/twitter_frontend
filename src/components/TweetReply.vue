@@ -65,10 +65,9 @@ export default {
       grid-area: text;
       margin-bottom: 8px;
       font-size: 24px;
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
+      @include lorem(3);
+      
+;
     }
     &__time {
       @extend %secondary-p;
