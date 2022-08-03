@@ -1,50 +1,50 @@
 <template>
-  <div class="currentUserTweets-wrapper">
+  <div class="currentUserLike-wrapper">
     
-    <div class="tweets-container">
-      <div class="tweets-container__avatar">
+    <div class="like-container">
+      <div class="like-container__avatar">
         <img src="./../assets/logo-gray.png" alt="" />
       </div>
 
-      <div class="tweets-container__detail">
+      <div class="like-container__detail">
         <!-- title -->
-        <div class="tweets-container__detail__title">
-          <label class="tweets-container__detail__title__name primary-bold"
+        <div class="like-container__detail__title">
+          <label class="like-container__detail__title__name primary-bold"
             >John Doe</label
           >
-          <label class="tweets-container__detail__title__account"
+          <label class="like-container__detail__title__account"
             >@heyjohn．</label
           >
-          <label class="tweets-container__detail__title__created-at"
+          <label class="like-container__detail__title__created-at"
             >3小時
           </label>
         </div>
 
         <!-- description -->
-        <p class="tweets-container__detail__description">
+        <p class="like-container__detail__description">
           Nulla Lorem mollit cupidatat irure. Laborum magna nulla duis ullamco
           cillum dolor. Voluptate exercitation incididunt aliquip deserunt
           reprehenderit elit laborum.
         </p>
 
         <!-- reply & like icon -->
-        <div class="tweets-container__detail__count-panel">
+        <div class="like-container__detail__count-panel">
           <!-- reply icon -->
-          <div class="tweets-container__detail__count-panel__reply">
-            <div class="tweets-container__detail__count-panel__reply__icon">
+          <div class="like-container__detail__count-panel__reply">
+            <div class="like-container__detail__count-panel__reply__icon">
               <img src="./../assets/replied.png" alt="" />
             </div>
-            <div class="tweets-container__detail__count-panel__reply__count">
+            <div class="like-container__detail__count-panel__reply__count">
               13
             </div>
           </div>
 
           <!-- like icon -->
-          <div class="tweets-container__detail__count-panel__like">
-            <div class="tweets-container__detail__count-panel__like__icon">
-              <img src="./../assets/like.png" alt="" />
+          <div class="like-container__detail__count-panel__like">
+            <div class="like-container__detail__count-panel__like__icon">
+              <img src="./../assets/like-checked.png" alt="" />
             </div>
-            <div class="tweets-container__detail__count-panel__like__count">
+            <div class="like-container__detail__count-panel__like__count">
               76
             </div>
           </div>
@@ -52,26 +52,26 @@
       </div>
     </div>
 
-    <div class="currentUserTweets-wrapper__bottom"></div>
+    <div class="currentUserLike-wrapper__bottom"></div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "CurrentUserTweets",
+  name: "CurrentUserLike",
 
   components: {},
 };
 </script>
 
 <style lang="scss" scoped>
-.currentUserTweets-wrapper {
+.currentUserLike-wrapper {
   &__bottom {
     @extend %line-bottom;
   }
 }
 
-.tweets-container {
+.like-container {
   display: flex;
   padding: 16px 24px;
   &__avatar {

@@ -47,16 +47,30 @@
     <!-- 跟隨中 & 跟隨者 可連結的地方-->
     <div class="currentUserInfo-followTotal">
       <div class="currentUserInfo-followTotal__following">
-        <a href="#">
-          <label class="currentUserInfo-followTotal__following__count">34個</label>
-          <label class="currentUserInfo-followTotal__following__text">跟隨中</label>
-        </a>
+        <router-link 
+        href="#"
+        to="/:account/followers"
+        >
+          <label class="currentUserInfo-followTotal__following__count"
+            >34個</label
+          >
+          <label class="currentUserInfo-followTotal__following__text"
+            >跟隨中</label
+          >
+        </router-link>
       </div>
       <div class="currentUserInfo-followTotal__follower">
-        <a href="#">
-          <label class="currentUserInfo-followTotal__follower__count">59位</label>
-          <label class="currentUserInfo-followTotal__follower__text">跟隨者</label>
-        </a>
+        <router-link 
+        href="#"
+        to="/:account/followers"
+        >
+          <label class="currentUserInfo-followTotal__follower__count"
+            >59位</label
+          >
+          <label class="currentUserInfo-followTotal__follower__text"
+            >跟隨者</label
+          >
+        </router-link>
       </div>
     </div>
   </div>
@@ -152,15 +166,10 @@ export default {
   padding: 0 0 16px 16.13px;
 
   &__following {
-    @extend %secondary-p;
     padding-right: 20px;
-    &__count {
-      color: $main-black;
-    }
-    &__text {
-      color: $secondary-gray;
-    }
   }
+
+  &__following,
   &__follower {
     @extend %secondary-p;
     &__count {

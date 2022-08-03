@@ -19,3 +19,35 @@
   border-radius: 50px;
   background-color: $main-orange;
 }
+
+// line
+%line-bottom {
+  border-bottom: 1px solid $line-gray;
+}
+
+%line-side {
+  width: 1px;
+  height: 100%;
+  background-color: $line-gray;
+}
+
+// 頁籤
+%tag-btn {
+  width: 130px;
+  height: 52px;
+  font-size: 15px;
+  color: $primary-gray;
+  line-height: 21.72px;
+  &:hover {
+    width: 130px;
+    height: 52px;
+    color: $main-orange;
+    border-bottom: 2px solid $main-orange;
+  }
+  &.checked {
+    width: 130px;
+    height: 52px;
+    color: $main-orange;
+    border-bottom: 2px solid $main-orange;
+  }
+}
