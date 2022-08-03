@@ -6,30 +6,30 @@
       <div class="currentUser__container">
         <div class="currentUser__container__line-left"></div>
 
+        <!-- 個人資料(前台) 首頁 -->
         <div class="currentUser__container__content">
+          <!-- 個人資料簡介 -->
           <currentUserInfo />
 
-          <!-- 推文、回覆、喜歡的內容 btn -->
+          <!-- 推文、回覆、喜歡的內容 頁籤 -->
           <div class="currentUser__container__content__items">
-            <div
-              class="currentUser__container__content__items__item"
-              v-for="item in currentUserContentItems"
-              :key="item.id"
-            >
+            <!-- <div class="currentUser__container__content__items__item"> -->
               <button
-                class="currentUser__container__content__items__item__btn primary-bold"
+                v-for="item in currentUserContentItems"
+                :key="item.id"
+                class="currentUser__container__content__items__btn primary-bold"
               >
                 {{ item.title }}
               </button>
-            </div>
+            <!-- </div> -->
           </div>
 
           <div class="currentUser__container__content__bottom"></div>
 
           <!-- 推文、回覆、喜歡的內容 內容 -->
-          <currentUserTweets />
-          <!-- <currentUserReplies />
-          <currentUserLikes /> -->
+          <CurrentUserTweets />
+          <CurrentUserReply />
+          <CurrentUserLike />
         </div>
 
         <div class="currentUser__container__line-right"></div>
@@ -45,6 +45,8 @@ import NavBar from "./../components/NavBar";
 import PopularUser from "./../components/PopularUser";
 import CurrentUserInfo from "./../components/CurrentUserInfo";
 import CurrentUserTweets from "./../components/CurrentUserTweets";
+import CurrentUserReply from "./../components/CurrentUserReply";
+import CurrentUserLike from "./../components/CurrentUserLike";
 import { currentUserContentItems } from "../configs/contentConfigs";
 
 export default {
@@ -55,6 +57,8 @@ export default {
     PopularUser,
     CurrentUserInfo,
     CurrentUserTweets,
+    CurrentUserReply,
+    CurrentUserLike,
   },
 
   data() {
@@ -82,9 +86,7 @@ export default {
     padding: 0 24px 0 20px;
     &__line-left,
     &__line-right {
-      width: 1px;
-      height: 100%;
-      background-color: $line-gray;
+      @extend %line-side;
     }
 
     // 推文、回覆、喜歡的內容 btn
@@ -92,25 +94,12 @@ export default {
       &__items {
         display: flex;
         flex-direction: row;
-        &__item {
-          width: 130px;
-          height: 52px;
-          display: flex;
-          justify-content: center;
-          &__btn {
-            color: $primary-gray;
-            &:hover {
-              width: 100%;
-              height: 52px;
-              color: $main-orange;
-              border-bottom: 2px solid $main-orange;
-            }
-          }
+        &__btn {
+          @extend %tag-btn;
         }
       }
-
       &__bottom {
-        border-bottom: 1px solid $line-gray;
+        @extend %line-bottom;
       }
     }
   }
