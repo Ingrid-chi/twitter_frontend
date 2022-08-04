@@ -1,10 +1,10 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import NotFound from '../views/NotFound.vue'
-import Home from '../views/Home.vue'
-import SignIn from '../views/SignIn.vue'
+import Vue from "vue";
+import VueRouter from "vue-router";
+import NotFound from "../views/NotFound.vue";
+import Home from "../views/Home.vue";
+import SignIn from "../views/SignIn.vue";
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
   {
@@ -59,17 +59,17 @@ const routes = [
   //   component: () => import('../views/Likes.vue')
   // },
   //個人所有Followers
-  // {
-  //   path: '/:account/followers',
-  //   name: 'followers',
-  //   component: () => import('../views/Followers.vue')
-  // },
+  {
+    path: "/:account/followers",
+    name: "followers",
+    component: () => import("../views/CurrentUserFollowPanel.vue"),
+  },
   //個人所有Followings
-  // {
-  //   path: '/:account/followings',
-  //   name: 'followings',
-  //   component: () => import('../views/Followings.vue')
-  // },
+  {
+    path: "/:account/followings",
+    name: "followings",
+    component: () => import("../views/CurrentUserFollowPanel.vue"),
+  },
   //個人設定
   {
     path: "/user1/setting",
@@ -107,7 +107,7 @@ const routes = [
 ];
 
 const router = new VueRouter({
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;

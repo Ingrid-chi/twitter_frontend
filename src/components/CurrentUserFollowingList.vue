@@ -45,11 +45,11 @@ export default {
   }
 
   &__detail {
-    &__name {
-      padding: 8px 0 15px 8px;
-    }
+    padding: 0 0 15px 8px;
+
     &__name,
     &__description {
+      padding-top: 8px;
       @extend %primary-p;
       color: $main-black;
       line-height: 26px;

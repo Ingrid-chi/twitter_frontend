@@ -156,6 +156,7 @@ export default {
   width: 273px;
   border-radius: 16px;
   background-color: #fafafb;
+  margin-top: 16px;
   &__title {
     color: $main-black;
     padding: 24px 0 24px 24px;

@@ -52,9 +52,11 @@ export const currentUserFollowPanelItems = [
   {
     id: 1,
     title: "追隨者",
+    path: "followers",
   },
   {
     id: 2,
     title: "正在追隨",
+    path: "followings",
   },
 ];

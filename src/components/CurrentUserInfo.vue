@@ -2,9 +2,9 @@
   <div class="currentUserInfo-wrapper">
     <!-- 上方回上一頁 icon們 -->
     <div class="currentUserInfo-title">
-      <div class="currentUserInfo-title__icon">
+      <button class="currentUserInfo-title__icon">
         <img src="./../assets/back.png" alt="" />
-      </div>
+      </button>
 
       <div class="currentUserInfo-title__detail">
         <h5 class="currentUserInfo-title__detail__name">John Doe</h5>
@@ -45,11 +45,13 @@
     </div>
 
     <!-- 跟隨中 & 跟隨者 可連結的地方-->
-    <div class="currentUserInfo-followTotal">
+    <div
+    :followItems="currentUserFollowPanelItems"
+    class="currentUserInfo-followTotal"
+    >
       <div class="currentUserInfo-followTotal__following">
         <router-link 
-        href="#"
-        to="/:account/followers"
+        to="/heyjohn/followings"
         >
           <label class="currentUserInfo-followTotal__following__count"
             >34個</label
@@ -61,8 +63,7 @@
       </div>
       <div class="currentUserInfo-followTotal__follower">
         <router-link 
-        href="#"
-        to="/:account/followers"
+        to="/heyjohn/followers"
         >
           <label class="currentUserInfo-followTotal__follower__count"
             >59位</label
@@ -77,10 +78,25 @@
 </template>
 
 <script>
+import { currentUserFollowPanelItems } from "../configs/contentConfigs";
+
 export default {
   name: "CurrentUserInfo",
 
   components: {},
+
+  data() {
+    return {
+      currentUserFollowPanelItems: currentUserFollowPanelItems,
+      // itemId: '',
+    };
+  },
+
+  methods: {
+    getFollowPanelItemId(itemId) {
+      this.itemId = itemId;
+    },
+  },
 };
 </script>
 
@@ -90,10 +106,7 @@ export default {
   display: flex;
   align-items: center;
   padding: 16px 0 17px 28px;
-  &__icon {
-    width: 17px;
-    height: 14px;
-  }
+  
   &__detail {
     padding-left: 19px;
     &__name {

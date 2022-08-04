@@ -92,11 +92,9 @@ export default {
   &__container {
     display: grid;
     grid-template-columns: 1px 1fr 1px;
-    padding: 0 24px 0 20px;
-    &__line-left,
-    &__line-right {
-      @extend %line-side;
-    }
+    margin: 0 24px 0 20px;
+    border-left: 1px solid $line-gray;
+    border-right: 1px solid$line-gray;
 
     // 推文、回覆、喜歡的內容 btn
     &__content {

@@ -15,6 +15,7 @@
           v-model="account"
           type="text"
           placeholder="請輸入帳號"
+          @keyup.enter="handleLogin"
           @keydown="limited"
         />
         <div class="adminSignIn-container__input-account__account">
@@ -25,7 +26,9 @@
           >
             帳號上限50字
           </p>
-          <p class="adminSignIn-container__input-account__account__limited secondary-bold">
+          <p
+            class="adminSignIn-container__input-account__account__limited secondary-bold"
+          >
             {{ account.length + "/50" }}
           </p>
         </div>
@@ -34,7 +37,12 @@
       <!-- 密碼 -->
       <div class="adminSignIn-container__input-password">
         <p class="adminSignIn-container__input-password__title">密碼</p>
-        <input type="password" placeholder="請輸入密碼" v-model="password" />
+        <input
+          type="password"
+          placeholder="請輸入密碼"
+          v-model="password"
+          @keyup.enter="handleLogin"
+        />
       </div>
 
       <div class="btn-group">
@@ -83,20 +91,24 @@ export default {
           account: this.account,
           password: this.password,
         });
+
         const { data } = response;
 
-        if (data.status !== "success") {
-          throw new Error(data.message);
+        if (response.status !== "success") {
+          throw new Error(response.message);
         }
 
-        localStorage.setItem("admin-token", data.data.token);
+        localStorage.setItem("admin-token", data.token);
         this.$router.push({ name: "admin-tweets" });
       } catch (error) {
         const { response } = error;
-        Toast.fire({
-          icon: "error",
-          title: response.data.message,
-        });
+
+        if (response.data.message) {
+          Toast.fire({
+            icon: "error",
+            title: response.data.message,
+          });
+        }
       }
     },
 
@@ -147,10 +159,10 @@ export default {
     border-bottom: 2px solid $primary-gray;
 
     &:focus {
-      border-bottom: 2px solid #50B5FF;
+      border-bottom: 2px solid #50b5ff;
     }
     &.error {
-      border-bottom: 2px solid #FC5A5A;
+      border-bottom: 2px solid #fc5a5a;
     }
   }
   &__input-account,
