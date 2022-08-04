@@ -30,14 +30,25 @@
 <script>
 import { commonItems } from "../configs/commonConfigs";
 import { mapMutations } from "vuex";
+// import { fromNowFilter } from "./../utils/mixins";
 
 export default {
-  name: "MainTweet",
+  name: "MainModal",
   data() {
     return {
       delete: commonItems.deleteOrange,
       warn: false,
+      id: -1,
       tweetText: "",
+      userId: -1,
+      createdAt: "2022-07-31T11:13:44.000Z",
+      likeCount: 0,
+      replyCount: 3,
+      User: {
+        name: "user1",
+        account: "user1",
+        avatar: "https://loremflickr.com/320/240/cat/?lock=93.54589374664013",
+      },
     };
   },
   props: {
@@ -66,7 +77,7 @@ export default {
       // 3. 將上述資訊放到 createTweet
 
       this.createTweet({
-        id: 60,
+        id: this.id,
         description: this.tweetText,
         userId: 10,
         createdAt: "2022-07-31T11:13:44.000Z",
@@ -78,6 +89,8 @@ export default {
           avatar: "https://loremflickr.com/320/240/cat/?lock=93.54589374664013",
         },
       });
+      this.warn = false;
+      this.tweetText = "";
       this.$emit("submit");
     },
     showWarn() {
