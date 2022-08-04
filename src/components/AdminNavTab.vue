@@ -6,15 +6,18 @@
         v-for="adminMenuItem in adminMenuItems"
         :key="adminMenuItem.id"
       >
+      <router-link 
+      class="adminNavTab__menu__link"
+      :to="adminMenuItem.path">
         <img
-          class="adminNavTab__menu__img"
+          class="adminNavTab__menu__link__img"
           :src="getImg(adminMenuItem.image)"
           alt=""
         />
-        <router-link :to="adminMenuItem.path">
+        
           <h5
             :class="[
-              'adminNavTab__menu__title',
+              'adminNavTab__menu__link__title',
               { checked: adminMenuItem.path === currentTabPath },
             ]"
           >
@@ -58,11 +61,16 @@ export default {
   flex-direction: column;
 
   &__menu {
-    display: flex;
-    align-items: center;
-    color: $primary-black;
+    // display: flex;
+    // align-items: center;
+    // color: $primary-black;
     padding: 0 0 40px 17px;
     cursor: pointer;
+
+    &__link {
+      display: flex;
+      align-items: center;
+      
     &__img {
       width: 20px;
       height: 20px;
@@ -74,6 +82,7 @@ export default {
       &.checked {
         color: $main-orange;
       }
+    }
     }
   }
 
