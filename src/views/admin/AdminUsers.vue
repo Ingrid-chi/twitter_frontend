@@ -13,13 +13,13 @@
 </template>
 
 <script>
-import NavBar from '../../components/NavBar';
-import AdminUserListCard from '../../components/admin/AdminUserListCard';
-import adminAPI from '../../apis/admin';
-import { Toast } from '../../utils/helpers';
+import NavBar from "../../components/NavBar";
+import AdminUserListCard from "../../components/admin/AdminUserListCard";
+import adminAPI from "../../apis/admin";
+import { Toast } from "../../utils/helpers";
 
 export default {
-  name: 'UsersList',
+  name: "UsersList",
   components: {
     NavBar,
     AdminUserListCard,
@@ -39,14 +39,14 @@ export default {
         const { data } = response;
 
         if (response.status !== "Success") {
-          throw new Error(response.message)
+          throw new Error(response.message);
         }
-        
+
         this.users = data;
       } catch (error) {
         Toast.fire({
-          icon: 'error',
-          title: '無法取得使用者列表，請稍後再試',
+          icon: "error",
+          title: "無法取得使用者列表，請稍後再試",
         });
       }
     },
@@ -56,17 +56,26 @@ export default {
 
 <style lang="scss" scoped>
 .list-wrapper {
+  margin: 0 auto;
+  max-width: 1140px;
   max-height: 100vh;
-  min-height: 100vh;
+
   display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: max-content 1fr;
+  grid-template-columns: 178px 1fr;
   column-gap: 24px;
-  padding-left: 130px;
+  // max-height: 100vh;
+  // min-height: 100vh;
+  // display: grid;
+  // grid-auto-flow: column;
+  // grid-auto-columns: max-content 1fr;
+  // column-gap: 24px;
+  // padding-left: 130px;
 }
 
 .users-list {
   border-left: 1px solid $line-gray;
+  max-height: 100vh;
+  min-height: 100vh;
 
   &__header {
     position: fixed;
