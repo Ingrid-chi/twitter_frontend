@@ -1,59 +1,79 @@
 <template>
   <div class="currentUserTweets-wrapper">
-    <div class="tweets-container">
-      <div class="tweets-container__avatar">
-        <img src="./../assets/logo-gray.png" alt="" />
-      </div>
-
-      <div class="tweets-container__detail">
-        <!-- title -->
-        <div class="tweets-container__detail__title">
-          <label class="tweets-container__detail__title__name primary-bold"
-            >John Doe</label
-          >
-          <label class="tweets-container__detail__title__account"
-            >@heyjohn．</label
-          >
-          <label class="tweets-container__detail__title__created-at"
-            >3小時
-          </label>
+    <div class="tweets-container-for" v-for="tweet in tweets" :key="tweet.id">
+      <div class="tweets-container">
+        <div class="tweets-container__avatar">
+          <img :src="tweet.User.avatar" alt="" />
         </div>
 
-        <!-- description -->
-        <p class="tweets-container__detail__description">
-          {{ tweet.description }}
-        </p>
-
-        <!-- reply & like icon -->
-        <div class="tweets-container__detail__count-panel">
-          <!-- reply icon -->
-          <div class="tweets-container__detail__count-panel__reply">
-            <div class="tweets-container__detail__count-panel__reply__icon">
-              <img src="./../assets/replied.png" alt="" />
-            </div>
-            <div class="tweets-container__detail__count-panel__reply__count">
-              {{ tweet.replyCount }}
-            </div>
+        <div class="tweets-container__detail">
+          <!-- title -->
+          <div class="tweets-container__detail__title">
+            <label class="tweets-container__detail__title__name primary-bold">{{
+              tweet.User.name
+            }}</label>
+            <label class="tweets-container__detail__title__account"
+              >{{ "@" + tweet.User.account }}．</label
+            >
+            <label class="tweets-container__detail__title__created-at"
+              >{{ tweet.createdAt }}
+            </label>
           </div>
 
-          <!-- like icon -->
-          <div class="tweets-container__detail__count-panel__like">
-            <div class="tweets-container__detail__count-panel__like__icon">
-              <img src="./../assets/like.png" alt="" />
+          <!-- description -->
+          <p class="tweets-container__detail__description">
+            {{ tweet.description }}
+          </p>
+
+          <!-- reply & like icon -->
+          <div class="tweets-container__detail__count-panel">
+            <!-- reply icon -->
+            <div class="tweets-container__detail__count-panel__reply">
+              <div class="tweets-container__detail__count-panel__reply__icon">
+                <img src="./../assets/replied.png" alt="" />
+              </div>
+              <div class="tweets-container__detail__count-panel__reply__count">
+                <!-- here -->
+                {{ tweet.repliesCount }}
+              </div>
             </div>
-            <div class="tweets-container__detail__count-panel__like__count">
-              {{ tweet.likeCount }}
+
+            <!-- like icon -->
+            <div class="tweets-container__detail__count-panel__like">
+              <button
+                v-if="tweet.isLike"
+                @click.stop.prevent="unLike(tweet.id)"
+                class="tweets-container__detail__count-panel__like__icon"
+              >
+                <img src="./../assets/like-checked.png" alt="" />
+              </button>
+              
+              <button
+                v-else
+                @click.stop.prevent="addLike(tweet.id)"
+                class="tweets-container__detail__count-panel__like__icon"
+              >
+                <img src="./../assets/like.png" alt="" />
+              </button>
+              <div class="tweets-container__detail__count-panel__like__count">
+                <!-- here -->
+                {{ tweet.likesCount }}
+              </div>
             </div>
           </div>
         </div>
       </div>
+
+      <div class="currentUserTweets-wrapper__bottom"></div>
     </div>
-
-    <div class="currentUserTweets-wrapper__bottom"></div>
   </div>
 </template>
 
 <script>
+import { mapState } from "vuex";
+import usersAPI from "../apis/users";
+import { Toast } from "../utils/helpers";
+
 export default {
   name: "CurrentUserTweets",
   components: {},
@@ -62,6 +82,82 @@ export default {
       type: Object,
       default: () => ({}),
     },
+  },
+
+  data() {
+    return {
+      tweets: [],
+    };
+  },
+
+  created() {
+    console.log(this.currentUser);
+    this.fetchCurrentUserTweets(this.currentUser.id);
+  },
+
+  methods: {
+    async fetchCurrentUserTweets(id) {
+      try {
+        const response = await usersAPI.getUserTweets(id);
+        this.tweets = response.tweets;
+        console.log(this.tweets);
+      } catch (error) {
+        const { response } = error;
+
+        if (response.data.message) {
+          Toast.fire({
+            icon: "error",
+            title: response.data.message,
+          });
+        }
+      }
+    },
+    async addLike(id) {
+      try {
+        // const response = await usersAPI.addTweetLike(id)
+        this.tweets = this.tweets.map((tweet) => {
+          if (tweet.id === id) {
+            return {
+              ...tweet,
+              isLike: true,
+            };
+          } else {
+            return tweet;
+          }
+        });
+      } catch (error) {
+        console.log(error);
+        Toast.fire({
+          icon: "error",
+          title: "目前無法新增 like, 請稍後再試",
+        });
+      }
+    },
+    async unLike(id) {
+      try {
+        // const response = await usersAPI.addTweetLike(id)
+        this.tweets = this.tweets.map((tweet) => {
+          if (tweet.id === id) {
+            return {
+              ...tweet,
+              isLike: false,
+            };
+          } else {
+            return tweet;
+          }
+        });
+      } catch (error) {
+        console.log(error);
+        Toast.fire({
+          icon: "error",
+          title: "目前無法取消 like, 請稍後再試",
+        });
+      }
+    } 
+  },
+
+  computed: {
+    ...mapState(["currentUser"]),
   },
 };
 </script>
@@ -75,11 +171,13 @@ export default {
 
 .tweets-container {
   display: flex;
+  flex-direction: row;
   padding: 16px 24px;
   &__avatar {
     img {
       width: 50px;
       height: 50px;
+      border-radius: 50%;
     }
   }
 
