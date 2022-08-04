@@ -21,17 +21,20 @@
                 wrap="hard"
                 maxlength="140"
                 placeholder="有甚麼新鮮事?"
+                @focus="showWarn"
+                v-model="tweetText"
               ></textarea>
             </div>
-            <button class="content__btn">推文</button>
+            <div class="content__warn" v-show="warn">字數不可超過140字</div>
+            <button class="content__btn" @click="submit">推文</button>
           </div>
           <div class="home__container__content__bottom">
+            <!-- <CurrentUserTweets  /> -->
             <CurrentUserTweets
               v-for="tweet in tweets"
               :key="tweet.id"
               :tweet="tweet"
             />
-            <!-- <CurrentUserTweets  /> -->
           </div>
         </div>
         <div class="home__container__line-right"></div>
@@ -45,13 +48,25 @@
 import NavBar from "./../components/NavBar";
 import PopularUser from "./../components/PopularUser";
 import CurrentUserTweets from "./../components/CurrentUserTweets";
-
 import { mapState } from "vuex";
+import { mapMutations } from "vuex";
 
 export default {
   data() {
     return {
       show: false,
+      warn: false,
+      id: -1,
+      tweetText: "",
+      userId: -1,
+      createdAt: "2022-07-31T11:13:44.000Z",
+      likeCount: 0,
+      replyCount: 3,
+      User: {
+        name: "user1",
+        account: "user1",
+        avatar: "https://loremflickr.com/320/240/cat/?lock=93.54589374664013",
+      },
     };
   },
   components: {
@@ -63,29 +78,31 @@ export default {
     ...mapState(["tweets"]),
   },
   methods: {
-    hideModal() {
-      // 取消弹窗回调
-      this.show = false;
-    },
-    showModal() {
-      this.show = true;
-    },
-
+    ...mapMutations(["createTweet"]),
     submit() {
-      this.show = false;
+      this.createTweet({
+        id: this.id,
+        description: this.tweetText,
+        userId: 10,
+        createdAt: "2022-07-31T11:13:44.000Z",
+        likeCount: 0,
+        replyCount: 0,
+        User: {
+          name: "user1",
+          account: "user1",
+          avatar: "https://loremflickr.com/320/240/cat/?lock=93.54589374664013",
+        },
+      });
+      this.warn = false;
+      this.tweetText = "";
+    },
+    showWarn() {
+      this.warn = true;
     },
   },
 };
 </script>
 <style lang="scss" scoped>
-// %modal-btn {
-//   width: 64px;
-//   height: 40px;
-//   border-radius: 50px;
-//   background-color: $main-orange;
-//   line-height: 24px;
-//   color: white;
-// }
 .wrapper {
   margin: 0 auto;
   max-width: 1140px;
@@ -116,7 +133,7 @@ export default {
         }
         &__tweet {
           position: relative;
-          height: 136px;
+          min-height: 136px;
           border-bottom: 10px solid $line-gray;
           padding-right: 24.69px;
         }
@@ -144,6 +161,14 @@ export default {
           @include font(26px, 700, 18px);
           color: $secondary-gray;
         }
+      }
+
+      &__warn {
+        @include font(15px, 500, 15px);
+        position: absolute;
+        bottom: 28px;
+        right: 101px;
+        color: #fc5a5a;
       }
 
       &__btn {
