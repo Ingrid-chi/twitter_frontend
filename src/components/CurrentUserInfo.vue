@@ -7,9 +7,9 @@
       </button>
 
       <div class="currentUserInfo-title__detail">
-        <h5 class="currentUserInfo-title__detail__name">John Doe</h5>
+        <h5 class="currentUserInfo-title__detail__name">{{ user.name }}</h5>
         <div class="currentUserInfo-title__detail__tweetsTotal secondary-bold">
-          25 推文
+          {{ user.TweetsCount }} 推文
         </div>
       </div>
     </div>
@@ -19,7 +19,7 @@
       <div class="currentUserInfo-detail__background">
         <img
           class="currentUserInfo-detail__background__img"
-          src="https://i.picsum.photos/id/10/2500/1667.jpg?hmac=J04WWC_ebchx3WwzbM-Z4_KC_LeLBWr5LZMaAkWkF68"
+          :src="user.cover"
           alt=""
         />
       </div>
@@ -27,17 +27,16 @@
       <div class="currentUserInfo-detail__avatar">
         <img
           class="currentUserInfo-detail__avatar__img"
-          src="https://randomuser.me/api/portraits/lego/2.jpg"
+          :src="user.avatar"
           alt=""
         />
       </div>
 
       <div class="currentUserInfo-detail__nameDetail">
-        <h5 class="currentUserInfo-detail__nameDetail__name">John Doe</h5>
-        <p class="currentUserInfo-detail__nameDetail__account">@heyjohn</p>
+        <h5 class="currentUserInfo-detail__nameDetail__name">{{ user.name }}</h5>
+        <p class="currentUserInfo-detail__nameDetail__account">{{ '@' + user.account }}</p>
         <p class="currentUserInfo-detail__nameDetail__description">
-          Amet mini molit non deserunt ullamco est sit aliqua dolor do amet
-          sint.
+          {{ user.introduction }}
         </p>
       </div>
 
@@ -46,15 +45,13 @@
 
     <!-- 跟隨中 & 跟隨者 可連結的地方-->
     <div
-    :followItems="currentUserFollowPanelItems"
-    class="currentUserInfo-followTotal"
+      :followItems="currentUserFollowPanelItems"
+      class="currentUserInfo-followTotal"
     >
       <div class="currentUserInfo-followTotal__following">
-        <router-link 
-        to="/heyjohn/followings"
-        >
+        <router-link to="/heyjohn/followings">
           <label class="currentUserInfo-followTotal__following__count"
-            >34個</label
+            >{{ user.FollowingCount + '個' }}</label
           >
           <label class="currentUserInfo-followTotal__following__text"
             >跟隨中</label
@@ -62,11 +59,9 @@
         </router-link>
       </div>
       <div class="currentUserInfo-followTotal__follower">
-        <router-link 
-        to="/heyjohn/followers"
-        >
+        <router-link to="/heyjohn/followers">
           <label class="currentUserInfo-followTotal__follower__count"
-            >59位</label
+            >{{ user.FollowerCount + '位' }}</label
           >
           <label class="currentUserInfo-followTotal__follower__text"
             >跟隨者</label
@@ -80,15 +75,22 @@
 <script>
 import { currentUserFollowPanelItems } from "../configs/contentConfigs";
 
+
 export default {
   name: "CurrentUserInfo",
 
   components: {},
 
+  props: {
+    user: {
+      type: Object,
+      require: true,
+    },
+  },
+
   data() {
     return {
       currentUserFollowPanelItems: currentUserFollowPanelItems,
-      // itemId: '',
     };
   },
 
@@ -106,7 +108,7 @@ export default {
   display: flex;
   align-items: center;
   padding: 16px 0 17px 28px;
-  
+
   &__detail {
     padding-left: 19px;
     &__name {
