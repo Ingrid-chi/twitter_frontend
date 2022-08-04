@@ -9,7 +9,7 @@
         <!-- 個人資料(前台) 首頁 -->
         <div class="currentUser__container__content">
           <!-- 個人資料簡介 -->
-          <currentUserInfo />
+          <currentUserInfo :user="user" />
 
           <!-- 推文、回覆、喜歡的內容 頁籤 -->
           <div class="currentUser__container__content__items">
@@ -50,6 +50,9 @@ import CurrentUserTweets from "./../components/CurrentUserTweets";
 import CurrentUserReply from "./../components/CurrentUserReply";
 import CurrentUserLike from "./../components/CurrentUserLike";
 import { currentUserContentItems } from "../configs/contentConfigs";
+import { mapState } from "vuex";
+import usersAPI from "../apis/users";
+import { Toast } from "../utils/helpers";
 
 export default {
   name: "CurrentUser",
@@ -67,13 +70,35 @@ export default {
     return {
       currentUserContentItems: currentUserContentItems,
       itemId: 1,
+      user: {},
     };
+  },
+
+  created() {
+    console.log(this.currentUser);
+    this.fetchCurrentUser(this.currentUser.id);
   },
 
   methods: {
     getItemId(itemId) {
       this.itemId = itemId;
     },
+    async fetchCurrentUser(id) {
+      try {
+        const response = await usersAPI.getUser(id);
+        const { user } = response;
+        this.user = { ...user, ...this.currentUser };
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "無法取得個人資訊，請稍後再試。",
+        });
+      }
+    },
+  },
+
+  computed: {
+    ...mapState(["currentUser"]),
   },
 };
 </script>
