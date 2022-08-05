@@ -70,8 +70,8 @@ export default {
         this.replies = response.replies;
         console.log(this.replies);
       } catch (error) {
+        console.log(error);
         const { response } = error;
-
         if (response.data.message) {
           Toast.fire({
             icon: "error",

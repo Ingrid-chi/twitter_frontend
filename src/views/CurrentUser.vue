@@ -88,6 +88,7 @@ export default {
         const response = await usersAPI.getUser(id);
         const { user } = response;
         this.user = { ...user, ...this.currentUser };
+        this.$store.commit("setCurrentUser", this.user)
       } catch (error) {
         Toast.fire({
           icon: "error",

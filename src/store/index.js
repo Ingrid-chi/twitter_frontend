@@ -59,7 +59,6 @@ export default new Vuex.Store({
       updatedAt: "",
     },
     isAuthenticated: false,
-
   },
   getters: {},
 
@@ -68,6 +67,7 @@ export default new Vuex.Store({
     createTweet(state, data) {
       state.tweets.unshift(data);
     },
+
     setCurrentUser(state, currentUser) {
       state.currentUser = {
         // 複製一份進來
@@ -76,7 +76,15 @@ export default new Vuex.Store({
         ...currentUser,
       };
     },
+
+    setPopularUsers(state, popularUsers) {
+      state.popularUsers = {
+        ...state.popularUsers,
+        ...popularUsers,
+      };
+    },
   },
+
   actions: {},
   modules: {},
 });

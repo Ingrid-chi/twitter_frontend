@@ -9,7 +9,7 @@
         :key="user.id"
       >
         <div class="popularUserList__container__img">
-          <img :src="user.image" alt="" />
+          <img :src="user.avatar" alt="" />
         </div>
 
         <div class="popularUserList__container__nameDetail">
@@ -25,7 +25,7 @@
 
         <button
           class="popularUserList__container__btnFollowed"
-          v-if="user.isFollowed"
+          v-if="user.isFollowing"
           type="button"
           @click.stop.prevent="deleteFollow(user.id)"
         >
@@ -46,66 +46,9 @@
 </template>
 
 <script>
-const dummyData = {
-  users: [
-    {
-      id: 1,
-      name: "Pizza Hut",
-      account: "@pizzahut",
-      image: "logo-gary.png",
-      isFollowed: true,
-    },
-    {
-      id: 2,
-      name: "Pizza Hut",
-      account: "@pizzahut",
-      image: "logo-gary.png",
-      isFollowed: true,
-    },
-    {
-      id: 3,
-      name: "Pizza Hut",
-      account: "@pizzahut",
-      image: "logo-gary.png",
-      isFollowed: false,
-    },
-    {
-      id: 4,
-      name: "Pizza Hut",
-      account: "@pizzahut",
-      image: "logo-gary.png",
-      isFollowed: false,
-    },
-    {
-      id: 5,
-      name: "Pizza Hut",
-      account: "@pizzahut",
-      image: "logo-gary.png",
-      isFollowed: false,
-    },
-    {
-      id: 6,
-      name: "Pizza Hut",
-      account: "@pizzahut",
-      image: "logo-gary.png",
-      isFollowed: false,
-    },
-    {
-      id: 7,
-      name: "Pizza Hut",
-      account: "@pizzahut",
-      image: "logo-gary.png",
-      isFollowed: false,
-    },
-    {
-      id: 8,
-      name: "Pizza Hut",
-      account: "@pizzahut",
-      image: "logo-gary.png",
-      isFollowed: false,
-    },
-  ],
-};
+import { mapState } from "vuex";
+import usersAPI from "../apis/users";
+import { Toast } from "../utils/helpers";
 
 export default {
   name: "PopularUser",
@@ -114,36 +57,86 @@ export default {
 
   data() {
     return {
-      users: dummyData.users,
+      users: [],
     };
   },
 
+  created() {
+    this.fetchPopularUsers();
+  },
+
   methods: {
-    addFollow(userId) {
-      this.users = this.users.map((user) => {
-        if (user.id === userId) {
-          return {
-            ...user,
-            isFollowed: true,
-          };
+    async fetchPopularUsers() {
+      try {
+        const response = await usersAPI.getPopularUsers();
+        const { users } = response;
+        this.users = users;
+        this.$store.commit("popularUsers", this.users)
+        console.log("response", response);
+      } catch (error) {
+        const { response } = error;
+        if (response.data.message) {
+          Toast.fire({
+            icon: "error",
+            title: response.data.message,
+          });
         }
-
-        return user;
-      });
+      }
     },
 
-    deleteFollow(userId) {
-      this.users = this.users.map((user) => {
-        if (user.id === userId) {
-          return {
-            ...user,
-            isFollowed: false,
-          };
+    async addFollow(id) {
+      try {
+        const response = await usersAPI.addFollowing({
+          id,
+        });
+        console.log("response", response);
+        this.users = this.users.map((user) => {
+          if (user.id === id) {
+            return {
+              ...user,
+              isFollowing: true,
+            };
+          } else {
+            return user;
+          }
+        });
+      } catch (error) {
+        const { response } = error;
+        if (response.data.message) {
+          Toast.fire({
+            icon: "error",
+            title: response.data.message,
+          });
         }
-
-        return user;
-      });
+      }
     },
+
+    async deleteFollow(id) {
+      try {
+        this.users = this.users.map((user) => {
+          if (user.id === id) {
+            return {
+              ...user,
+              isFollowing: false,
+            };
+          } else {
+            return user;
+          }
+        });
+      } catch (error) {
+        const { response } = error;
+        if (response.data.message) {
+          Toast.fire({
+            icon: "error",
+            title: "",
+          });
+        }
+      }
+    },
+  },
+
+  computed: {
+    ...mapState(["popularUsers"]),
   },
 };
 </script>
@@ -173,8 +166,11 @@ export default {
     align-items: center;
     padding: 16px;
     &__img {
+      img {
       width: 32px;
       height: 32px;
+      border-radius: 50%;
+      }
     }
     &__nameDetail {
       position: absolute;
