@@ -25,6 +25,7 @@
               class="content__reply-icon"
               :src="replyIcon"
               :alt="reply.title"
+              @click="showReplyModal"
             />
             <img class="content__like-icon" :src="likeIcon" :alt="like.title" />
           </div>
@@ -35,6 +36,12 @@
       </div>
       <PopularUser />
     </div>
+    <ReplyModal
+      v-show="replyShow"
+      @hide-reply-modal="hideReplyModal"
+      @submit-reply="submitReply"
+    >
+    </ReplyModal>
   </div>
 </template>
 <script>
@@ -42,11 +49,14 @@ import NavBar from "./../components/NavBar";
 import PopularUser from "./../components/PopularUser";
 import TweetReply from "./../components/TweetReply";
 import TweetReplyList from "./../components/TweetReplyList";
+import ReplyModal from "./../components/ReplyModal";
 import { commonItems } from "../configs/commonConfigs";
 
 export default {
+  name: "TweetReplies",
   data() {
     return {
+      replyShow: false,
       back: commonItems.back,
       reply: commonItems.reply,
       like: commonItems.like,
@@ -57,6 +67,7 @@ export default {
     PopularUser,
     TweetReply,
     TweetReplyList,
+    ReplyModal,
   },
   computed: {
     backIcon() {
@@ -67,6 +78,18 @@ export default {
     },
     likeIcon() {
       return require(`../assets/${this.like.image}`);
+    },
+  },
+  methods: {
+    hideReplyModal() {
+      console.log("1");
+      this.replyShow = false;
+    },
+    showReplyModal() {
+      this.replyShow = true;
+    },
+    submitReply() {
+      this.replyShow = false;
     },
   },
 };

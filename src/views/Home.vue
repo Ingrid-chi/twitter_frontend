@@ -2,7 +2,7 @@
   <div class="wrapper">
     <div class="home">
       <NavBar />
-      <div class="home__container">
+      <div class="home__container scrollbar">
         <div class="home__container__line-left"></div>
         <div class="home__container__content">
           <div class="content__wrapper__title">
@@ -25,7 +25,7 @@
                 v-model="tweetText"
               ></textarea>
             </div>
-            <div class="content__warn" v-show="warn">字數不可超過140字</div>
+            <div class="content__warn" v-show="warn">{{ warnText }}</div>
             <button class="content__btn" @click="submit">推文</button>
           </div>
           <div class="home__container__content__bottom">
@@ -43,11 +43,11 @@
     </div>
   </div>
 </template>
-
 <script>
 import NavBar from "./../components/NavBar";
 import PopularUser from "./../components/PopularUser";
 import CurrentUserTweets from "./../components/CurrentUserTweets";
+import tweetApis from "../apis/tweet";
 import { mapState } from "vuex";
 import { mapMutations } from "vuex";
 
@@ -58,15 +58,6 @@ export default {
       warn: false,
       id: -1,
       tweetText: "",
-      userId: -1,
-      createdAt: "2022-07-31T11:13:44.000Z",
-      likeCount: 0,
-      replyCount: 3,
-      User: {
-        name: "user1",
-        account: "user1",
-        avatar: "https://loremflickr.com/320/240/cat/?lock=93.54589374664013",
-      },
     };
   },
   components: {
@@ -76,23 +67,20 @@ export default {
   },
   computed: {
     ...mapState(["tweets"]),
+    warnText() {
+      return !this.tweetText.length ? "內容不可空白" : "字數不可超過140字";
+    },
+  },
+  async created() {
+    const { data } = await tweetApis.getTweets();
+    this.setTweets(data);
   },
   methods: {
-    ...mapMutations(["createTweet"]),
-    submit() {
-      this.createTweet({
-        id: this.id,
-        description: this.tweetText,
-        userId: 10,
-        createdAt: "2022-07-31T11:13:44.000Z",
-        likeCount: 0,
-        replyCount: 0,
-        User: {
-          name: "user1",
-          account: "user1",
-          avatar: "https://loremflickr.com/320/240/cat/?lock=93.54589374664013",
-        },
-      });
+    ...mapMutations(["createTweet", "setTweets"]),
+    async submit() {
+      await tweetApis.createTweet(this.tweetText);
+      const { data } = await tweetApis.getTweets();
+      this.setTweets(data);
       this.warn = false;
       this.tweetText = "";
     },
@@ -115,7 +103,10 @@ export default {
   &__container {
     display: grid;
     grid-template-columns: 1px 1fr 1px;
-    padding: 0px 24px 0 20px;
+    margin-right: 5px;
+    border-right: 1px solid #e8e8e8;
+    padding: 0px 5px 0 20px;
+    overflow-y: scroll;
 
     &__line-left,
     &__line-right {
@@ -178,6 +169,18 @@ export default {
         right: 24.69px;
       }
     }
+  }
+}
+.scrollbar {
+  &::-webkit-scrollbar {
+    width: 15px;
+    -webkit-box-shadow: inset 1px 0 0 #e8e8e8;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 7px;
+    border: 4px solid transparent;
+    background-clip: content-box;
+    background-color: #c1c1c1;
   }
 }
 </style>

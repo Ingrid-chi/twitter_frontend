@@ -2,10 +2,16 @@
   <div class="modal-bg" v-show="show">
     <div class="modal-container">
       <div class="modal-header">
-        <img :src="deleteOrange" :alt="deleteOrange.title" @click="hideModal" />
+        <img
+          :src="deleteOrange"
+          :alt="deleteOrange.title"
+          @click="hideReplyModal"
+        />
       </div>
       <div class="modal-main">
-        <img
+        <div class="modal-other"></div>
+        <div class="modal-reply"> 
+          <img
           class="content__tweet__img"
           src="https://randomuser.me/api/portraits/lego/2.jpg"
           alt="userImg"
@@ -20,9 +26,10 @@
           placeholder="有甚麼新鮮事?"
           @focus="showWarn"
           v-model="tweetText"
-        ></textarea>
+        ></textarea></div>
+       
       </div>
-      <div class="modal-warn" v-show="warn">{{ warnText }}</div>
+      <div class="modal-warn" v-show="warn">字數不可超過140字</div>
       <button class="modal-btn" @click="submit">推文</button>
     </div>
   </div>
@@ -30,30 +37,29 @@
 <script>
 import { commonItems } from "../configs/commonConfigs";
 import { mapMutations } from "vuex";
-import tweetApis from "../apis/tweet";
 // import { fromNowFilter } from "./../utils/mixins";
 
 export default {
-  name: "MainModal",
+  name: "ReplyModal",
   data() {
     return {
       delete: commonItems.deleteOrange,
       warn: false,
-      // id: -1,
+      id: -1,
       tweetText: "",
-      // userId: -1,
-      // createdAt: "2022-07-31T11:13:44.000Z",
-      // likeCount: 0,
-      // replyCount: 3,
-      // User: {
-      //   name: "user1",
-      //   account: "user1",
-      //   avatar: "https://loremflickr.com/320/240/cat/?lock=93.54589374664013",
-      // },
+      userId: -1,
+      createdAt: "2022-07-31T11:13:44.000Z",
+      likeCount: 0,
+      replyCount: 3,
+      User: {
+        name: "user1",
+        account: "user1",
+        avatar: "https://loremflickr.com/320/240/cat/?lock=93.54589374664013",
+      },
     };
   },
   props: {
-    show: {
+    replyShow: {
       type: Boolean,
       default: false,
     },
@@ -62,31 +68,37 @@ export default {
     deleteOrange() {
       return require(`../assets/${this.delete.image}`);
     },
-    warnText() {
-      return !this.tweetText.length ? "內容不可空白" : "字數不可超過140字";
-    },
   },
   methods: {
-    ...mapMutations(["createTweet", "setTweets"]),
+    ...mapMutations(["createTweet"]),
 
-    hideModal() {
-      this.$emit("hide-modal");
+    hideReplyModal() {
+      this.$emit("hide-reply-modal");
       this.warn = false;
       this.tweetText = "";
     },
 
-    async submit() {
+    submit() {
+      // 1. 呼叫 API，告訴 API description
+      // 2. API 回前端資訊
+      // 3. 將上述資訊放到 createTweet
 
-      // 建立貼文
-      await tweetApis.createTweet(this.tweetText);
-
-      // 重新拉貼文內容並放到state
-      const { data } = await tweetApis.getTweets();
-      this.setTweets(data);
-
+      // this.createTweet({
+      //   id: this.id,
+      //   description: this.tweetText,
+      //   userId: 10,
+      //   createdAt: "2022-07-31T11:13:44.000Z",
+      //   likeCount: 0,
+      //   replyCount: 0,
+      //   User: {
+      //     name: "user1",
+      //     account: "user1",
+      //     avatar: "https://loremflickr.com/320/240/cat/?lock=93.54589374664013",
+      //   },
+      // });
       this.warn = false;
       this.tweetText = "";
-      this.$emit("submit");
+      this.$emit("submit-reply");
     },
     showWarn() {
       this.warn = true;
@@ -95,7 +107,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-
 .modal-bg {
   position: fixed;
   top: 0;
@@ -106,7 +117,9 @@ export default {
   z-index: 10;
 }
 .modal-container {
-  @include size(634px, 300px);
+  // @include size(634px, 300px);
+  width: 634px;
+  min-height: 450px;
   background: #fff;
   border-radius: 14px;
   overflow: hidden;
@@ -129,6 +142,11 @@ export default {
     left: 19.5px;
   }
 }
+.modal-other {
+  width: 100%;
+  min-height: 163px;
+  padding: 18px 15px 0 15px;
+}
 .modal-warn {
   @include font(15px, 500, 15px);
   position: absolute;
@@ -144,7 +162,10 @@ export default {
   right: 16px;
 }
 .modal-main {
-  @include size(100%, 243px);
+  // @include size(100%, 243px);
+  width: 100%;
+  min-height: 395px
+  ;
   position: relative;
   display: flex;
   flex-flow: row nowrap;

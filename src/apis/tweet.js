@@ -5,7 +5,15 @@ export default {
   // 帶入需要的參數
   getTweets() {
     // 這裡 return 的會是一個 Promise
-    return apiHelper.get('/api/tweets', {
+    return apiHelper.get('/tweets', {
+      headers: { Authorization: `Bearer ${getToken()}` }
+    })
+  },
+  createTweet(description) {
+    // 這裡 return 的會是一個 Promise
+    return apiHelper.post('/tweets', {
+      description,
+    }, {
       headers: { Authorization: `Bearer ${getToken()}` }
     })
   }

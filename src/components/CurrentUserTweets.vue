@@ -8,14 +8,14 @@
       <div class="tweets-container__detail">
         <!-- title -->
         <div class="tweets-container__detail__title">
-          <label class="tweets-container__detail__title__name primary-bold"
-            >John Doe</label
-          >
+          <label class="tweets-container__detail__title__name primary-bold">{{
+            tweet.User.name
+          }}</label>
           <label class="tweets-container__detail__title__account"
-            >@heyjohn．</label
+            >@{{ tweet.User.account }}．</label
           >
           <label class="tweets-container__detail__title__created-at"
-            >3小時
+            >{{ tweet.createdAt | fromNow }}
           </label>
         </div>
 
@@ -54,8 +54,10 @@
 </template>
 
 <script>
+import { fromNowFilter } from "./../utils/mixins";
 export default {
   name: "CurrentUserTweets",
+  mixins: [fromNowFilter],
   components: {},
   props: {
     tweet: {
