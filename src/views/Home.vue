@@ -48,8 +48,8 @@ import NavBar from "./../components/NavBar";
 import PopularUser from "./../components/PopularUser";
 import CurrentUserTweets from "./../components/CurrentUserTweets";
 import tweetApis from "../apis/tweet";
-import { mapState } from "vuex";
-import { mapMutations } from "vuex";
+import userApis from "../apis/users";
+import { mapState, mapMutations } from "vuex";
 
 export default {
   data() {
@@ -72,13 +72,13 @@ export default {
     },
   },
   async created() {
+    const { user: currentUser } = await userApis.getUser(
+      localStorage.getItem("userId")
+    );
+    this.setCurrentUser(currentUser);
+
     const { data } = await tweetApis.getTweets();
     this.setTweets(data);
-
-    const currentUser = localStorage.getItem("currentUser") || "";
-    if (currentUser) {
-      this.setCurrentUser(JSON.parse(currentUser));
-    }
   },
   methods: {
     ...mapMutations(["createTweet", "setTweets", "setCurrentUser"]),
