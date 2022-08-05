@@ -76,7 +76,6 @@ export default {
     },
 
     async submit() {
-
       // 建立貼文
       await tweetApis.createTweet(this.tweetText);
 
@@ -95,7 +94,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-
 .modal-bg {
   position: fixed;
   top: 0;

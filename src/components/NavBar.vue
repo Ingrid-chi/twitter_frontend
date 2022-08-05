@@ -1,32 +1,33 @@
 <template>
   <div class="navBar-wrapper">
-
     <div class="navBar">
       <div class="navBar__menu">
         <div class="navBar__menu__logo">
-          <img class="navBar__logo__img" src="./../assets/logo.png" alt="">
+          <img class="navBar__logo__img" src="./../assets/logo.png" alt="" />
         </div>
 
         <!-- 前後台的 NavTab -->
         <NavTab v-if="!isAdmin" />
         <AdminNavTab v-else />
+      </div>
 
-        </div>
-
-        <div class="navBar__sign-out" @click.stop.prevent="handleLogOut()">
-          <img
-           class="navBar__sign-out__img"
-           src="./../assets/sign-out.png" width="18" height="18" alt="">
-          <h5>登出</h5>
-        </div>
+      <div class="navBar__sign-out" @click.stop.prevent="handleLogOut()">
+        <img
+          class="navBar__sign-out__img"
+          src="./../assets/sign-out.png"
+          width="18"
+          height="18"
+          alt=""
+        />
+        <h5>登出</h5>
+      </div>
     </div>
-
   </div>
 </template>
 
 <script>
-import NavTab from './../components/NavTab';
-import AdminNavTab from './../components/AdminNavTab';
+import NavTab from "./../components/NavTab";
+import AdminNavTab from "./../components/AdminNavTab";
 
 export default {
   name: "NavBar",
@@ -40,21 +41,20 @@ export default {
     isAdmin: {
       type: Boolean,
       default: false,
-    }
+    },
   },
 
   methods: {
     handleLogOut() {
       if (this.isAdmin) {
-        localStorage.removeItem('admin-token');
+        localStorage.removeItem("admin-token");
         this.$router.push({ name: "admin-signin" });
       } else {
-        localStorage.removeItem('token');
+        localStorage.removeItem("token");
         this.$router.push({ name: "sign-in" });
       }
-    }
-  }
-
+    },
+  },
 };
 </script>
 
@@ -65,7 +65,7 @@ export default {
   flex-direction: column;
   justify-content: space-between;
 
-  &__menu{
+  &__menu {
     &__logo {
       width: 40px;
       height: 40px;

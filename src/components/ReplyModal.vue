@@ -9,25 +9,42 @@
         />
       </div>
       <div class="modal-main">
-        <div class="modal-other"></div>
-        <div class="modal-reply"> 
+        <div class="modal-other">
+          <img src="https://randomuser.me/api/portraits/lego/2.jpg" alt="" />
+          <div class="line"></div>
+          <div class="content__wrapper__other-info">
+            <div class="content__other-name">Devon Lane</div>
+            <div class="content__other-account">@devon_lane</div>
+            <div class="content__other-dot">‧</div>
+            <div class="content__other-time">3小時</div>
+          </div>
+          <div class="content__wrapper__user-text">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas
+            semper
+          </div>
+          <div class="content__wrapper__user-account">
+            <div class="content__user-reply">回覆</div>
+            <div class="content__user-account">@apple</div>
+          </div>
+        </div>
+        <div class="modal-reply">
           <img
-          class="content__tweet__img"
-          src="https://randomuser.me/api/portraits/lego/2.jpg"
-          alt="userImg"
-        />
-        <textarea
-          name=""
-          id=""
-          cols="30"
-          rows="3"
-          wrap="hard"
-          maxlength="140"
-          placeholder="有甚麼新鮮事?"
-          @focus="showWarn"
-          v-model="tweetText"
-        ></textarea></div>
-       
+            class="content__tweet__img"
+            src="https://randomuser.me/api/portraits/lego/2.jpg"
+            alt="userImg"
+          />
+          <textarea
+            name=""
+            id=""
+            cols="30"
+            rows="3"
+            wrap="hard"
+            maxlength="140"
+            placeholder="有甚麼新鮮事?"
+            @focus="showWarn"
+            v-model="tweetText"
+          ></textarea>
+        </div>
       </div>
       <div class="modal-warn" v-show="warn">字數不可超過140字</div>
       <button class="modal-btn" @click="submit">推文</button>
@@ -145,7 +162,72 @@ export default {
 .modal-other {
   width: 100%;
   min-height: 163px;
-  padding: 18px 15px 0 15px;
+  img {
+    position: absolute;
+    top: 16px;
+    left: 24px;
+  }
+  .line {
+    width: 2px;
+    height: 20%;
+    position: absolute;
+    top: 82px;
+    left: 48px;
+    background-color: gray;
+  }
+}
+.content {
+  &__wrapper {
+    &__other-info {
+      width: 100%;
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
+      margin-left: 56px;
+      margin-bottom: 8px;
+    }
+    &__user-account {
+      width: 100%;
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
+      margin-left: 56px;
+      margin-bottom: 8px;
+    }
+    &__user-text {
+      min-height: 78px;
+      margin-left: 56px;
+      margin-bottom: 11px;
+      @include font(26px, 400, 16px);
+      // word-break: break-word;
+    }
+  }
+  &__other-name {
+    margin-right: 8px;
+    line-height: 26px;
+    font-weight: 700;
+  }
+  &__other-account {
+    @include font(22px, 400, 14px);
+    color: $secondary-gray;
+  }
+  &__other-dot {
+    @include font(22px, 400, 14px);
+    color: $secondary-gray;
+  }
+  &__other-time {
+    @include font(22px, 400, 14px);
+    color: $secondary-gray;
+  }
+  &__user-reply {
+    margin-right: 4px;
+    @include font(22px, 400, 14px);
+    color: $secondary-gray;
+  }
+  &__user-account {
+    @include font(22px, 400, 14px);
+    color: $main-orange;
+  }
 }
 .modal-warn {
   @include font(15px, 500, 15px);
@@ -164,13 +246,13 @@ export default {
 .modal-main {
   // @include size(100%, 243px);
   width: 100%;
-  min-height: 395px
-  ;
+  min-height: 395px;
   position: relative;
   display: flex;
-  flex-flow: row nowrap;
-  padding: 16px 24px;
+  flex-flow: column nowrap;
+  padding: 16px 24px 16px 24px;
   img {
+    margin-right: 8px;
     @include size(50px, 50px);
     border-radius: 50%;
     object-fit: cover;
@@ -185,5 +267,9 @@ export default {
     @include font(26px, 700, 18px);
     color: $secondary-gray;
   }
+}
+.modal-reply {
+  display: flex;
+  flex-flow: row nowrap;
 }
 </style>
