@@ -125,14 +125,7 @@ export default {
           account: this.account,
           password: this.password,
         });
-        // 假設不開攔截器
-        // 假設開攔截器
         console.log("response", response);
-
-        // const { data } = response;
-        // if (data.status !== "success") {
-        //   throw new Error(data.message);
-        // }
 
         // 將伺服器回傳的 token 保存在 localStorage 中
         localStorage.setItem("token", response.data.token);

@@ -22,14 +22,14 @@
 
       <button class="navTab__btn" @click="showModal">推文</button>
     </div>
-    <MainTweet v-show="show" @hide-modal="hideModal" @submit="submit">
-    </MainTweet>
+    <MainModal v-show="show" @hide-modal="hideModal" @submit="submit">
+    </MainModal>
   </div>
 </template>
 
 <script>
 import { menuItems } from "../configs/contentConfigs";
-import MainTweet from "./../components/MainTweet";
+import MainModal from "./../components/MainModal";
 export default {
   name: "NavTab",
 
@@ -41,7 +41,7 @@ export default {
     };
   },
   components: {
-    MainTweet,
+    MainModal,
   },
 
   created() {

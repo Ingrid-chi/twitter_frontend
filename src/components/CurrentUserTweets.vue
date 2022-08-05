@@ -202,6 +202,8 @@ export default {
       color: $main-black;
       line-height: 26px;
       padding-bottom: 8px;
+      // 新增段行
+      word-break: break-word;
     }
 
     // reply & like icon
