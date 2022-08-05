@@ -74,9 +74,14 @@ export default {
   async created() {
     const { data } = await tweetApis.getTweets();
     this.setTweets(data);
+
+    const currentUser = localStorage.getItem("currentUser") || "";
+    if (currentUser) {
+      this.setCurrentUser(JSON.parse(currentUser));
+    }
   },
   methods: {
-    ...mapMutations(["createTweet", "setTweets"]),
+    ...mapMutations(["createTweet", "setTweets", "setCurrentUser"]),
     async submit() {
       await tweetApis.createTweet(this.tweetText);
       const { data } = await tweetApis.getTweets();

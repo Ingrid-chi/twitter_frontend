@@ -1,48 +1,90 @@
 <template>
   <div class="currentUserReply-wrapper">
-    
+    <div 
+    class="reply-container-for"
+    v-for="reply in replies"
+    :key="reply.id"
+    >
     <div class="reply-container">
       <div class="reply-container__avatar">
-        <img src="./../assets/logo-gray.png" alt="" />
+        <img :src="reply.Tweet.User.avatar" alt="" />
       </div>
 
       <div class="reply-container__detail">
         <!-- title -->
         <div class="reply-container__detail__title">
           <label class="reply-container__detail__title__name primary-bold"
-            >John Doe</label
+            >{{ reply.User.name }}</label
           >
           <label class="reply-container__detail__title__account"
-            >@heyjohn．</label
+            >{{ "@" + reply.User.account }}．</label
           >
           <label class="reply-container__detail__title__created-at"
-            >3小時
+            >{{ reply.createdAt }}
           </label>
         </div>
 
         <!-- reply-user -->
         <div class="reply-container__detail__user">
-         <label class="reply-container__detail__user__title">回復</label> 
-         <label class="reply-container__detail__user__account">@apple</label> 
+          <label class="reply-container__detail__user__title">回復</label>
+          <label class="reply-container__detail__user__account">{{ "@" + reply.Tweet.User.account }}</label>
         </div>
 
         <!-- description -->
         <p class="reply-container__detail__description">
-          Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. 
+          {{ reply.Tweet.description }}
         </p>
-
       </div>
     </div>
 
     <div class="currentUserReply-wrapper__bottom"></div>
+    </div>
   </div>
 </template>
 
 <script>
+import { mapState } from "vuex";
+import usersAPI from "../apis/users";
+import { Toast } from "../utils/helpers";
+
 export default {
   name: "CurrentUserReply",
 
   components: {},
+
+  data() {
+    return {
+      replies: [],
+    };
+  },
+
+  created() {
+    console.log(this.currentUserReplied);
+    this.fetchCurrentUserReplied(this.currentUser.id);
+  },
+
+  methods: {
+    async fetchCurrentUserReplied(id) {
+      try {
+        const response = await usersAPI.getUserReplied(id);
+        this.replies = response.replies;
+        console.log(this.replies);
+      } catch (error) {
+        const { response } = error;
+
+        if (response.data.message) {
+          Toast.fire({
+            icon: "error",
+            title: response.data.message,
+          });
+        }
+      }
+    },
+  },
+
+  computed: {
+    ...mapState(["currentUser"]),
+  },
 };
 </script>
 
@@ -55,11 +97,13 @@ export default {
 
 .reply-container {
   display: flex;
+  flex-direction: row;
   padding: 16px 24px;
   &__avatar {
     img {
       width: 50px;
       height: 50px;
+      border-radius: 50%;
     }
   }
 
@@ -85,7 +129,7 @@ export default {
         @extend %secondary-p;
         color: $secondary-gray;
         line-height: 22px;
-        padding-right: 8px; 
+        padding-right: 8px;
       }
       &__account {
         @extend %secondary-p;

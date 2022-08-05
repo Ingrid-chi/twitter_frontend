@@ -44,13 +44,12 @@ export default {
     async fetchTweets() {
       try {
         const response = await adminAPI.tweet.get();
-        const { data } = response.data;
 
-        if (response.status !== 200) {
-          throw new Error(response.statusText);
+        if (response.status !== 'success') {
+          throw new Error(response.message);
         }
 
-        this.tweets = data;
+        this.tweets = response.tweets;
       } catch (error) {
         Toast.fire({
           icon: 'error',
@@ -68,12 +67,19 @@ export default {
 
 <style lang="scss" scoped>
 .list-wrapper {
-  width: 100%;
+  margin: 0 auto;
+  max-width: 1140px;
   max-height: 100vh;
-  padding: 0 130px;
 
   display: grid;
-  grid-template-columns: max-content 1fr;
+  grid-template-columns: 178px 1fr;
+  column-gap: 24px;
+  // width: 100%;
+  // max-height: 100vh;
+  // padding: 0 130px;
+
+  // display: grid;
+  // grid-template-columns: max-content 1fr;
 }
 
 .header {
@@ -98,6 +104,6 @@ export default {
   max-height: 100vh;
   overflow: scroll;
   border-left: 1px solid $line-gray;
-  margin-left: 24px;
+  // margin-left: 24px;
 }
 </style>

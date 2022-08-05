@@ -60,6 +60,7 @@ export default {
 
 <style lang="scss" scoped>
 .navBar {
+  position: fixed;
   min-height: 100vh;
   display: flex;
   flex-direction: column;

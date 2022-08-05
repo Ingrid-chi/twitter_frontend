@@ -129,8 +129,10 @@ export default {
 
         // 將伺服器回傳的 token 保存在 localStorage 中
         localStorage.setItem("token", response.data.token);
+
+        localStorage.setItem("currentUser", JSON.stringify(response.data.user));
         // 透過 setCurrentUser 把使用者資料存到 Vuex 的 state 中
-        // this.$store.commit('setCurrentUser', data.user)
+        this.$store.commit("setCurrentUser", response.data.user);
 
         // 成功登入後進行轉址
         this.$router.push("/home");

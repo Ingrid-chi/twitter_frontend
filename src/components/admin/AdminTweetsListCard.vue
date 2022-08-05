@@ -44,10 +44,10 @@ export default {
     async deleteTweet(tweetId) {
       try {
         const response = await adminAPI.tweet.delete(tweetId);
-        const { data } = response.data;
+        const { data } = response;
 
-        if (response.data.status !== 'success') {
-          throw new Error(response.data.statusText);
+        if (response.status !== 'success') {
+          throw new Error(response.message);
         }
 
         this.$emit('after-delete-tweet', {
