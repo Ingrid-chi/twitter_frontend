@@ -58,6 +58,7 @@ export default new Vuex.Store({
       role: "",
       updatedAt: "",
     },
+    followUsers: "",
     isAuthenticated: false,
   },
   getters: {},
@@ -77,10 +78,10 @@ export default new Vuex.Store({
       };
     },
 
-    setPopularUsers(state, popularUsers) {
-      state.popularUsers = {
-        ...state.popularUsers,
-        ...popularUsers,
+    setFollowUsers(state, followUsers) {
+      state.followUsers = {
+        ...state.followUsers,
+        ...followUsers,
       };
     },
   },

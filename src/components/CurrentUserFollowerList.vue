@@ -43,6 +43,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import usersAPI from "../apis/users";
 import { Toast } from "../utils/helpers";
 
@@ -71,7 +72,7 @@ export default {
       try {
         const response = await usersAPI.getUserFollowers(this.userId);
         const { data } = response;
-        console.log({ response });
+        // console.log({ response });
         this.followers = data;
       } catch (error) {
         const { response } = error;
@@ -86,10 +87,7 @@ export default {
 
     async addFollowing(id) {
       try {
-        const response = await usersAPI.addFollowing({
-          id,
-        });
-        console.log("response", response);
+        await usersAPI.addFollowing({ id });
         this.followers = this.followers.map((follower) => {
           if (follower.followerId === id) {
             return {
@@ -100,6 +98,7 @@ export default {
             return follower;
           }
         });
+        this.$store.commit("setFollowUsers", this.followers);
       } catch (error) {
         const { response } = error;
         if (response.data.message) {
@@ -113,8 +112,7 @@ export default {
 
     async deleteFollowing(id) {
       try {
-        const response = await usersAPI.deleteFollowing(id);
-        console.log("response", response);
+        await usersAPI.deleteFollowing(id);
         this.followers = this.followers.map((follower) => {
           if (follower.followerId === id) {
             return {
@@ -125,10 +123,10 @@ export default {
             return follower;
           }
         });
-        return
+        this.$store.commit("setFollowUsers", this.followers);
       } catch (error) {
         const { response } = error;
-        console.log(response)
+        // console.log(response)
         if (response) {
           Toast.fire({
             icon: "error",
@@ -137,6 +135,17 @@ export default {
         }
       }
     },
+  },
+
+  computed: {
+    ...mapState(["followUsers"]),
+  },
+
+  watch: {
+    followUsers: function () {
+      // console.log(newValue);
+      this.fetchFollowers();
+      },
   },
 };
 </script>

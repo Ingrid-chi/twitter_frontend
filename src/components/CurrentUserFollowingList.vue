@@ -27,12 +27,12 @@
           正在跟隨
         </button>
 
-        <button 
-        v-else 
-        @click.stop.prevent="addFollowing(following.followingId)"
-        class="followingList-content__btn-default"
+        <button
+          v-else
+          @click.stop.prevent="addFollowing(following.followingId)"
+          class="followingList-content__btn-default"
         >
-        跟隨
+          跟隨
         </button>
       </div>
 
@@ -42,6 +42,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import usersAPI from "../apis/users";
 import { Toast } from "../utils/helpers";
 
@@ -66,7 +67,7 @@ export default {
       try {
         const response = await usersAPI.getUserFollowings(this.userId);
         const { data } = response;
-        console.log({ response });
+        // console.log({ response });
         this.followings = data;
       } catch (error) {
         const { response } = error;
@@ -81,10 +82,7 @@ export default {
 
     async addFollowing(id) {
       try {
-        const response = await usersAPI.addFollowing({
-          id,
-        });
-        console.log("response", response);
+        await usersAPI.addFollowing({ id });
         this.followings = this.followings.map((following) => {
           if (following.followingId === id) {
             return {
@@ -95,6 +93,7 @@ export default {
             return following;
           }
         });
+        this.$store.commit("setFollowUsers", this.followings);
       } catch (error) {
         const { response } = error;
         if (response.data.message) {
@@ -108,8 +107,7 @@ export default {
 
     async deleteFollowing(id) {
       try {
-        const response = await usersAPI.deleteFollowing(id);
-        console.log("response", response);
+        await usersAPI.deleteFollowing(id);
         this.followings = this.followings.map((following) => {
           if (following.followingId === id) {
             return {
@@ -120,10 +118,10 @@ export default {
             return following;
           }
         });
-        return
+        this.$store.commit("setFollowUsers", this.followings);
       } catch (error) {
         const { response } = error;
-        console.log(response)
+        // console.log(response);
         if (response) {
           Toast.fire({
             icon: "error",
@@ -131,6 +129,17 @@ export default {
           });
         }
       }
+    },
+  },
+
+  computed: {
+    ...mapState(["followUsers"]),
+  },
+
+  watch: {
+    followUsers: function () {
+      // console.log(newValue);
+      this.fetchFollowings();
     },
   },
 };
@@ -146,9 +155,9 @@ export default {
 
   &__avatar {
     img {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
     }
   }
 

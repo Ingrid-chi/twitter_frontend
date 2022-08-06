@@ -27,7 +27,7 @@
           class="popularUserList__container__btnFollowed"
           v-if="user.isFollowing"
           type="button"
-          @click.stop.prevent="deleteFollow(user.id)"
+          @click.stop.prevent="deleteFollowing(user.id)"
         >
           正在跟隨
         </button>
@@ -36,7 +36,7 @@
           class="popularUserList__container__btnUnfollowed"
           v-else
           type="button"
-          @click.stop.prevent="addFollow(user.id)"
+          @click.stop.prevent="addFollowing(user.id)"
         >
           跟隨
         </button>
@@ -71,8 +71,7 @@ export default {
         const response = await usersAPI.getPopularUsers();
         const { users } = response;
         this.users = users;
-        this.$store.commit("popularUsers", this.users)
-        console.log("response", response);
+        // console.log("response", response);
       } catch (error) {
         const { response } = error;
         if (response.data.message) {
@@ -84,12 +83,13 @@ export default {
       }
     },
 
-    async addFollow(id) {
+    async addFollowing(id) {
       try {
-        const response = await usersAPI.addFollowing({
-          id,
-        });
-        console.log("response", response);
+        await usersAPI.addFollowing({ id });
+        // const response = await usersAPI.addFollowing({
+        //   id,
+        // });
+        // console.log("response", response);
         this.users = this.users.map((user) => {
           if (user.id === id) {
             return {
@@ -100,6 +100,9 @@ export default {
             return user;
           }
         });
+
+        // console.log("popular", this.popularUsers);
+        this.$store.commit("setFollowUsers", this.users);
       } catch (error) {
         const { response } = error;
         if (response.data.message) {
@@ -111,8 +114,11 @@ export default {
       }
     },
 
-    async deleteFollow(id) {
+    async deleteFollowing(id) {
       try {
+        await usersAPI.deleteFollowing(id);
+        // const response = await usersAPI.deleteFollowing(id);
+        // console.log("response", response);
         this.users = this.users.map((user) => {
           if (user.id === id) {
             return {
@@ -123,12 +129,13 @@ export default {
             return user;
           }
         });
+        this.$store.commit("setFollowUsers", this.users);
       } catch (error) {
         const { response } = error;
         if (response.data.message) {
           Toast.fire({
             icon: "error",
-            title: "",
+            title: response.data.message,
           });
         }
       }
@@ -136,7 +143,18 @@ export default {
   },
 
   computed: {
-    ...mapState(["popularUsers"]),
+    ...mapState(["followUsers"]),
+  },
+
+  watch: {
+    followUsers: {
+      handler: function () {
+        // console.log('here');
+
+        this.fetchPopularUsers();
+      },
+      deep: true,
+    },
   },
 };
 </script>
@@ -167,9 +185,9 @@ export default {
     padding: 16px;
     &__img {
       img {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
       }
     }
     &__nameDetail {
