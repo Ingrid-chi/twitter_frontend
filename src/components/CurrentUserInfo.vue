@@ -33,8 +33,12 @@
       </div>
 
       <div class="currentUserInfo-detail__nameDetail">
-        <h5 class="currentUserInfo-detail__nameDetail__name">{{ user.name }}</h5>
-        <p class="currentUserInfo-detail__nameDetail__account">{{ '@' + user.account }}</p>
+        <h5 class="currentUserInfo-detail__nameDetail__name">
+          {{ user.name }}
+        </h5>
+        <p class="currentUserInfo-detail__nameDetail__account">
+          {{ "@" + user.account }}
+        </p>
         <p class="currentUserInfo-detail__nameDetail__description">
           {{ user.introduction }}
         </p>
@@ -50,9 +54,9 @@
     >
       <div class="currentUserInfo-followTotal__following">
         <router-link to="/heyjohn/followings">
-          <label class="currentUserInfo-followTotal__following__count"
-            >{{ user.FollowingCount + '個' }}</label
-          >
+          <label class="currentUserInfo-followTotal__following__count">{{
+            user.FollowingCount + "個"
+          }}</label>
           <label class="currentUserInfo-followTotal__following__text"
             >跟隨中</label
           >
@@ -60,26 +64,28 @@
       </div>
       <div class="currentUserInfo-followTotal__follower">
         <router-link to="/heyjohn/followers">
-          <label class="currentUserInfo-followTotal__follower__count"
-            >{{ user.FollowerCount + '位' }}</label
-          >
+          <label class="currentUserInfo-followTotal__follower__count">{{
+            user.FollowerCount + "位"
+          }}</label>
           <label class="currentUserInfo-followTotal__follower__text"
             >跟隨者</label
           >
         </router-link>
       </div>
     </div>
+    <EditModal v-show="editShow"> </EditModal>
   </div>
 </template>
 
 <script>
 import { currentUserFollowPanelItems } from "../configs/contentConfigs";
-
+import EditModal from "./EditModal";
 
 export default {
   name: "CurrentUserInfo",
-
-  components: {},
+  components: {
+    EditModal,
+  },
 
   props: {
     user: {
@@ -91,6 +97,7 @@ export default {
   data() {
     return {
       currentUserFollowPanelItems: currentUserFollowPanelItems,
+      editShow: true,
     };
   },
 
