@@ -9,7 +9,7 @@
         :key="user.id"
       >
         <div class="popularUserList__container__img">
-          <img :src="user.image" alt="" />
+          <img :src="user.avatar" alt="" />
         </div>
 
         <div class="popularUserList__container__nameDetail">
@@ -25,9 +25,9 @@
 
         <button
           class="popularUserList__container__btnFollowed"
-          v-if="user.isFollowed"
+          v-if="user.isFollowing"
           type="button"
-          @click.stop.prevent="deleteFollow(user.id)"
+          @click.stop.prevent="deleteFollowing(user.id)"
         >
           正在跟隨
         </button>
@@ -36,7 +36,7 @@
           class="popularUserList__container__btnUnfollowed"
           v-else
           type="button"
-          @click.stop.prevent="addFollow(user.id)"
+          @click.stop.prevent="addFollowing(user.id)"
         >
           跟隨
         </button>
@@ -46,66 +46,9 @@
 </template>
 
 <script>
-const dummyData = {
-  users: [
-    {
-      id: 1,
-      name: "Pizza Hut",
-      account: "@pizzahut",
-      image: "logo-gary.png",
-      isFollowed: true,
-    },
-    {
-      id: 2,
-      name: "Pizza Hut",
-      account: "@pizzahut",
-      image: "logo-gary.png",
-      isFollowed: true,
-    },
-    {
-      id: 3,
-      name: "Pizza Hut",
-      account: "@pizzahut",
-      image: "logo-gary.png",
-      isFollowed: false,
-    },
-    {
-      id: 4,
-      name: "Pizza Hut",
-      account: "@pizzahut",
-      image: "logo-gary.png",
-      isFollowed: false,
-    },
-    {
-      id: 5,
-      name: "Pizza Hut",
-      account: "@pizzahut",
-      image: "logo-gary.png",
-      isFollowed: false,
-    },
-    {
-      id: 6,
-      name: "Pizza Hut",
-      account: "@pizzahut",
-      image: "logo-gary.png",
-      isFollowed: false,
-    },
-    {
-      id: 7,
-      name: "Pizza Hut",
-      account: "@pizzahut",
-      image: "logo-gary.png",
-      isFollowed: false,
-    },
-    {
-      id: 8,
-      name: "Pizza Hut",
-      account: "@pizzahut",
-      image: "logo-gary.png",
-      isFollowed: false,
-    },
-  ],
-};
+import { mapState } from "vuex";
+import usersAPI from "../apis/users";
+import { Toast } from "../utils/helpers";
 
 export default {
   name: "PopularUser",
@@ -114,35 +57,103 @@ export default {
 
   data() {
     return {
-      users: dummyData.users,
+      users: [],
     };
   },
 
-  methods: {
-    addFollow(userId) {
-      this.users = this.users.map((user) => {
-        if (user.id === userId) {
-          return {
-            ...user,
-            isFollowed: true,
-          };
-        }
+  created() {
+    this.fetchPopularUsers();
+  },
 
-        return user;
-      });
+  methods: {
+    async fetchPopularUsers() {
+      try {
+        const response = await usersAPI.getPopularUsers();
+        const { users } = response;
+        this.users = users;
+        // console.log("response", response);
+      } catch (error) {
+        const { response } = error;
+        if (response.data.message) {
+          Toast.fire({
+            icon: "error",
+            title: response.data.message,
+          });
+        }
+      }
     },
 
-    deleteFollow(userId) {
-      this.users = this.users.map((user) => {
-        if (user.id === userId) {
-          return {
-            ...user,
-            isFollowed: false,
-          };
-        }
+    async addFollowing(id) {
+      try {
+        await usersAPI.addFollowing({ id });
+        // const response = await usersAPI.addFollowing({
+        //   id,
+        // });
+        // console.log("response", response);
+        this.users = this.users.map((user) => {
+          if (user.id === id) {
+            return {
+              ...user,
+              isFollowing: true,
+            };
+          } else {
+            return user;
+          }
+        });
 
-        return user;
-      });
+        // console.log("popular", this.popularUsers);
+        this.$store.commit("setFollowUsers", this.users);
+      } catch (error) {
+        const { response } = error;
+        if (response.data.message) {
+          Toast.fire({
+            icon: "error",
+            title: response.data.message,
+          });
+        }
+      }
+    },
+
+    async deleteFollowing(id) {
+      try {
+        await usersAPI.deleteFollowing(id);
+        // const response = await usersAPI.deleteFollowing(id);
+        // console.log("response", response);
+        this.users = this.users.map((user) => {
+          if (user.id === id) {
+            return {
+              ...user,
+              isFollowing: false,
+            };
+          } else {
+            return user;
+          }
+        });
+        this.$store.commit("setFollowUsers", this.users);
+      } catch (error) {
+        const { response } = error;
+        if (response.data.message) {
+          Toast.fire({
+            icon: "error",
+            title: response.data.message,
+          });
+        }
+      }
+    },
+  },
+
+  computed: {
+    ...mapState(["followUsers"]),
+  },
+
+  watch: {
+    followUsers: {
+      handler: function () {
+        // console.log('here');
+
+        this.fetchPopularUsers();
+      },
+      deep: true,
     },
   },
 };
@@ -173,8 +184,11 @@ export default {
     align-items: center;
     padding: 16px;
     &__img {
-      width: 32px;
-      height: 32px;
+      img {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+      }
     }
     &__nameDetail {
       position: absolute;

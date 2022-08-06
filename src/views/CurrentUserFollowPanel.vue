@@ -15,16 +15,17 @@
           <div class="followPanel-title">
             <button
               @click.stop.prevent="goBack"
-              class="followPanel-title__icon">
+              class="followPanel-title__icon"
+            >
               <img src="./../assets/back.png" alt="" />
             </button>
 
             <div class="followPanel-title__detail">
-              <h5 class="followPanel-title__detail__name">John Doe</h5>
+              <h5 class="followPanel-title__detail__name">{{ user.name }}</h5>
               <div
                 class="followPanel-title__detail__tweetsTotal secondary-bold"
               >
-                25 推文
+                {{ user.TweetsCount + '推文' }}
               </div>
             </div>
           </div>
@@ -33,26 +34,33 @@
 
           <!-- 追隨者 & 正在追隨 頁籤 -->
           <div class="followPanel-tag">
-            <button
+            <router-link
               v-for="item in items"
               :key="item.id"
-              :class="[
-                'followPanel-tag__btn primary-bold',
-                { checked: currentPage.includes(item.path) }
-              ]"
-              @click.stop.prevent="getFollowPanelItemId(item.id)"
+              :to="`/heyjohn/${item.path}`"
             >
-              {{ item.title }}
-            </button>
+              <button
+                :class="[
+                  'followPanel-tag__btn primary-bold',
+                  { checked: currentPage.includes(item.path) },
+                ]"
+              >
+                {{ item.title }}
+              </button>
+            </router-link>
           </div>
 
           <div class="line-bottom"></div>
 
           <!-- 追隨者 & 正在追隨 內容 -->
-          <CurrentUserFollowerList
-          v-if="currentPage.includes('followers')" />
-          <CurrentUserFollowingList
-          v-else />
+          <CurrentUserFollowerList 
+          :userId="user.id"
+          v-if="currentPage.includes('followers')" 
+          />
+          <CurrentUserFollowingList 
+          :userId="user.id" 
+          v-else 
+          />
 
           <!-- 中右 -->
           <div class="followPanel__container__line-right"></div>
@@ -71,6 +79,7 @@ import PopularUser from "./../components/PopularUser";
 import CurrentUserFollowerList from "./../components/CurrentUserFollowerList";
 import CurrentUserFollowingList from "./../components/CurrentUserFollowingList";
 import { currentUserFollowPanelItems } from "../configs/contentConfigs";
+import { mapState } from "vuex";
 
 export default {
   name: "CurrentUserFollowPanel",
@@ -85,22 +94,31 @@ export default {
   data() {
     return {
       items: currentUserFollowPanelItems,
-      currentPage: '',
+      currentPage: "",
+      user: {},
     };
   },
 
   created() {
     this.currentPage = this.$route.path;
-    console.log(this.currentPage)
+    this.user = this.currentUser;
+    console.log(this.user);
   },
 
   methods: {
-    getFollowPanelItemId(itemId) {
-      this.itemId = itemId;
-    },
     goBack() {
-      this.$router.back()
-    }
+      this.$router.back();
+    },
+  },
+
+  computed: {
+    ...mapState(["currentUser"]),
+  },
+
+  watch: {
+    "$route.path": function (newValue) {
+      this.currentPage = newValue;
+    },
   },
 };
 </script>
@@ -132,7 +150,7 @@ export default {
   display: flex;
   align-items: center;
   padding: 16px 0 17px 28px;
- 
+
   &__detail {
     padding-left: 19px;
     &__name {

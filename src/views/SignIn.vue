@@ -130,7 +130,7 @@ export default {
         // 將伺服器回傳的 token 保存在 localStorage 中
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("userId", response.data.user.id);
-        
+
         // 透過 setCurrentUser 把使用者資料存到 Vuex 的 state 中
         this.$store.commit("setCurrentUser", response.data.user);
 
@@ -153,7 +153,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-
 .wrapper {
   margin: 0 auto;
   max-width: 1140px;

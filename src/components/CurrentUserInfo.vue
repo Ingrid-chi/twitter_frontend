@@ -9,7 +9,7 @@
       <div class="currentUserInfo-title__detail">
         <h5 class="currentUserInfo-title__detail__name">{{ user.name }}</h5>
         <div class="currentUserInfo-title__detail__tweetsTotal secondary-bold">
-          {{ user.TweetsCount }} 推文
+          {{ user.TweetsCount + '推文' }}
         </div>
       </div>
     </div>

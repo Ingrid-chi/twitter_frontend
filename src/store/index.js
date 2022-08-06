@@ -18,8 +18,8 @@ export default new Vuex.Store({
       role: "",
       updatedAt: "",
     },
+    followUsers: "",
     isAuthenticated: false,
-
   },
   getters: {},
 
@@ -31,6 +31,7 @@ export default new Vuex.Store({
     setTweets(state, data) {
       state.tweets = data;
     },
+
     setCurrentUser(state, currentUser) {
       state.currentUser = {
         // 複製一份進來
@@ -39,7 +40,15 @@ export default new Vuex.Store({
         ...currentUser,
       };
     },
+
+    setFollowUsers(state, followUsers) {
+      state.followUsers = {
+        ...state.followUsers,
+        ...followUsers,
+      };
+    },
   },
+
   actions: {},
   modules: {},
 });

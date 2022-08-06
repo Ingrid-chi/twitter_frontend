@@ -1,33 +1,152 @@
 <template>
-  <div class="followersList-wrapper">
-    <div class="followersList-content">
-      <div class="followersList-content__avatar">
-        <img src="./../assets/logo-gray.png" alt="" />
-      </div>
+  <div class="followersList">
+    <div
+      v-for="follower in followers"
+      :key="follower.id"
+      class="followersList-wrapper"
+    >
+      <div class="followersList-content">
+        <div class="followersList-content__avatar">
+          <img :src="follower.avatar" alt="" />
+        </div>
 
-      <div class="followersList-content__detail">
-        <p class="followersList-content__detail__name primary-bold">APPLE</p>
-        <p class="followersList-content__detail__description">
-          Nulla Lorem mollit cupidatat irure. Laborum magna nulla duis ullamco
-          cillum dolor. Voluptate exercitation incididunt aliquip deserunt
-          reprehenderit elit laborum.
-        </p>
-      </div>
+        <div class="followersList-content__detail">
+          <p class="followersList-content__detail__name primary-bold">
+            {{ follower.name }}
+          </p>
+          <p class="followersList-content__detail__description">
+            {{ follower.introduction }}
+          </p>
+        </div>
 
-      <!-- <button class="followersList-content__btn-checked">
-        正在跟隨
-      </button> -->
+        <button
+          v-if="follower.isFollowing"
+          @click.stop.prevent="deleteFollowing(follower.followerId)"
+          class="followersList-content__btn-checked"
+        >
+          正在跟隨
+        </button>
 
-      <button class="followersList-content__btn-default">跟隨</button>
+        <button 
+        v-else 
+        @click.stop.prevent="addFollowing(follower.followerId)"
+        class="followersList-content__btn-default"
+        >
+        跟隨
+        </button>
+
+      </div> 
+
+      <div class="line-bottom"></div>
     </div>
-
-    <div class="line-bottom"></div>
   </div>
 </template>
 
 <script>
+import { mapState } from "vuex";
+import usersAPI from "../apis/users";
+import { Toast } from "../utils/helpers";
+
 export default {
   name: "CurrentUserFollowersList",
+
+  data() {
+    return {
+      followers: [],
+    };
+  },
+
+  props: {
+    userId: {
+      type: Number,
+      require: true,
+    },
+  },
+
+  created() {
+    this.fetchFollowers();
+  },
+
+  methods: {
+    async fetchFollowers() {
+      try {
+        const response = await usersAPI.getUserFollowers(this.userId);
+        const { data } = response;
+        // console.log({ response });
+        this.followers = data;
+      } catch (error) {
+        const { response } = error;
+        if (response.data.message) {
+          Toast.fire({
+            icon: "error",
+            title: response.data.message,
+          });
+        }
+      }
+    },
+
+    async addFollowing(id) {
+      try {
+        await usersAPI.addFollowing({ id });
+        this.followers = this.followers.map((follower) => {
+          if (follower.followerId === id) {
+            return {
+              ...follower,
+              isFollowing: true,
+            };
+          } else {
+            return follower;
+          }
+        });
+        this.$store.commit("setFollowUsers", this.followers);
+      } catch (error) {
+        const { response } = error;
+        if (response.data.message) {
+          Toast.fire({
+            icon: "error",
+            title: response.data.message,
+          });
+        }
+      }
+    },
+
+    async deleteFollowing(id) {
+      try {
+        await usersAPI.deleteFollowing(id);
+        this.followers = this.followers.map((follower) => {
+          if (follower.followerId === id) {
+            return {
+              ...follower,
+              isFollowing: false,
+            };
+          } else {
+            return follower;
+          }
+        });
+        this.$store.commit("setFollowUsers", this.followers);
+      } catch (error) {
+        const { response } = error;
+        // console.log(response)
+        if (response) {
+          Toast.fire({
+            icon: "error",
+            title: response.data.message,
+          });
+        }
+      }
+    },
+  },
+
+  computed: {
+    ...mapState(["followUsers"]),
+  },
+
+  watch: {
+    followUsers: function () {
+      // console.log(newValue);
+      this.fetchFollowers();
+      },
+  },
 };
 </script>
 
@@ -40,13 +159,16 @@ export default {
   grid-template-columns: 50px 1fr;
 
   &__avatar {
+    img {
     width: 50px;
     height: 50px;
+    border-radius: 50%;
+    }
   }
 
   &__detail {
     padding: 0 0 15px 8px;
-    
+
     &__name,
     &__description {
       padding-top: 8px;
