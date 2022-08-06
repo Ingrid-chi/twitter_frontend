@@ -28,7 +28,9 @@
 <script>
 import NavTab from "./../components/NavTab";
 import AdminNavTab from "./../components/AdminNavTab";
-
+import userApis from "../apis/users";
+// import { mapState, mapMutations } from "vuex";
+import { mapMutations } from "vuex";
 export default {
   name: "NavBar",
 
@@ -43,8 +45,13 @@ export default {
       default: false,
     },
   },
+  async created() {
+    const { currentUserData } = await userApis.getCurrentUser();
+    this.setCurrentUser(currentUserData);
+  },
 
   methods: {
+    ...mapMutations(["setCurrentUser"]),
     handleLogOut() {
       if (this.isAdmin) {
         localStorage.removeItem("admin-token");
@@ -60,7 +67,7 @@ export default {
 
 <style lang="scss" scoped>
 .navBar {
-  position: fixed;
+  // position: fixed;
   min-height: 100vh;
   display: flex;
   flex-direction: column;

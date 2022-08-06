@@ -30,7 +30,7 @@
           </div>
           <div class="home__container__content__bottom">
             <!-- <CurrentUserTweets  /> -->
-            <CurrentUserTweets
+            <HomeTweets
               v-for="tweet in tweets"
               :key="tweet.id"
               :tweet="tweet"
@@ -46,9 +46,9 @@
 <script>
 import NavBar from "./../components/NavBar";
 import PopularUser from "./../components/PopularUser";
-import CurrentUserTweets from "./../components/CurrentUserTweets";
+import HomeTweets from "./../components/HomeTweets";
 import tweetApis from "../apis/tweet";
-import userApis from "../apis/users";
+// import userApis from "../apis/users";
 import { mapState, mapMutations } from "vuex";
 
 export default {
@@ -63,7 +63,7 @@ export default {
   components: {
     NavBar,
     PopularUser,
-    CurrentUserTweets,
+    HomeTweets,
   },
   computed: {
     ...mapState(["tweets"]),
@@ -72,16 +72,11 @@ export default {
     },
   },
   async created() {
-    const { user: currentUser } = await userApis.getUser(
-      localStorage.getItem("userId")
-    );
-    this.setCurrentUser(currentUser);
-
     const { data } = await tweetApis.getTweets();
     this.setTweets(data);
   },
   methods: {
-    ...mapMutations(["createTweet", "setTweets", "setCurrentUser"]),
+    ...mapMutations(["createTweet", "setTweets"]),
     async submit() {
       await tweetApis.createTweet(this.tweetText);
       const { data } = await tweetApis.getTweets();

@@ -153,34 +153,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-%form-wrapper {
-  height: 54px;
-  margin-top: 40px;
-  background-color: #f5f8fa;
-  border-radius: 2px;
-  border-bottom: 2px solid $primary-gray;
-  padding: 2px 10.55px;
-  label {
-    @extend %secondary-p;
-    height: 22px;
-    display: block;
-    text-align: left;
-    line-height: 22px;
-    font-weight: 400;
-    color: #696974;
-  }
-  input {
-    @extend %primary-p;
-    height: 26px;
-    width: 100%;
-    display: block;
-    border: none;
-    background-color: #f5f8fa;
-    line-height: 26px;
-    font-weight: 400;
-    color: #b5b5be;
-  }
-}
+
 .wrapper {
   margin: 0 auto;
   max-width: 1140px;

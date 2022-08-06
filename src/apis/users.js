@@ -27,8 +27,15 @@ export default {
       headers: { Authorization: `Bearer ${getToken()}` },
     });
   },
+
   addTweetLike(id) {
     return apiHelper.post(`/tweets/${id}/like`, {
+      headers: { Authorization: `Bearer ${getToken()}` },
+    });
+  },
+
+  getCurrentUser() {
+    return apiHelper.get(`/users/currentUser`, {
       headers: { Authorization: `Bearer ${getToken()}` },
     });
   },

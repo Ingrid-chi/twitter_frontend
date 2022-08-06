@@ -9,7 +9,7 @@
         <!-- 個人資料(前台) 首頁 -->
         <div class="currentUser__container__content">
           <!-- 個人資料簡介 -->
-          <currentUserInfo :user="user" />
+          <otherUserInfo :user="user" />
 
           <!-- 推文、回覆、喜歡的內容 頁籤 -->
           <div class="currentUser__container__content__items">
@@ -45,7 +45,7 @@
 <script>
 import NavBar from "./../components/NavBar";
 import PopularUser from "./../components/PopularUser";
-import CurrentUserInfo from "./../components/CurrentUserInfo";
+import otherUserInfo from "./../components/otherUserInfo";
 import CurrentUserTweets from "./../components/CurrentUserTweets";
 import CurrentUserReply from "./../components/CurrentUserReply";
 import CurrentUserLike from "./../components/CurrentUserLike";
@@ -55,12 +55,12 @@ import usersAPI from "../apis/users";
 import { Toast } from "../utils/helpers";
 
 export default {
-  name: "OtherUser",
+  name: "CurrentUser",
 
   components: {
     NavBar,
     PopularUser,
-    CurrentUserInfo,
+    otherUserInfo,
     CurrentUserTweets,
     CurrentUserReply,
     CurrentUserLike,

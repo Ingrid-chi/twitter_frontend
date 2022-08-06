@@ -43,25 +43,6 @@
           {{ user.introduction }}
         </p>
       </div>
-      <!-- 他人資料按鈕 -->
-      <div class="otherUserInfo__wrapper">
-        <div class="otherUserInfo__img__wrapper">
-          <img
-            :src="require('../assets/letter.png')"
-            alt=""
-            class="otherUserInfo__img--letter"
-          />
-        </div>
-        <div class="otherUserInfo__img__wrapper">
-          <img
-            :src="require('../assets/bell.png')"
-            alt=""
-            class="otherUserInfo__img--bell"
-          />
-        </div>
-
-        <div class="otherUserInfo__btn--following">正在跟隨</div>
-      </div>
 
       <button class="currentUserInfo-detail__edit">編輯個人資料</button>
     </div>
@@ -92,18 +73,18 @@
         </router-link>
       </div>
     </div>
-    <EditModal v-show="editShow"> </EditModal>
+    <!-- <EditModal v-show="editShow"> </EditModal> -->
   </div>
 </template>
 
 <script>
 import { currentUserFollowPanelItems } from "../configs/contentConfigs";
-import EditModal from "./EditModal";
+// import EditModal from "./EditModal";
 
 export default {
-  name: "CurrentUserInfo",
+  name: "OtherUserInfo",
   components: {
-    EditModal,
+    // EditModal,
   },
 
   props: {
@@ -116,7 +97,7 @@ export default {
   data() {
     return {
       currentUserFollowPanelItems: currentUserFollowPanelItems,
-      editShow: false,
+      editShow: true,
     };
   },
 
@@ -194,7 +175,6 @@ export default {
 
   // 編輯個人資料
   &__edit {
-    display: none;
     position: absolute;
     top: 216px;
     right: 16px;
@@ -220,41 +200,6 @@ export default {
     &__text {
       color: $secondary-gray;
     }
-  }
-}
-
-.otherUserInfo {
-  &__wrapper {
-    @include size(208px, 40px);
-    position: absolute;
-    top: 216px;
-    right: 16px;
-    display: flex;
-  }
-  &__img {
-    &__wrapper {
-      @include size(40px, 40px);
-      margin-right: 16px;
-      border: 1px solid $main-orange;
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    &--letter {
-      @include size(20px, 18px);
-    }
-    &--bell {
-      @include size(23.9px, 21.9px);
-    }
-  }
-  &__btn--following {
-    @include size(96px, 40px);
-    @include font(24px, 400, 16px);
-    border-radius: 50px;
-    padding: 8px 16px;
-    background-color: $main-orange;
-    color: white;
   }
 }
 </style>
