@@ -4,7 +4,7 @@
       <div class="modal-header">
         <img :src="deleteOrange" :alt="deleteOrange.title" @click="hideModal" />
         <div class="title">編輯個人資料</div>
-        <button class="save-btn">儲存</button>
+        <button class="save-btn" @click="save">儲存</button>
       </div>
       <div class="modal-main">
         <img src="https://i.imgur.com/hCJiDle.png" alt="" class="cover" />
@@ -44,21 +44,20 @@
               wrap="hard"
               maxlength="140"
               placeholder=""
-              v-model="userDescription"
+              v-model="introduction"
             ></textarea>
           </div>
 
           <p class="counter">0/160</p>
         </div>
       </div>
-      <div class="modal-warn" v-show="warn">{{ warnText }}</div>
     </div>
   </div>
 </template>
 <script>
 import { commonItems } from "../configs/commonConfigs";
-import { mapMutations } from "vuex";
-import tweetApis from "../apis/tweet";
+import { mapState, mapMutations } from "vuex";
+import userApis from "../apis/users";
 // import { fromNowFilter } from "./../utils/mixins";
 
 export default {
@@ -67,7 +66,9 @@ export default {
     return {
       delete: commonItems.deleteOrange,
       name: "",
-      userDescription: "",
+      introduction: "",
+      avatar: "",
+      cover: "",
     };
   },
   props: {
@@ -77,6 +78,7 @@ export default {
     },
   },
   computed: {
+    ...mapState(["currentUser"]),
     deleteOrange() {
       return require(`../assets/${this.delete.image}`);
     },
@@ -89,35 +91,33 @@ export default {
     plus() {
       return require(`../assets/${commonItems.plus.image}`);
     },
-    // warnText() {
-    //   return !this.userDescription.length
-    //     ? "內容不可空白"
-    //     : "字數不可超過160字";
-    // },
+  },
+  watch: {
+    currentUser() {
+      this.name = this.currentUser.name;
+      this.introduction = this.currentUser.introduction;
+      this.avatar = this.currentUser.avatar;
+      this.cover = this.currentUser.cover;
+    },
   },
   methods: {
     ...mapMutations(["createTweet", "setTweets"]),
 
     hideModal() {
       this.$emit("hide-modal");
-      this.warn = false;
-      this.tweetText = "";
     },
 
-    async submit() {
-      // 建立貼文
-      await tweetApis.createTweet(this.tweetText);
-
-      // 重新拉貼文內容並放到state
-      const { data } = await tweetApis.getTweets();
-      this.setTweets(data);
-
-      this.warn = false;
-      this.tweetText = "";
-      this.$emit("submit");
-    },
-    showWarn() {
-      this.warn = true;
+    async save() {
+      await userApis.editUserSettings({
+        id: this.currentUser.id,
+        data: {
+          name: this.name,
+          introduction: this.introduction,
+          avatar: this.avatar,
+          cover: this.cover,
+        },
+      });
+      this.hideModal();
     },
   },
 };
@@ -167,14 +167,6 @@ export default {
     right: 16px;
   }
 }
-// .modal-warn {
-//   @include font(15px, 500, 15px);
-//   position: absolute;
-//   bottom: 28px;
-//   right: 101px;
-//   color: #fc5a5a;
-// }
-
 // .modal-btn {
 //   @extend %modal-btn;
 //   position: absolute;

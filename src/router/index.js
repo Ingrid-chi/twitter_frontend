@@ -30,15 +30,9 @@ const routes = [
   },
   //個人及他人資料
   {
-    path: "/user1",
+    path: "/:userId",
     name: "user",
     component: () => import("../views/CurrentUser.vue"),
-  },
-  //他人資料
-  {
-    path: "/other",
-    name: "other",
-    component: () => import("../views/OtherUser.vue"),
   },
   //個人所有推文
   // {

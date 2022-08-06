@@ -48,8 +48,8 @@ import NavBar from "./../components/NavBar";
 import PopularUser from "./../components/PopularUser";
 import HomeTweets from "./../components/HomeTweets";
 import tweetApis from "../apis/tweet";
-// import userApis from "../apis/users";
 import { mapState, mapMutations } from "vuex";
+
 
 export default {
   data() {

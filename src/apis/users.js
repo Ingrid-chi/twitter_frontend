@@ -4,7 +4,7 @@ const getToken = () => localStorage.getItem("token");
 export default {
   // 帶入需要的參數
   getUser(id) {
-    // 這裡 return 的會是一個 Promise
+    console.log('222', id)
     return apiHelper.get(`/users/${id}`, {
       headers: { Authorization: `Bearer ${getToken()}` },
     });
@@ -74,5 +74,13 @@ export default {
     return apiHelper.get(`/users/currentUser`, {
       headers: { Authorization: `Bearer ${getToken()}` },
     });
+  },
+
+  editUserSettings({ id, data }) {
+    return apiHelper.put(`/users/${id}/setting`,
+      data,
+      {
+        headers: { Authorization: `Bearer ${getToken()}` },
+      });
   },
 };

@@ -16,7 +16,7 @@
               >{{ "@" + tweet.User.account }}．</label
             >
             <label class="tweets-container__detail__title__created-at"
-              >{{ tweet.createdAt }}
+              >{{ tweet.createdAt | fromNow }}
             </label>
           </div>
 
@@ -34,7 +34,7 @@
               </div>
               <div class="tweets-container__detail__count-panel__reply__count">
                 <!-- here -->
-                {{ tweet.repliesCount }}
+                {{ tweet.replyCount }}
               </div>
             </div>
 
@@ -57,7 +57,7 @@
               </button>
               <div class="tweets-container__detail__count-panel__like__count">
                 <!-- here -->
-                {{ tweet.likesCount }}
+                {{ tweet.likeCount }}
               </div>
             </div>
           </div>

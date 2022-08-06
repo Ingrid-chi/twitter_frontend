@@ -88,7 +88,6 @@ export default {
   },
 
   created() {
-    console.log(this.currentUser);
     this.fetchCurrentUserLike(this.currentUser.id);
   },
 
@@ -96,9 +95,7 @@ export default {
     async fetchCurrentUserLike(id) {
       try {
         const response = await usersAPI.getUserLikes(id);
-        console.log(response);
         this.likedTweets = response.likedTweets;
-        console.log(this.likedTweets);
       } catch (error) {
         const { response } = error;
 
