@@ -151,6 +151,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.followersList {
+  // scrollBar
+  max-height: 100vh;
+  overflow-y: scroll;
+}
 // 追隨者 & 正在追隨 內容
 .followersList-content {
   padding: 16px 30px 16px 23px;

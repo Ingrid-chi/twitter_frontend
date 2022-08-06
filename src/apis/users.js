@@ -28,11 +28,31 @@ export default {
     });
   },
 
-  // addTweetLike(id) {
-  //   return apiHelper.post(`/tweets/${id}/like`, {
-  //     headers: { Authorization: `Bearer ${getToken()}` },
-  //   });
-  // },
+  // like 系列
+  // post 通常會給 3 個參數
+  addTweetLike(id) {
+    return apiHelper.post(
+      `/tweets/${id}/like`,
+      {
+        id,
+      },
+      {
+        headers: { Authorization: `Bearer ${getToken()}` },
+      }
+    );
+  },
+
+  deleteTweetLike(id) {
+    return apiHelper.post(
+      `/tweets/${id}/unlike`,
+      {
+          id,
+      },
+      {
+        headers: { Authorization: `Bearer ${getToken()}` },
+      }
+    );
+  },
 
   // follow 系列
   getUserFollowings(id) {
