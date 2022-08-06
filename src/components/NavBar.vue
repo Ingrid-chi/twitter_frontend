@@ -45,6 +45,7 @@ export default {
       default: false,
     },
   },
+
   async created() {
     const { currentUserData } = await userApis.getCurrentUser();
     this.setCurrentUser(currentUserData);

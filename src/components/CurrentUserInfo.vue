@@ -9,7 +9,7 @@
       <div class="currentUserInfo-title__detail">
         <h5 class="currentUserInfo-title__detail__name">{{ user.name }}</h5>
         <div class="currentUserInfo-title__detail__tweetsTotal secondary-bold">
-          {{ user.TweetsCount + '推文' }}
+          {{ user.TweetsCount + "推文" }}
         </div>
       </div>
     </div>
@@ -44,7 +44,7 @@
         </p>
       </div>
       <!-- 他人資料按鈕 -->
-      <div class="otherUserInfo__wrapper">
+      <div v-if="!isSelf" class="otherUserInfo__wrapper">
         <div class="otherUserInfo__img__wrapper">
           <img
             :src="require('../assets/letter.png')"
@@ -92,13 +92,15 @@
         </router-link>
       </div>
     </div>
-    <EditModal v-show="editShow"> </EditModal>
+    <EditModal v-show="isSelf"> </EditModal>
   </div>
 </template>
 
 <script>
 import { currentUserFollowPanelItems } from "../configs/contentConfigs";
 import EditModal from "./EditModal";
+import userApis from "../apis/users";
+import { mapState, mapMutations } from "vuex";
 
 export default {
   name: "CurrentUserInfo",
@@ -116,11 +118,25 @@ export default {
   data() {
     return {
       currentUserFollowPanelItems: currentUserFollowPanelItems,
-      editShow: false,
+      isSelf: false,
     };
   },
 
+  async created() {
+    const { currentUserData } = await userApis.getCurrentUser();
+    this.setCurrentUser(currentUserData);
+
+    if (+this.$route.params.userId === +this.currentUser.id) {
+      this.isSelf = true;
+    }
+  },
+
+  computed: {
+    ...mapState(["currentUser"]),
+  },
+
   methods: {
+    ...mapMutations(["setCurrentUser"]),
     getFollowPanelItemId(itemId) {
       this.itemId = itemId;
     },
@@ -194,7 +210,6 @@ export default {
 
   // 編輯個人資料
   &__edit {
-    display: none;
     position: absolute;
     top: 216px;
     right: 16px;

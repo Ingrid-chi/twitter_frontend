@@ -55,7 +55,7 @@ import usersAPI from "../apis/users";
 import { Toast } from "../utils/helpers";
 
 export default {
-  name: "OtherUser",
+  name: "CurrentUser",
 
   components: {
     NavBar,
@@ -75,24 +75,27 @@ export default {
   },
 
   created() {
-    console.log(this.currentUser);
-    this.fetchCurrentUser(this.currentUser.id);
+    this.fetchUser(this.$route.params.userId);
   },
 
   methods: {
     getItemId(itemId) {
       this.itemId = itemId;
     },
-    async fetchCurrentUser(id) {
+
+    async fetchUser(id) {
       try {
+        console.log("id", id);
         const response = await usersAPI.getUser(id);
         const { user } = response;
-        this.user = { ...user, ...this.currentUser };
-        this.$store.commit("setCurrentUser", this.user)
+
+        console.log("user", user);
+        this.user = user;
+        // this.$store.commit("setCurrentUser", this.user);
       } catch (error) {
         Toast.fire({
           icon: "error",
-          title: "無法取得個人資訊，請稍後再試。",
+          title: "無法取得當前使用者資訊，請稍後再試。",
         });
       }
     },
