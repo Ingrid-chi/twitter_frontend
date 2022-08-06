@@ -44,19 +44,19 @@
             <!-- like icon -->
             <div class="like-container__detail__count-panel__like">
               <button
-                v-if="likedTweet.islike"
+                v-if="likedTweet.isLike"
                 @click.stop.prevent="deleteLike(likedTweet.id)"
                 class="like-container__detail__count-panel__like__icon"
               >
-                <img src="./../assets/like-checked.png" alt="" />
+                <img src="./../assets/like.png" alt="" />
               </button>
 
               <button
                 v-else
-                @click.stop.prevent="like(likedTweet.id)"
+                @click.stop.prevent="addLike(likedTweet.id)"
                 class="like-container__detail__count-panel__like__icon"
               >
-                <img src="./../assets/like.png" alt="" />
+                <img src="./../assets/like-checked.png" alt="" />
               </button>
               <div class="like-container__detail__count-panel__like__count">
                 {{ likedTweet.Tweet.likesCount }}
@@ -111,46 +111,54 @@ export default {
       }
     },
 
-    async deleteLike(id) {
+    async addLike(id) {
       try {
-        // map 會返回一個陣列，取代掉舊的陣列
+        await usersAPI.addTweetLike(id);
         this.likedTweets = this.likedTweets.map((likedTweet) => {
           if (likedTweet.id === id) {
             return {
               ...likedTweet,
-              islike: false,
+              isLike: true,
+              likesCount: likedTweet.likesCount + 1,
             };
+            
           } else {
             return likedTweet;
           }
         });
       } catch (error) {
-        console.log(error);
-        Toast.fire({
-          icon: "error",
-          title: "目前無法刪除 like, 請稍後再試",
-        });
+        const { response } = error;
+        if (response.data.message) {
+          Toast.fire({
+            icon: "error",
+            title: response.data.message,
+          });
+        }
       }
     },
 
-    async like(id) {
+    async deleteLike(id) {
       try {
+        await usersAPI.deleteTweetLike(id);
         this.likedTweets = this.likedTweets.map((likedTweet) => {
           if (likedTweet.id === id) {
             return {
               ...likedTweet,
-              islike: true,
+              isLike: false,
+              likesCount: likedTweet.likesCount - 1,
             };
           } else {
             return likedTweet;
           }
         });
       } catch (error) {
-        console.log(error);
-        Toast.fire({
-          icon: "error",
-          title: "目前無法新增 like, 請稍後再試",
-        });
+        const { response } = error;
+        if (response.data.message) {
+          Toast.fire({
+            icon: "error",
+            title: response.data.message,
+          });
+        }
       }
     },
   },

@@ -25,7 +25,7 @@
               <div
                 class="followPanel-title__detail__tweetsTotal secondary-bold"
               >
-                {{ user.TweetsCount + '推文' }}
+                {{ user.TweetsCount + "推文" }}
               </div>
             </div>
           </div>
@@ -53,14 +53,11 @@
           <div class="line-bottom"></div>
 
           <!-- 追隨者 & 正在追隨 內容 -->
-          <CurrentUserFollowerList 
-          :userId="user.id"
-          v-if="currentPage.includes('followers')" 
+          <CurrentUserFollowerList
+            :userId="user.id"
+            v-if="currentPage.includes('followers')"
           />
-          <CurrentUserFollowingList 
-          :userId="user.id" 
-          v-else 
-          />
+          <CurrentUserFollowingList :userId="user.id" v-else />
 
           <!-- 中右 -->
           <div class="followPanel__container__line-right"></div>
@@ -134,6 +131,7 @@ export default {
   display: grid;
   grid-template-columns: 178px auto 273px;
   &__container {
+    min-height: 100vh;
     display: grid;
     grid-template-columns: 1px 1fr 1px;
     &__content {

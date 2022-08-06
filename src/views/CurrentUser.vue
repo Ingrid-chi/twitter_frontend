@@ -116,11 +116,15 @@ export default {
   grid-template-columns: 178px auto 273px;
 
   &__container {
+    min-height: 100vh;
     display: grid;
     grid-template-columns: 1px 1fr 1px;
     margin: 0 24px 0 20px;
     border-left: 1px solid $line-gray;
     border-right: 1px solid$line-gray;
+    // scrollBar
+    max-height: 100vh;
+    overflow-y: scroll;
 
     // 推文、回覆、喜歡的內容 btn
     &__content {
