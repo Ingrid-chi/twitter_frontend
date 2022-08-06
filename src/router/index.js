@@ -34,6 +34,12 @@ const routes = [
     name: "user",
     component: () => import("../views/CurrentUser.vue"),
   },
+  //他人資料
+  {
+    path: "/other",
+    name: "other",
+    component: () => import("../views/OtherUser.vue"),
+  },
   //個人所有推文
   // {
   //   path: '/:account/tweets',

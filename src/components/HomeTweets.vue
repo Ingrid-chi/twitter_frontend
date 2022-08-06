@@ -1,6 +1,6 @@
 <template>
   <div class="currentUserTweets-wrapper">
-    <div class="tweets-container-for" v-for="tweet in tweets" :key="tweet.id">
+    <div class="tweets-container-for">
       <div class="tweets-container">
         <div class="tweets-container__avatar">
           <img :src="tweet.User.avatar" alt="" />
@@ -86,47 +86,11 @@ export default {
     },
   },
 
-  data() {
-    return {
-      tweets: [],
-    };
-  },
-
-  created() {
-    // console.log(this.currentUser);
-    this.fetchCurrentUserTweets(this.currentUser.id);
-  },
-
   methods: {
-    async fetchCurrentUserTweets(id) {
-      try {
-        const response = await usersAPI.getUserTweets(id);
-        this.tweets = response.tweets;
-        // console.log(this.tweets);
-      } catch (error) {
-        const { response } = error;
-
-        if (response.data.message) {
-          Toast.fire({
-            icon: "error",
-            title: response.data.message,
-          });
-        }
-      }
-    },
     async addLike(id) {
       try {
-        // const response = await usersAPI.addTweetLike(id)
-        this.tweets = this.tweets.map((tweet) => {
-          if (tweet.id === id) {
-            return {
-              ...tweet,
-              isLike: true,
-            };
-          } else {
-            return tweet;
-          }
-        });
+        await usersAPI.addTweetLike(id);
+        this.tweet.isLike = true;
       } catch (error) {
         console.log(error);
         Toast.fire({
@@ -137,17 +101,8 @@ export default {
     },
     async unLike(id) {
       try {
-        // const response = await usersAPI.addTweetLike(id)
-        this.tweets = this.tweets.map((tweet) => {
-          if (tweet.id === id) {
-            return {
-              ...tweet,
-              isLike: false,
-            };
-          } else {
-            return tweet;
-          }
-        });
+        await usersAPI.addTweetLike(id);
+        this.tweet.isLike = true;
       } catch (error) {
         console.log(error);
         Toast.fire({

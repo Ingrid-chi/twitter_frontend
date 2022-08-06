@@ -22,7 +22,7 @@
           v-model="tweetText"
         ></textarea>
       </div>
-      <div class="modal-warn" v-show="warn">字數不可超過140字</div>
+      <div class="modal-warn" v-show="warn">{{ warnText }}</div>
       <button class="modal-btn" @click="submit">推文</button>
     </div>
   </div>
@@ -30,6 +30,7 @@
 <script>
 import { commonItems } from "../configs/commonConfigs";
 import { mapMutations } from "vuex";
+import tweetApis from "../apis/tweet";
 // import { fromNowFilter } from "./../utils/mixins";
 
 export default {
@@ -38,17 +39,17 @@ export default {
     return {
       delete: commonItems.deleteOrange,
       warn: false,
-      id: -1,
+      // id: -1,
       tweetText: "",
-      userId: -1,
-      createdAt: "2022-07-31T11:13:44.000Z",
-      likeCount: 0,
-      replyCount: 3,
-      User: {
-        name: "user1",
-        account: "user1",
-        avatar: "https://loremflickr.com/320/240/cat/?lock=93.54589374664013",
-      },
+      // userId: -1,
+      // createdAt: "2022-07-31T11:13:44.000Z",
+      // likeCount: 0,
+      // replyCount: 3,
+      // User: {
+      //   name: "user1",
+      //   account: "user1",
+      //   avatar: "https://loremflickr.com/320/240/cat/?lock=93.54589374664013",
+      // },
     };
   },
   props: {
@@ -61,9 +62,12 @@ export default {
     deleteOrange() {
       return require(`../assets/${this.delete.image}`);
     },
+    warnText() {
+      return !this.tweetText.length ? "內容不可空白" : "字數不可超過140字";
+    },
   },
   methods: {
-    ...mapMutations(["createTweet"]),
+    ...mapMutations(["createTweet", "setTweets"]),
 
     hideModal() {
       this.$emit("hide-modal");
@@ -71,24 +75,14 @@ export default {
       this.tweetText = "";
     },
 
-    submit() {
-      // 1. 呼叫 API，告訴 API description
-      // 2. API 回前端資訊
-      // 3. 將上述資訊放到 createTweet
+    async submit() {
+      // 建立貼文
+      await tweetApis.createTweet(this.tweetText);
 
-      this.createTweet({
-        id: this.id,
-        description: this.tweetText,
-        userId: 10,
-        createdAt: "2022-07-31T11:13:44.000Z",
-        likeCount: 0,
-        replyCount: 0,
-        User: {
-          name: "user1",
-          account: "user1",
-          avatar: "https://loremflickr.com/320/240/cat/?lock=93.54589374664013",
-        },
-      });
+      // 重新拉貼文內容並放到state
+      const { data } = await tweetApis.getTweets();
+      this.setTweets(data);
+
       this.warn = false;
       this.tweetText = "";
       this.$emit("submit");
@@ -100,14 +94,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-// %modal-btn {
-//   width: 64px;
-//   height: 40px;
-//   border-radius: 50px;
-//   background-color: $main-orange;
-//   line-height: 24px;
-//   color: white;
-// }
 .modal-bg {
   position: fixed;
   top: 0;

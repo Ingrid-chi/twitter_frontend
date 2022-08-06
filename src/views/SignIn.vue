@@ -129,8 +129,10 @@ export default {
 
         // 將伺服器回傳的 token 保存在 localStorage 中
         localStorage.setItem("token", response.data.token);
+        localStorage.setItem("userId", response.data.user.id);
+
         // 透過 setCurrentUser 把使用者資料存到 Vuex 的 state 中
-        // this.$store.commit('setCurrentUser', data.user)
+        this.$store.commit("setCurrentUser", response.data.user);
 
         // 成功登入後進行轉址
         this.$router.push("/home");
@@ -151,34 +153,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-%form-wrapper {
-  height: 54px;
-  margin-top: 40px;
-  background-color: #f5f8fa;
-  border-radius: 2px;
-  border-bottom: 2px solid $primary-gray;
-  padding: 2px 10.55px;
-  label {
-    @extend %secondary-p;
-    height: 22px;
-    display: block;
-    text-align: left;
-    line-height: 22px;
-    font-weight: 400;
-    color: #696974;
-  }
-  input {
-    @extend %primary-p;
-    height: 26px;
-    width: 100%;
-    display: block;
-    border: none;
-    background-color: #f5f8fa;
-    line-height: 26px;
-    font-weight: 400;
-    color: #b5b5be;
-  }
-}
 .wrapper {
   margin: 0 auto;
   max-width: 1140px;
