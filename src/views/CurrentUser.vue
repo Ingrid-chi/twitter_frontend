@@ -85,6 +85,7 @@ export default {
 
     async fetchUser(id) {
       try {
+        // const response = await usersAPI.getCurrentUser();
         const response = await usersAPI.getUser(id);
         const { user } = response;
 

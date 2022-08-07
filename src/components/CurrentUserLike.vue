@@ -20,7 +20,7 @@
               >{{ "@" + likedTweet.Tweet.User.account }}．</label
             >
             <label class="like-container__detail__title__created-at"
-              >{{ likedTweet.createdAt }}
+              >{{ likedTweet.createdAt | fromNow }}
             </label>
           </div>
 
@@ -72,12 +72,15 @@
 </template>
 
 <script>
+import { fromNowFilter } from "./../utils/mixins";
 import { mapState } from "vuex";
 import usersAPI from "../apis/users";
 import { Toast } from "../utils/helpers";
 
 export default {
   name: "CurrentUserLike",
+
+  mixins: [fromNowFilter],
 
   components: {},
 
@@ -87,14 +90,14 @@ export default {
     };
   },
 
-  created() {
-    this.fetchCurrentUserLike(this.currentUser.id);
+ created() {
+    this.fetchCurrentUserLike(this.$route.params.userId);
   },
 
   methods: {
-    async fetchCurrentUserLike(id) {
+    async fetchCurrentUserLike() {
       try {
-        const response = await usersAPI.getUserLikes(id);
+        const response = await usersAPI.getUserLikes(this.$route.params.userId);
         this.likedTweets = response.likedTweets;
       } catch (error) {
         const { response } = error;
@@ -162,6 +165,16 @@ export default {
 
   computed: {
     ...mapState(["currentUser"]),
+  },
+
+  watch: {
+    '$route.params.userId': async function () {
+      const response = await usersAPI.getUser(this.$route.params.userId);
+
+      const { user } = response;
+
+      this.user = user;
+    },
   },
 };
 </script>

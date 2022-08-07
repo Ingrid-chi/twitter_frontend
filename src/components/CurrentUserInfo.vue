@@ -7,7 +7,9 @@
       </button>
 
       <div class="currentUserInfo-title__detail">
-        <h5 class="currentUserInfo-title__detail__name">{{ user.name }}</h5>
+        <h5 class="currentUserInfo-title__detail__name">
+          {{ user.name }}
+        </h5>
         <div class="currentUserInfo-title__detail__tweetsTotal secondary-bold">
           {{ user.TweetsCount + "推文" }}
         </div>
@@ -110,24 +112,30 @@ export default {
     EditModal,
   },
 
-  props: {
-    user: {
-      type: Object,
-      require: true,
-    },
-  },
-
   data() {
     return {
       currentUserFollowPanelItems: currentUserFollowPanelItems,
       isSelf: false,
       show: false,
+      user: {},
     };
   },
 
   async created() {
     const { currentUserData } = await userApis.getCurrentUser();
     this.setCurrentUser(currentUserData);
+
+    const response = await userApis.getUser(this.$route.params.userId);
+    // const response = await userApis.getUser(this.currentUser.id);
+    const { user } = response;
+
+    console.log("user", user);
+    console.log("currentUserData", currentUserData);
+
+    this.user = {
+      ...this.currentUser,
+      ...user,
+    };
 
     if (Number(this.$route.params.userId) === Number(this.currentUser.id)) {
       this.isSelf = true;
@@ -151,6 +159,16 @@ export default {
       if (isEdit) {
         this.$emit("fetch-user");
       }
+    },
+  },
+  watch: {
+    "$route.params.userId": async function () {
+      const response = await userApis.getUser(this.$route.params.userId);
+
+      const { user } = response;
+      this.user = user;
+      
+      this.$emit("fetch-user");
     },
   },
 };
