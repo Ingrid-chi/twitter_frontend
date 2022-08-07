@@ -89,11 +89,142 @@
 </template>
 <script>
 import NavBar from "./../components/NavBar";
-
+import userApis from "../apis/users";
+import { mapState, mapMutations } from "vuex";
+import { Toast } from "./../utils/helpers";
 
 export default {
+  data() {
+    return {
+      userId: 0,
+      name: "",
+      account: "",
+      email: "",
+      password: "",
+      passwordCheck: "",
+      isProcessing: false,
+    };
+  },
   components: {
     NavBar,
+  },
+  async created() {
+    // await this.fetchUserSetting();
+  },
+  watch: {
+    currentUser() {
+      this.UserId = this.currentUser.id;
+      this.name = this.currentUser.name;
+      this.account = this.currentUser.account;
+      this.email = this.currentUser.email;
+      // this.password = this.currentUser.password;
+    },
+    account() {
+      if (this.account.length >= 50) {
+        Toast.fire({
+          icon: "error",
+          title: "字數上限為50字",
+        });
+        this.account = "";
+        return;
+      }
+    },
+    name() {
+      if (this.name.length >= 50) {
+        Toast.fire({
+          icon: "error",
+          title: "字數上限為50字",
+        });
+        this.name = "";
+        return;
+      }
+    },
+    email() {
+      if (this.email.length >= 50) {
+        Toast.fire({
+          icon: "error",
+          title: "字數上限為50字",
+        });
+        this.email = "";
+        return;
+      }
+    },
+    password() {
+      if (this.password.length >= 50) {
+        Toast.fire({
+          icon: "error",
+          title: "字數上限為50字",
+        });
+        this.password = "";
+        return;
+      }
+    },
+    passwordCheck() {
+      if (this.passwordCheck.length >= 50) {
+        Toast.fire({
+          icon: "error",
+          title: "字數上限為50字",
+        });
+        this.passwordCheck = "";
+        return;
+      }
+    },
+  },
+
+  computed: {
+    ...mapState(["currentUser"]),
+  },
+  methods: {
+    ...mapMutations(["setCurrentUser"]),
+    // async fetchUserSetting() {
+    //   this.userId = this.$route.params.userId;
+    // const response = await usersApis.getCurrentUser(this.userId);
+    // },
+    async handleSubmit() {
+      try {
+        if (
+          !this.name ||
+          !this.email ||
+          !this.password ||
+          !this.passwordCheck
+        ) {
+          Toast.fire({
+            icon: "error",
+            title: "請輸入所有欄位",
+          });
+          return;
+        }
+        if (this.password !== this.passwordCheck) {
+          Toast.fire({
+            icon: "error",
+            title: "兩次輸入的密碼不同",
+          });
+          return;
+        }
+        this.isProcessing = true;
+
+        const response = await userApis.editUserSettings({
+          id: this.currentUser.id,
+          data: {
+            name: this.name,
+            account: this.account,
+            name: this.name,
+            email: this.email,
+            password: this.password,
+          },
+        });
+        Toast.fire({
+          icon: "success",
+          title: "成功修改設定",
+        });
+      } catch (error) {
+        this.isProcessing = false;
+        Toast.fire({
+          icon: "error",
+          title: `${error.response.data.message}`,
+        });
+      }
+    },
   },
 };
 </script>
