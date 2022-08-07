@@ -1,41 +1,26 @@
 <template>
   <div class="currentUserTweets-wrapper">
-    <div class="tweets-container-for">
-      <div class="tweets-container">
-        <div class="tweets-container__avatar">
-          <img :src="tweet.User.avatar" alt="" />
-        </div>
-
-        <div class="tweets-container__detail">
-          <!-- title -->
-          <div class="tweets-container__detail__title">
-            <label class="tweets-container__detail__title__name primary-bold">{{
-              tweet.User.name
-            }}</label>
-            <label class="tweets-container__detail__title__account"
-              >{{ "@" + tweet.User.account }}．</label
-            >
-            <label class="tweets-container__detail__title__created-at"
-              >{{ tweet.createdAt | fromNow }}
-            </label>
-          </div>
-
-          <!-- description -->
-          <p class="tweets-container__detail__description">
-            {{ tweet.description }}
-          </p>
-
-          <!-- reply & like icon -->
-          <div class="tweets-container__detail__count-panel">
-            <!-- reply icon -->
-            <div class="tweets-container__detail__count-panel__reply">
-              <div class="tweets-container__detail__count-panel__reply__icon">
-                <img src="./../assets/replied.png" alt="" />
-              </div>
-              <div class="tweets-container__detail__count-panel__reply__count">
-                <!-- here -->
-                {{ tweet.replyCount }}
-              </div>
+    <router-link :to="`/tweets/${tweet.id}`">
+      <div class="tweets-container-for">
+        <div class="tweets-container">
+          <router-link :to="`/${tweet.UserId}`">
+            <div class="tweets-container__avatar">
+              <img :src="tweet.User.avatar" alt="" />
+            </div>
+          </router-link>
+          <div class="tweets-container__detail">
+            <!-- title -->
+            <div class="tweets-container__detail__title">
+              <label
+                class="tweets-container__detail__title__name primary-bold"
+                >{{ tweet.User.name }}</label
+              >
+              <label class="tweets-container__detail__title__account"
+                >{{ "@" + tweet.User.account }}．</label
+              >
+              <label class="tweets-container__detail__title__created-at"
+                >{{ tweet.createdAt | fromNow }}
+              </label>
             </div>
 
             <!-- like icon -->
@@ -47,25 +32,55 @@
               >
                 <img src="./../assets/like-checked.png" alt="" />
               </button>
+            <!-- description -->
+            <p class="tweets-container__detail__description">
+              {{ tweet.description }}
+            </p>
 
-              <button
-                v-else
-                @click.stop.prevent="addLike(tweet.id)"
-                class="tweets-container__detail__count-panel__like__icon"
-              >
-                <img src="./../assets/like.png" alt="" />
-              </button>
-              <div class="tweets-container__detail__count-panel__like__count">
-                <!-- here -->
-                {{ tweet.likeCount }}
+            <!-- reply & like icon -->
+            <div class="tweets-container__detail__count-panel">
+              <!-- reply icon -->
+              <div class="tweets-container__detail__count-panel__reply">
+                <div class="tweets-container__detail__count-panel__reply__icon">
+                  <img :src="tweet.avatar" alt="" />
+                </div>
+                <div
+                  class="tweets-container__detail__count-panel__reply__count"
+                >
+                  <!-- here -->
+                  {{ tweet.replyCount }}
+                </div>
+              </div>
+
+              <!-- like icon -->
+              <div class="tweets-container__detail__count-panel__like">
+                <button
+                  v-if="tweet.isLike"
+                  @click.stop.prevent="unLike(tweet.id)"
+                  class="tweets-container__detail__count-panel__like__icon"
+                >
+                  <img src="./../assets/like-checked.png" alt="" />
+                </button>
+
+                <button
+                  v-else
+                  @click.stop.prevent="addLike(tweet.id)"
+                  class="tweets-container__detail__count-panel__like__icon"
+                >
+                  <img src="./../assets/like.png" alt="" />
+                </button>
+                <div class="tweets-container__detail__count-panel__like__count">
+                  <!-- here -->
+                  {{ tweet.likeCount }}
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="currentUserTweets-wrapper__bottom"></div>
-    </div>
+        <div class="currentUserTweets-wrapper__bottom"></div>
+      </div>
+    </router-link>
   </div>
 </template>
 

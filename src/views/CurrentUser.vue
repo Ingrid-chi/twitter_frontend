@@ -9,7 +9,7 @@
         <!-- 個人資料(前台) 首頁 -->
         <div class="currentUser__container__content">
           <!-- 個人資料簡介 -->
-          <currentUserInfo :user="user" />
+          <currentUserInfo :user="user" @fetch-user="fetchUserFromCurrent" />
 
           <!-- 推文、回覆、喜歡的內容 頁籤 -->
           <div class="currentUser__container__content__items">
@@ -85,12 +85,10 @@ export default {
 
     async fetchUser(id) {
       try {
-        console.log("id", id);
         // const response = await usersAPI.getCurrentUser();
         const response = await usersAPI.getUser(id);
         const { user } = response;
 
-        console.log("user", user);
         this.user = user;
         // this.$store.commit("setCurrentUser", this.user);
       } catch (error) {
@@ -99,6 +97,11 @@ export default {
           title: "無法取得當前使用者資訊，請稍後再試。",
         });
       }
+    },
+
+    // 給彈窗完成編輯時 Fetch CurrentUser
+    fetchUserFromCurrent() {
+      this.user = this.currentUser;
     },
   },
 

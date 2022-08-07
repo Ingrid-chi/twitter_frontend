@@ -42,7 +42,7 @@ const routes = [
   // },
   //每一則tweet所有回覆
   {
-    path: '/user1/tweets/1',
+    path: '/tweets/:tweetId',
     name: 'tweet',
     component: () => import('../views/TweetReplies.vue')
   },
@@ -72,7 +72,7 @@ const routes = [
   },
   //個人設定
   {
-    path: "/user1/setting",
+    path: "/:userId/setting",
     name: "setting",
     component: () => import("../views/Setting.vue"),
   },

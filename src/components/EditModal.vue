@@ -2,7 +2,11 @@
   <div class="modal-bg" v-show="show">
     <div class="modal-container">
       <div class="modal-header">
-        <img :src="deleteOrange" :alt="deleteOrange.title" @click="hideModal" />
+        <img
+          :src="deleteOrange"
+          :alt="deleteOrange.title"
+          @click="hideModal(false)"
+        />
         <div class="title">編輯個人資料</div>
         <button class="save-btn" @click="save">儲存</button>
       </div>
@@ -101,14 +105,14 @@ export default {
     },
   },
   methods: {
-    ...mapMutations(["createTweet", "setTweets"]),
+    ...mapMutations(["createTweet", "setTweets", "setCurrentUser"]),
 
-    hideModal() {
-      this.$emit("hide-modal");
+    hideModal(isEdit) {
+      this.$emit("hide-modal", isEdit);
     },
 
     async save() {
-      await userApis.editUserSettings({
+      const response = await userApis.editUserSettings({
         id: this.currentUser.id,
         data: {
           name: this.name,
@@ -117,7 +121,8 @@ export default {
           cover: this.cover,
         },
       });
-      this.hideModal();
+      this.setCurrentUser(response.data);
+      this.hideModal(true);
     },
   },
 };
@@ -167,12 +172,6 @@ export default {
     right: 16px;
   }
 }
-// .modal-btn {
-//   @extend %modal-btn;
-//   position: absolute;
-//   bottom: 16px;
-//   right: 16px;
-// }
 .modal-main {
   @include size(100%, 243px);
   position: relative;

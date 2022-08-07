@@ -16,5 +16,17 @@ export default {
     }, {
       headers: { Authorization: `Bearer ${getToken()}` }
     })
-  }
+  },
+  getTweetById(tweetId) {
+    return apiHelper.get(`/tweets/${tweetId}`, {
+      headers: { Authorization: `Bearer ${getToken()}` }
+    })
+  },
+  replyTweet(tweetId, comment) {
+    return apiHelper.post(`/tweets/${tweetId}/replies`, {
+      comment
+    }, {
+      headers: { Authorization: `Bearer ${getToken()}` }
+    })
+  },
 }
