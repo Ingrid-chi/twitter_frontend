@@ -62,7 +62,6 @@ export default {
   },
 
   created() {
-    console.log(this.currentUserReplied);
     this.fetchCurrentUserReplied(this.$route.params.userId);
   },
 
@@ -71,9 +70,7 @@ export default {
       try {
         const response = await usersAPI.getUserReplied(this.$route.params.userId);
         this.replies = response.replies;
-        console.log(this.replies);
       } catch (error) {
-        console.log(error);
         const { response } = error;
         if (response.data.message) {
           Toast.fire({
@@ -91,11 +88,7 @@ export default {
 
   watch: {
     '$route.params.userId': async function () {
-      const response = await usersAPI.getUser(this.$route.params.userId);
-
-      const { user } = response;
-
-      this.user = user;
+      this.fetchCurrentUserReplied(this.$route.params.userId);
     },
   },
 };
