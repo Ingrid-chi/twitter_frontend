@@ -1,43 +1,41 @@
 <template>
   <div class="currentUserReply-wrapper">
-    <div 
-    class="reply-container-for"
-    v-for="reply in replies"
-    :key="reply.id"
-    >
-    <div class="reply-container">
-      <div class="reply-container__avatar">
-        <img :src="reply.Tweet.User.avatar" alt="" />
-      </div>
-
-      <div class="reply-container__detail">
-        <!-- title -->
-        <div class="reply-container__detail__title">
-          <label class="reply-container__detail__title__name primary-bold"
-            >{{ reply.User.name }}</label
-          >
-          <label class="reply-container__detail__title__account"
-            >{{ "@" + reply.User.account }}．</label
-          >
-          <label class="reply-container__detail__title__created-at"
-            >{{ reply.createdAt | fromNow }}
-          </label>
+    <div class="reply-container-for" v-for="reply in replies" :key="reply.id">
+      <div class="reply-container">
+        <div class="reply-container__avatar">
+          <img :src="reply.Tweet.User.avatar" alt="" />
         </div>
 
-        <!-- reply-user -->
-        <div class="reply-container__detail__user">
-          <label class="reply-container__detail__user__title">回復</label>
-          <label class="reply-container__detail__user__account">{{ "@" + reply.Tweet.User.account }}</label>
+        <div class="reply-container__detail">
+          <!-- title -->
+          <div class="reply-container__detail__title">
+            <label class="reply-container__detail__title__name primary-bold">{{
+              reply.User.name
+            }}</label>
+            <label class="reply-container__detail__title__account"
+              >{{ "@" + reply.User.account }}．</label
+            >
+            <label class="reply-container__detail__title__created-at"
+              >{{ reply.createdAt | fromNow }}
+            </label>
+          </div>
+
+          <!-- reply-user -->
+          <div class="reply-container__detail__user">
+            <label class="reply-container__detail__user__title">回復</label>
+            <label class="reply-container__detail__user__account">{{
+              "@" + reply.Tweet.User.account
+            }}</label>
+          </div>
+
+          <!-- description -->
+          <p class="reply-container__detail__description">
+            {{ reply.Tweet.description }}
+          </p>
         </div>
-
-        <!-- description -->
-        <p class="reply-container__detail__description">
-          {{ reply.Tweet.description }}
-        </p>
       </div>
-    </div>
 
-    <div class="currentUserReply-wrapper__bottom"></div>
+      <div class="currentUserReply-wrapper__bottom"></div>
     </div>
   </div>
 </template>
@@ -68,7 +66,9 @@ export default {
   methods: {
     async fetchCurrentUserReplied() {
       try {
-        const response = await usersAPI.getUserReplied(this.$route.params.userId);
+        const response = await usersAPI.getUserReplied(
+          this.$route.params.userId
+        );
         this.replies = response.replies;
       } catch (error) {
         const { response } = error;
@@ -87,7 +87,7 @@ export default {
   },
 
   watch: {
-    '$route.params.userId': async function () {
+    "$route.params.userId": async function () {
       this.fetchCurrentUserReplied(this.$route.params.userId);
     },
   },

@@ -32,7 +32,6 @@ import { commonItems } from "../configs/commonConfigs";
 import { mapMutations } from "vuex";
 import tweetApis from "../apis/tweet";
 import { Toast } from "../utils/helpers";
-// import { fromNowFilter } from "./../utils/mixins";
 
 export default {
   name: "MainModal",
@@ -40,17 +39,7 @@ export default {
     return {
       delete: commonItems.deleteOrange,
       warn: false,
-      // id: -1,
       tweetText: "",
-      // userId: -1,
-      // createdAt: "2022-07-31T11:13:44.000Z",
-      // likeCount: 0,
-      // replyCount: 3,
-      // User: {
-      //   name: "user1",
-      //   account: "user1",
-      //   avatar: "https://loremflickr.com/320/240/cat/?lock=93.54589374664013",
-      // },
     };
   },
   props: {
