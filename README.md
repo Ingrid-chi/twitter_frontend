@@ -6,11 +6,6 @@
 [後端repo連結](https://github.com/InzooC/twitter-api-2020)
 
 ---
-### 專案畫面
-![markdown](https://raw.githubusercontent.com/Ingrid-chi/
-twitter_frontend/master/src/assets/twitter_frontend_photo.jpg)
-
----
 ### 專案DEMO
 [專案入口網站](https://)
 
