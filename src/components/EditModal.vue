@@ -167,12 +167,6 @@ export default {
     right: 16px;
   }
 }
-// .modal-btn {
-//   @extend %modal-btn;
-//   position: absolute;
-//   bottom: 16px;
-//   right: 16px;
-// }
 .modal-main {
   @include size(100%, 243px);
   position: relative;

@@ -63,7 +63,9 @@
         <div class="otherUserInfo__btn--following">正在跟隨</div>
       </div>
 
-      <button class="currentUserInfo-detail__edit">編輯個人資料</button>
+      <button v-else class="currentUserInfo-detail__edit" @click="showModal">
+        編輯個人資料
+      </button>
     </div>
 
     <!-- 跟隨中 & 跟隨者 可連結的地方-->
@@ -92,7 +94,7 @@
         </router-link>
       </div>
     </div>
-    <EditModal v-show="isSelf"> </EditModal>
+    <EditModal v-show="show" @hide-modal="hideModal"> </EditModal>
   </div>
 </template>
 
@@ -119,6 +121,7 @@ export default {
     return {
       currentUserFollowPanelItems: currentUserFollowPanelItems,
       isSelf: false,
+      show: false,
     };
   },
 
@@ -126,7 +129,7 @@ export default {
     const { currentUserData } = await userApis.getCurrentUser();
     this.setCurrentUser(currentUserData);
 
-    if (+this.$route.params.userId === +this.currentUser.id) {
+    if (Number(this.$route.params.userId) === Number(this.currentUser.id)) {
       this.isSelf = true;
     }
   },
@@ -139,6 +142,12 @@ export default {
     ...mapMutations(["setCurrentUser"]),
     getFollowPanelItemId(itemId) {
       this.itemId = itemId;
+    },
+    showModal() {
+      this.show = true;
+    },
+    hideModal() {
+      this.show = false;
     },
   },
 };
