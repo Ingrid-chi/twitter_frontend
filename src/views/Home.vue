@@ -10,11 +10,16 @@
           </div>
           <div class="content__wrapper__tweet">
             <div class="content__tweet">
-              <img
-                class="content__tweet__img"
-                src="https://randomuser.me/api/portraits/lego/2.jpg"
-                alt="userImg"
-              />
+              <router-link :to="`/${id}`">
+                <div class="content__tweet__wrapper__img">
+                  <img
+                    class="content__tweet__img"
+                    :src="avatar"
+                    alt="userImg"
+                  />
+                </div>
+              </router-link>
+
               <textarea
                 class="content__tweet__input"
                 type="text"
@@ -58,6 +63,7 @@ export default {
       warn: false,
       id: -1,
       tweetText: "",
+      avatar: "",
     };
   },
   components: {
@@ -66,9 +72,15 @@ export default {
     HomeTweets,
   },
   computed: {
-    ...mapState(["tweets"]),
+    ...mapState(["currentUser", "tweets"]),
     warnText() {
       return !this.tweetText.length ? "內容不可空白" : "字數不可超過140字";
+    },
+  },
+  watch: {
+    currentUser() {
+      this.avatar = this.currentUser.avatar;
+      this.id = this.currentUser.id;
     },
   },
   async created() {

@@ -1,12 +1,12 @@
 <template>
+
   <div class="content__wrapper__reply-list">
-    <div class="content__wrapper__img">
-      <img
-        class="content__img"
-        src="https://randomuser.me/api/portraits/lego/2.jpg"
-        alt=""
-      />
-    </div>
+    <router-link :to="`/${reply.UserId}`">
+      <div class="content__wrapper__img">
+        <img class="content__img" :src="reply.User.avatar" alt="" />
+      </div>
+    </router-link>
+
     <div class="content__wrapper__other-info">
       <div class="content__other-name">{{ reply.User.name }}</div>
       <div class="content__other-account">@{{ reply.User.account }}</div>
@@ -15,7 +15,7 @@
     </div>
     <div class="content__wrapper__user-account">
       <div class="content__user-reply">回覆</div>
-      <div class="content__user-account">@{{tweet.User.account}}</div>
+      <div class="content__user-account">@{{ tweet.User.account }}</div>
     </div>
     <div class="content__wrapper__user-text">
       {{ reply.comment }}
@@ -86,6 +86,7 @@ export default {
   &__img {
     width: 50px;
     height: 50px;
+    border-radius: 50%;
   }
   &__other-name {
     margin-right: 8px;
