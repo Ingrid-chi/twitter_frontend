@@ -72,7 +72,7 @@ const routes = [
   },
   //個人設定
   {
-    path: "/user1/setting",
+    path: "/:userId/setting",
     name: "setting",
     component: () => import("../views/Setting.vue"),
   },
