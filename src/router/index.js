@@ -34,31 +34,11 @@ const routes = [
     name: "user",
     component: () => import("../views/CurrentUser.vue"),
   },
-  //個人所有推文
-  // {
-  //   path: '/:account/tweets',
-  //   name: 'tweets',
-  //   component: () => import('../views/Tweets.vue')
-  // },
-  //每一則tweet所有回覆
   {
     path: '/tweets/:tweetId',
     name: 'tweet',
     component: () => import('../views/TweetReplies.vue')
   },
-  //個人所有回覆
-  // {
-  //   path: '/:account/replies',
-  //   name: 'replies',
-  //   component: () => import('../views/Replies.vue')
-  // },
-  //個人所有Likes
-  // {
-  //   path: '/:account/likes',
-  //   name: 'likes',
-  //   component: () => import('../views/Likes.vue')
-  // },
-  //個人所有Followers
   {
     path: "/:account/followers",
     name: "followers",
@@ -76,12 +56,6 @@ const routes = [
     name: "setting",
     component: () => import("../views/Setting.vue"),
   },
-  // {
-  //   path: '/admin',
-  //   exact: true,
-  //   redirect: '/admin/tweets'
-  // },
-  // 後臺登入
   {
     path: "/admin/signin",
     name: "admin-signin",

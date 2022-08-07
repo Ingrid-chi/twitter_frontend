@@ -53,8 +53,8 @@
 <script>
 import { commonItems } from "../configs/commonConfigs";
 import { mapMutations } from "vuex";
-// import { fromNowFilter } from "./../utils/mixins";
 import tweetApis from "../apis/tweet";
+import { Toast } from "../utils/helpers";
 
 export default {
   name: "ReplyModal",
@@ -100,10 +100,17 @@ export default {
     },
 
     async submit() {
-      await tweetApis.replyTweet(this.tweet.id, this.tweetText);
-      this.warn = false;
-      this.tweetText = "";
-      this.$emit("submit-reply");
+      try {
+        await tweetApis.replyTweet(this.tweet.id, this.tweetText);
+        this.warn = false;
+        this.tweetText = "";
+        this.$emit("submit-reply");
+      } catch (error) {
+        Toast.fire({
+          icon: "warning",
+          title: `${error.response.data.message}`,
+        });
+      }
     },
     showWarn() {
       this.warn = true;

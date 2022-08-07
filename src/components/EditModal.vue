@@ -74,6 +74,7 @@
 import { commonItems } from "../configs/commonConfigs";
 import { mapState, mapMutations } from "vuex";
 import userApis from "../apis/users";
+import { Toast } from "./../utils/helpers";
 // import { fromNowFilter } from "./../utils/mixins";
 
 export default {
@@ -115,6 +116,26 @@ export default {
       this.avatar = this.currentUser.avatar;
       this.cover = this.currentUser.cover;
     },
+    name() {
+      if (this.name.length >= 50) {
+        Toast.fire({
+          icon: "error",
+          title: "字數上限為50字",
+        });
+        this.name = "";
+        return;
+      }
+    },
+     introduction() {
+      if (this.introduction.length >= 50) {
+        Toast.fire({
+          icon: "error",
+          title: "字數上限為50字",
+        });
+        this.introduction = "";
+        return;
+      }
+    },
   },
   methods: {
     ...mapMutations(["createTweet", "setTweets", "setCurrentUser"]),
@@ -134,7 +155,7 @@ export default {
         },
       });
       this.setCurrentUser(response.data);
-      this.$emit
+      // this.$emit("user-edit-data",response.data );
       // console.log(response.data)
       this.hideModal(true);
     },
