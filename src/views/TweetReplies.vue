@@ -9,14 +9,14 @@
             <img class="content__icon-back" :src="backIcon" :alt="back.title" />
             <h4 class="content__title">推文</h4>
           </div>
-          <TweetReply />
+          <TweetReply :tweet="tweet" />
           <div class="content__wrapper__reply-like-info">
             <!-- <div class="content__reply-like-text"> -->
-            <div class="content__reply-nums">34</div>
+            <div class="content__reply-nums">{{ tweet.replyCount }}</div>
             <div class="content__reply-text">回覆</div>
             <!-- </div> -->
             <!-- <div class="content__reply-like-icons"> -->
-            <div class="content__like-nums">808</div>
+            <div class="content__like-nums">{{ tweet.likeCount }}</div>
             <div class="content__like-text">喜歡次數</div>
             <!-- </div> -->
           </div>
@@ -30,7 +30,12 @@
             <img class="content__like-icon" :src="likeIcon" :alt="like.title" />
           </div>
 
-          <TweetReplyList />
+          <TweetReplyList
+            v-for="reply in replies"
+            :key="reply.id"
+            :reply="reply"
+            :tweet="tweet"
+          />
         </div>
         <div class="tweet-replies__container__line-right"></div>
       </div>
@@ -40,6 +45,7 @@
       v-show="replyShow"
       @hide-reply-modal="hideReplyModal"
       @submit-reply="submitReply"
+      :tweet="tweet"
     >
     </ReplyModal>
   </div>
@@ -52,6 +58,9 @@ import TweetReplyList from "./../components/TweetReplyList";
 import ReplyModal from "./../components/ReplyModal";
 import { commonItems } from "../configs/commonConfigs";
 
+import tweetApis from "../apis/tweet";
+
+//getTweetById
 export default {
   name: "TweetReplies",
   data() {
@@ -60,7 +69,13 @@ export default {
       back: commonItems.back,
       reply: commonItems.reply,
       like: commonItems.like,
+      tweetId: 0,
+      tweet: {},
+      replies: [],
     };
+  },
+  async created() {
+    await this.fetchTweetAndReplies();
   },
   components: {
     NavBar,
@@ -82,14 +97,22 @@ export default {
   },
   methods: {
     hideReplyModal() {
-      console.log("1");
       this.replyShow = false;
     },
     showReplyModal() {
       this.replyShow = true;
     },
-    submitReply() {
+    async submitReply() {
+      await this.fetchTweetAndReplies();
       this.replyShow = false;
+    },
+    async fetchTweetAndReplies() {
+      this.tweetId = this.$route.params.tweetId;
+      const response = await tweetApis.getTweetById(this.tweetId);
+      const { data, replies } = response;
+
+      this.tweet = data;
+      this.replies = replies;
     },
   },
 };

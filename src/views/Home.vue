@@ -48,8 +48,8 @@ import NavBar from "./../components/NavBar";
 import PopularUser from "./../components/PopularUser";
 import HomeTweets from "./../components/HomeTweets";
 import tweetApis from "../apis/tweet";
+import { Toast } from "./../utils/helpers";
 import { mapState, mapMutations } from "vuex";
-
 
 export default {
   data() {
@@ -78,11 +78,18 @@ export default {
   methods: {
     ...mapMutations(["createTweet", "setTweets"]),
     async submit() {
-      await tweetApis.createTweet(this.tweetText);
-      const { data } = await tweetApis.getTweets();
-      this.setTweets(data);
-      this.warn = false;
-      this.tweetText = "";
+      try {
+        await tweetApis.createTweet(this.tweetText);
+        const { data } = await tweetApis.getTweets();
+        this.setTweets(data);
+        this.warn = false;
+        this.tweetText = "";
+      } catch (error) {
+        Toast.fire({
+          icon: "warning",
+          title: `${error.response.data.message}`,
+        });
+      }
     },
     showWarn() {
       this.warn = true;

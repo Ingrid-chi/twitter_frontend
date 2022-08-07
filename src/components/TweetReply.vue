@@ -1,28 +1,25 @@
  <template>
   <div class="content__wrapper__tweet">
     <div class="content__tweet">
-      <img
-        class="content__tweet__img"
-        src="https://randomuser.me/api/portraits/lego/2.jpg"
-        alt="userImg"
-      />
-      <div class="content__tweet__name">Apple</div>
-      <div class="content__tweet__account">@Apple</div>
+      <img class="content__tweet__img" :src="tweet.User.avatar" alt="userImg" />
+      <div class="content__tweet__name">{{ tweet.User.name }}</div>
+      <div class="content__tweet__account">@{{ tweet.User.account }}</div>
       <div class="content__tweet__text">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas semper
-        ex eget iaculis luctus.Lorem ipsum dolor sit amet, consectetur
-        adipiscing elit. Maecenas semper ex eget iaculis luctus. Vivamus augue
-        sapien, lacinia a vulputate et, sollicitudin non odio. Integer elementum
-        porttitor ante, non dignissim justo luctus in. Nullam at blandit massa.
-        Nullam vitae porta metus.
+        {{ tweet.description }}
       </div>
-      <div class="content__tweet__time">上午 10:05・2021年11月10日</div>
+      <div class="content__tweet__time">{{ tweet.createdAt }}</div>
     </div>
   </div>
 </template>
 <script>
 export default {
   name: "TweetReply",
+  props: {
+    tweet: {
+      type: Object,
+      default: () => {},
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
@@ -66,8 +63,6 @@ export default {
       margin-bottom: 8px;
       font-size: 24px;
       @include lorem(3);
-      
-;
     }
     &__time {
       @extend %secondary-p;
