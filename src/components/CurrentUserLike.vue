@@ -17,7 +17,7 @@
               likedTweet.Tweet.User.name
             }}</label>
             <label class="like-container__detail__title__account"
-              >{{ "@" + likedTweet.Tweet.User.account }}．</label
+              >{{ '@' + likedTweet.Tweet.User.account }}．</label
             >
             <label class="like-container__detail__title__created-at"
               >{{ likedTweet.createdAt | fromNow }}
@@ -72,13 +72,13 @@
 </template>
 
 <script>
-import { fromNowFilter } from "./../utils/mixins";
-import { mapState } from "vuex";
-import usersAPI from "../apis/users";
-import { Toast } from "../utils/helpers";
+import { fromNowFilter } from './../utils/mixins';
+import { mapState } from 'vuex';
+import usersAPI from '../apis/users';
+import { Toast } from '../utils/helpers';
 
 export default {
-  name: "CurrentUserLike",
+  name: 'CurrentUserLike',
 
   mixins: [fromNowFilter],
 
@@ -90,7 +90,7 @@ export default {
     };
   },
 
- created() {
+  created() {
     this.fetchCurrentUserLike(this.$route.params.userId);
   },
 
@@ -104,7 +104,7 @@ export default {
 
         if (response.data.message) {
           Toast.fire({
-            icon: "error",
+            icon: 'error',
             title: response.data.message,
           });
         }
@@ -121,7 +121,6 @@ export default {
               isLike: true,
               likesCount: likedTweet.likesCount + 1,
             };
-            
           } else {
             return likedTweet;
           }
@@ -130,7 +129,7 @@ export default {
         const { response } = error;
         if (response.data.message) {
           Toast.fire({
-            icon: "error",
+            icon: 'error',
             title: response.data.message,
           });
         }
@@ -155,7 +154,7 @@ export default {
         const { response } = error;
         if (response.data.message) {
           Toast.fire({
-            icon: "error",
+            icon: 'error',
             title: response.data.message,
           });
         }
@@ -164,16 +163,12 @@ export default {
   },
 
   computed: {
-    ...mapState(["currentUser"]),
+    ...mapState(['currentUser']),
   },
 
   watch: {
     '$route.params.userId': async function () {
-      const response = await usersAPI.getUser(this.$route.params.userId);
-
-      const { user } = response;
-
-      this.user = user;
+      this.fetchCurrentUserLike(this.$route.params.userId);
     },
   },
 };

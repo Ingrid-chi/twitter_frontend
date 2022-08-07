@@ -13,7 +13,7 @@
               tweet.User.name
             }}</label>
             <label class="tweets-container__detail__title__account"
-              >{{ "@" + tweet.User.account }}．</label
+              >{{ '@' + tweet.User.account }}．</label
             >
             <label class="tweets-container__detail__title__created-at"
               >{{ tweet.createdAt | fromNow }}
@@ -70,13 +70,13 @@
 </template>
 
 <script>
-import { fromNowFilter } from "./../utils/mixins";
-import { mapState } from "vuex";
-import usersAPI from "../apis/users";
-import { Toast } from "../utils/helpers";
+import { fromNowFilter } from './../utils/mixins';
+import { mapState } from 'vuex';
+import usersAPI from '../apis/users';
+import { Toast } from '../utils/helpers';
 
 export default {
-  name: "CurrentUserTweets",
+  name: 'CurrentUserTweets',
   mixins: [fromNowFilter],
   components: {},
   props: {
@@ -97,7 +97,7 @@ export default {
     this.fetchCurrentUserTweets(this.$route.params.userId);
   },
 
-//這裡新加的，不確定是否有用
+  //這裡新加的，不確定是否有用
   beforeRouteUpdate(to, from, next) {
     // 路由改變時重新抓取資料
     const { id } = to.params;
@@ -106,11 +106,9 @@ export default {
   },
 
   methods: {
-    async fetchCurrentUserTweets() {
+    async fetchCurrentUserTweets(id) {
       try {
-        const response = await usersAPI.getUserTweets(
-          this.$route.params.userId
-        );
+        const response = await usersAPI.getUserTweets(id);
         this.tweets = response.tweets;
         // console.log(this.tweets);
       } catch (error) {
@@ -118,7 +116,7 @@ export default {
 
         if (response.data.message) {
           Toast.fire({
-            icon: "error",
+            icon: 'error',
             title: response.data.message,
           });
         }
@@ -144,7 +142,7 @@ export default {
         const { response } = error;
         if (response.data.message) {
           Toast.fire({
-            icon: "error",
+            icon: 'error',
             title: response.data.message,
           });
         }
@@ -170,7 +168,7 @@ export default {
         const { response } = error;
         if (response.data.message) {
           Toast.fire({
-            icon: "error",
+            icon: 'error',
             title: response.data.message,
           });
         }
@@ -179,16 +177,12 @@ export default {
   },
 
   computed: {
-    ...mapState(["currentUser"]),
+    ...mapState(['currentUser']),
   },
 
   watch: {
-    "$route.params.userId": async function () {
-      const response = await usersAPI.getUser(this.$route.params.userId);
-
-      const { user } = response;
-
-      this.user = user;
+    '$route.params.userId': async function () {
+      this.fetchCurrentUserTweets(this.$route.params.userId);
     },
   },
 };

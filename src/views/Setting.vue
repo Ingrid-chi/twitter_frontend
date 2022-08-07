@@ -208,6 +208,7 @@ export default {
           data: {
             name: this.name,
             account: this.account,
+            // name: this.name,
             email: this.email,
             password: this.password,
           },
