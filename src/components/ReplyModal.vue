@@ -1,5 +1,5 @@
 <template>
-  <div class="modal-bg" v-show="show">
+  <div class="modal-bg">
     <div class="modal-container">
       <div class="modal-header">
         <img
@@ -10,17 +10,16 @@
       </div>
       <div class="modal-main">
         <div class="modal-other">
-          <img src="https://randomuser.me/api/portraits/lego/2.jpg" alt="" />
+          <img :src="tweet.User.avatar" alt="" />
           <div class="line"></div>
           <div class="content__wrapper__other-info">
-            <div class="content__other-name">Devon Lane</div>
-            <div class="content__other-account">@devon_lane</div>
+            <div class="content__other-name">{{ tweet.User.name }}</div>
+            <div class="content__other-account">@{{ tweet.User.account }}</div>
             <div class="content__other-dot">‧</div>
             <div class="content__other-time">3小時</div>
           </div>
           <div class="content__wrapper__user-text">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas
-            semper
+            {{ tweet.description }}
           </div>
           <div class="content__wrapper__user-account">
             <div class="content__user-reply">回覆</div>
@@ -47,7 +46,7 @@
         </div>
       </div>
       <div class="modal-warn" v-show="warn">字數不可超過140字</div>
-      <button class="modal-btn" @click="submit">推文</button>
+      <button class="modal-btn" @click="submit">回覆</button>
     </div>
   </div>
 </template>
@@ -55,6 +54,7 @@
 import { commonItems } from "../configs/commonConfigs";
 import { mapMutations } from "vuex";
 // import { fromNowFilter } from "./../utils/mixins";
+import tweetApis from "../apis/tweet";
 
 export default {
   name: "ReplyModal",
@@ -80,6 +80,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    tweet: {
+      type: Object,
+      default: () => {},
+    },
   },
   computed: {
     deleteOrange() {
@@ -95,24 +99,8 @@ export default {
       this.tweetText = "";
     },
 
-    submit() {
-      // 1. 呼叫 API，告訴 API description
-      // 2. API 回前端資訊
-      // 3. 將上述資訊放到 createTweet
-
-      // this.createTweet({
-      //   id: this.id,
-      //   description: this.tweetText,
-      //   userId: 10,
-      //   createdAt: "2022-07-31T11:13:44.000Z",
-      //   likeCount: 0,
-      //   replyCount: 0,
-      //   User: {
-      //     name: "user1",
-      //     account: "user1",
-      //     avatar: "https://loremflickr.com/320/240/cat/?lock=93.54589374664013",
-      //   },
-      // });
+    async submit() {
+      await tweetApis.replyTweet(this.tweet.id, this.tweetText);
       this.warn = false;
       this.tweetText = "";
       this.$emit("submit-reply");

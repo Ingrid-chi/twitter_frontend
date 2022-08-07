@@ -31,6 +31,7 @@
 import { commonItems } from "../configs/commonConfigs";
 import { mapMutations } from "vuex";
 import tweetApis from "../apis/tweet";
+import { Toast } from "../utils/helpers";
 // import { fromNowFilter } from "./../utils/mixins";
 
 export default {
@@ -77,15 +78,22 @@ export default {
 
     async submit() {
       // 建立貼文
-      await tweetApis.createTweet(this.tweetText);
+      try {
+        await tweetApis.createTweet(this.tweetText);
 
-      // 重新拉貼文內容並放到state
-      const { data } = await tweetApis.getTweets();
-      this.setTweets(data);
+        // 重新拉貼文內容並放到state
+        const { data } = await tweetApis.getTweets();
+        this.setTweets(data);
 
-      this.warn = false;
-      this.tweetText = "";
-      this.$emit("submit");
+        this.warn = false;
+        this.tweetText = "";
+        this.$emit("submit");
+      } catch (error) {
+        Toast.fire({
+          icon: "warning",
+          title: `${error.response.data.message}`,
+        });
+      }
     },
     showWarn() {
       this.warn = true;

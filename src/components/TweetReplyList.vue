@@ -8,23 +8,33 @@
       />
     </div>
     <div class="content__wrapper__other-info">
-      <div class="content__other-name">Devon Lane</div>
-      <div class="content__other-account">@devon_lane</div>
+      <div class="content__other-name">{{ reply.User.name }}</div>
+      <div class="content__other-account">@{{ reply.User.account }}</div>
       <div class="content__other-dot">‧</div>
-      <div class="content__other-time">3小時</div>
+      <div class="content__other-time">{{ reply.createdAt }}</div>
     </div>
     <div class="content__wrapper__user-account">
       <div class="content__user-reply">回覆</div>
-      <div class="content__user-account">@apple</div>
+      <div class="content__user-account">@{{tweet.User.account}}</div>
     </div>
     <div class="content__wrapper__user-text">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas semper
+      {{ reply.comment }}
     </div>
   </div>
 </template>
 <script>
 export default {
   name: "TweetReplyList",
+  props: {
+    reply: {
+      type: Object,
+      default: () => {},
+    },
+    tweet: {
+      type: Object,
+      default: () => {},
+    },
+  },
 };
 </script>
 
