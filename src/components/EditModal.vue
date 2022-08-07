@@ -47,7 +47,7 @@
               placeholder=""
             />
           </div>
-          <p class="counter">/50</p>
+          <p class="counter">{{ name.length }}/50</p>
 
           <div class="modal-main-description">
             <label for="">自我介紹</label
@@ -64,7 +64,7 @@
             ></textarea>
           </div>
 
-          <p class="counter">0/160</p>
+          <p class="counter">{{ introduction.length }}/160</p>
         </div>
       </div>
     </div>
@@ -134,6 +134,8 @@ export default {
         },
       });
       this.setCurrentUser(response.data);
+      this.$emit
+      // console.log(response.data)
       this.hideModal(true);
     },
 
@@ -174,8 +176,8 @@ export default {
   z-index: 10;
 }
 .modal-container {
-  height: 639px;
-  min-height: 610px;
+  height: 634px;
+  min-width: 610px;
   background: #fff;
   border-radius: 14px;
   overflow: hidden;

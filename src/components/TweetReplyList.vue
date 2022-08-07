@@ -1,5 +1,4 @@
 <template>
-
   <div class="content__wrapper__reply-list">
     <router-link :to="`/${reply.UserId}`">
       <div class="content__wrapper__img">
@@ -11,7 +10,7 @@
       <div class="content__other-name">{{ reply.User.name }}</div>
       <div class="content__other-account">@{{ reply.User.account }}</div>
       <div class="content__other-dot">‧</div>
-      <div class="content__other-time">{{ reply.createdAt }}</div>
+      <div class="content__other-time">{{ reply.createdAt | fromNow }}</div>
     </div>
     <div class="content__wrapper__user-account">
       <div class="content__user-reply">回覆</div>
@@ -23,8 +22,11 @@
   </div>
 </template>
 <script>
+import { fromNowFilter } from "./../utils/mixins";
+
 export default {
   name: "TweetReplyList",
+  mixins: [fromNowFilter],
   props: {
     reply: {
       type: Object,

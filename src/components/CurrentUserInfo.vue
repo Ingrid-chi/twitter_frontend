@@ -120,6 +120,7 @@ export default {
       user: {},
     };
   },
+  
 
   async created() {
     const { currentUserData } = await userApis.getCurrentUser();

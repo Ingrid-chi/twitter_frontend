@@ -16,13 +16,15 @@
       <div class="content__tweet__text">
         {{ tweet.description }}
       </div>
-      <div class="content__tweet__time">{{ tweet.createdAt }}</div>
+      <div class="content__tweet__time">{{ tweet.createdAt | fromNow }}</div>
     </div>
   </div>
 </template>
 <script>
+import { fromNowFilter } from "./../utils/mixins";
 export default {
   name: "TweetReply",
+  mixins: [fromNowFilter],
   props: {
     tweet: {
       type: Object,

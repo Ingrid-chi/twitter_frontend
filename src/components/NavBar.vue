@@ -55,6 +55,7 @@ export default {
   async created() {
     if (!localStorage.getItem("token")) {
       this.$router.push("/signin");
+      return;
     }
     const { currentUserData } = await userApis.getCurrentUser();
     this.setCurrentUser(currentUserData);
