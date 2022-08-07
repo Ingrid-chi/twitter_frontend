@@ -203,12 +203,11 @@ export default {
         }
         this.isProcessing = true;
 
-        const response = await userApis.editUserSettings({
+        await userApis.editUserSettings({
           id: this.currentUser.id,
           data: {
             name: this.name,
             account: this.account,
-            name: this.name,
             email: this.email,
             password: this.password,
           },
