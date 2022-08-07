@@ -1,7 +1,16 @@
  <template>
   <div class="content__wrapper__tweet">
     <div class="content__tweet">
-      <img class="content__tweet__img" :src="tweet.User.avatar" alt="userImg" />
+      <router-link :to="`/${tweet.UserId}`">
+        <div class="content__tweet__wrapper__img">
+          <img
+            class="content__tweet__img"
+            :src="tweet.User.avatar"
+            alt="userImg"
+          />
+        </div>
+      </router-link>
+
       <div class="content__tweet__name">{{ tweet.User.name }}</div>
       <div class="content__tweet__account">@{{ tweet.User.account }}</div>
       <div class="content__tweet__text">
@@ -43,6 +52,7 @@ export default {
     &__img {
       height: 50px;
       width: 50px;
+      border-radius: 50%;
       margin-bottom: 8px;
       object-fit: cover;
     }
