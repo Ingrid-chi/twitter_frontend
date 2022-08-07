@@ -42,7 +42,7 @@
             <div class="tweets-container__detail__count-panel__like">
               <button
                 v-if="tweet.isLike"
-                @click.stop.prevent="unLike(tweet.id)"
+                @click.stop.prevent="deleteLike(tweet.id)"
                 class="tweets-container__detail__count-panel__like__icon"
               >
                 <img src="./../assets/like-checked.png" alt="" />
@@ -90,27 +90,77 @@ export default {
     async addLike(id) {
       try {
         await usersAPI.addTweetLike(id);
-        this.tweet.isLike = true;
-      } catch (error) {
-        console.log(error);
-        Toast.fire({
-          icon: "error",
-          title: "目前無法新增 like, 請稍後再試",
+        this.tweet = this.tweet.map((tweet) => {
+          if (tweet.id === id) {
+            return {
+              ...tweet,
+              isLike: true,
+              likesCount: tweet.likesCount + 1,
+            };
+            
+          } else {
+            return tweet;
+          }
         });
+      } catch (error) {
+        const { response } = error;
+        if (response.data.message) {
+          Toast.fire({
+            icon: "error",
+            title: response.data.message,
+          });
+        }
       }
     },
-    async unLike(id) {
+    async deleteLike(id) {
       try {
-        await usersAPI.addTweetLike(id);
-        this.tweet.isLike = true;
-      } catch (error) {
-        console.log(error);
-        Toast.fire({
-          icon: "error",
-          title: "目前無法取消 like, 請稍後再試",
+        await usersAPI.deleteTweetLike(id);
+        this.tweet = this.tweet.map((tweet) => {
+          if (tweet.id === id) {
+            return {
+              ...tweet,
+              isLike: false,
+              likesCount: tweet.likesCount - 1,
+            };
+          } else {
+            return tweet;
+          }
         });
+      } catch (error) {
+        const { response } = error;
+        if (response.data.message) {
+          Toast.fire({
+            icon: "error",
+            title: response.data.message,
+          });
+        }
       }
     },
+
+    // async addLike(id) {
+    //   try {
+    //     await usersAPI.addTweetLike(id);
+    //     this.tweet.isLike = true;
+    //   } catch (error) {
+    //     console.log(error);
+    //     Toast.fire({
+    //       icon: "error",
+    //       title: "目前無法新增 like, 請稍後再試",
+    //     });
+    //   }
+    // },
+    // async unLike(id) {
+    //   try {
+    //     await usersAPI.addTweetLike(id);
+    //     this.tweet.isLike = true;
+    //   } catch (error) {
+    //     console.log(error);
+    //     Toast.fire({
+    //       icon: "error",
+    //       title: "目前無法取消 like, 請稍後再試",
+    //     });
+    //   }
+    // },
   },
 
   computed: {

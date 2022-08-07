@@ -7,9 +7,11 @@
       </button>
 
       <div class="currentUserInfo-title__detail">
-        <h5 class="currentUserInfo-title__detail__name">{{ user.name }}</h5>
+        <h5 class="currentUserInfo-title__detail__name">
+          {{ user.name }}
+        </h5>
         <div class="currentUserInfo-title__detail__tweetsTotal secondary-bold">
-          {{ user.TweetsCount + "推文" }}
+          {{ user.TweetsCount + '推文' }}
         </div>
       </div>
     </div>
@@ -37,7 +39,7 @@
           {{ user.name }}
         </h5>
         <p class="currentUserInfo-detail__nameDetail__account">
-          {{ "@" + user.account }}
+          {{ '@' + user.account }}
         </p>
         <p class="currentUserInfo-detail__nameDetail__description">
           {{ user.introduction }}
@@ -63,7 +65,9 @@
         <div class="otherUserInfo__btn--following">正在跟隨</div>
       </div>
 
-      <button class="currentUserInfo-detail__edit">編輯個人資料</button>
+      <button v-else class="currentUserInfo-detail__edit" @click="showModal">
+        編輯個人資料
+      </button>
     </div>
 
     <!-- 跟隨中 & 跟隨者 可連結的地方-->
@@ -74,7 +78,7 @@
       <div class="currentUserInfo-followTotal__following">
         <router-link to="/heyjohn/followings">
           <label class="currentUserInfo-followTotal__following__count">{{
-            user.FollowingCount + "個"
+            user.FollowingCount + '個'
           }}</label>
           <label class="currentUserInfo-followTotal__following__text"
             >跟隨中</label
@@ -84,7 +88,7 @@
       <div class="currentUserInfo-followTotal__follower">
         <router-link to="/heyjohn/followers">
           <label class="currentUserInfo-followTotal__follower__count">{{
-            user.FollowerCount + "位"
+            user.FollowerCount + '位'
           }}</label>
           <label class="currentUserInfo-followTotal__follower__text"
             >跟隨者</label
@@ -92,33 +96,28 @@
         </router-link>
       </div>
     </div>
-    <EditModal v-show="isSelf"> </EditModal>
+    <EditModal v-show="show" @hide-modal="hideModal"> </EditModal>
   </div>
 </template>
 
 <script>
-import { currentUserFollowPanelItems } from "../configs/contentConfigs";
-import EditModal from "./EditModal";
-import userApis from "../apis/users";
-import { mapState, mapMutations } from "vuex";
+import { currentUserFollowPanelItems } from '../configs/contentConfigs';
+import EditModal from './EditModal';
+import userApis from '../apis/users';
+import { mapState, mapMutations } from 'vuex';
 
 export default {
-  name: "CurrentUserInfo",
+  name: 'CurrentUserInfo',
   components: {
     EditModal,
-  },
-
-  props: {
-    user: {
-      type: Object,
-      require: true,
-    },
   },
 
   data() {
     return {
       currentUserFollowPanelItems: currentUserFollowPanelItems,
       isSelf: false,
+      show: false,
+      user: {},
     };
   },
 
@@ -126,19 +125,49 @@ export default {
     const { currentUserData } = await userApis.getCurrentUser();
     this.setCurrentUser(currentUserData);
 
-    if (+this.$route.params.userId === +this.currentUser.id) {
+    const response = await userApis.getUser(this.$route.params.userId);
+    // const response = await userApis.getUser(this.currentUser.id);
+    const { user } = response;
+
+    console.log('user', user);
+    console.log('currentUserData', currentUserData);
+
+    this.user = {
+      ...this.currentUser,
+      ...user,
+    };
+
+    if (Number(this.$route.params.userId) === Number(this.currentUser.id)) {
       this.isSelf = true;
     }
   },
 
   computed: {
-    ...mapState(["currentUser"]),
+    ...mapState(['currentUser']),
   },
-
   methods: {
-    ...mapMutations(["setCurrentUser"]),
+    ...mapMutations(['setCurrentUser']),
     getFollowPanelItemId(itemId) {
       this.itemId = itemId;
+    },
+    showModal() {
+      this.show = true;
+    },
+
+    hideModal(isEdit = false) {
+      this.show = false;
+      if (isEdit) {
+        this.$emit('fetch-user');
+      }
+    },
+  },
+  watch: {
+    '$route.params.userId': async function () {
+      const response = await userApis.getUser(this.$route.params.userId);
+
+      const { user } = response;
+
+      this.user = user;
     },
   },
 };

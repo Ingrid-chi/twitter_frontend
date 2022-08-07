@@ -6,7 +6,7 @@
         v-for="menuItem in menuItems"
         :key="menuItem.id"
       >
-        <router-link class="navTab__menu__link" :to="menuItem.path">
+        <router-link class="navTab__menu__link" :to="menuItem.path ? menuItem.path : String(userId)">
           <img
             class="navTab__menu__link__img"
             :src="getImg(menuItem.image)"
@@ -42,6 +42,13 @@ export default {
   },
   components: {
     MainModal,
+  },
+
+  props: {
+    userId: {
+      type: Number,
+      require: true,
+    }
   },
 
   created() {

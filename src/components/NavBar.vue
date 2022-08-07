@@ -7,7 +7,7 @@
         </div>
 
         <!-- 前後台的 NavTab -->
-        <NavTab v-if="!isAdmin" />
+        <NavTab v-if="!isAdmin" :userId="userId" />
         <AdminNavTab v-else />
       </div>
 
@@ -46,9 +46,16 @@ export default {
     },
   },
 
+  data() {
+    return {
+      userId: 0, 
+    }
+  },
+
   async created() {
     const { currentUserData } = await userApis.getCurrentUser();
     this.setCurrentUser(currentUserData);
+    this.userId = currentUserData.id
   },
 
   methods: {

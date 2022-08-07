@@ -8,20 +8,32 @@
         v-for="user in users"
         :key="user.id"
       >
-        <div class="popularUserList__container__img">
-          <img :src="user.avatar" alt="" />
-        </div>
+        <!-- ** @TODO 修改 name ** -->
+        <!-- <router-link 
+      :to="{ name: (user.name), params: { id: user.id } }"
+      class="popularUserList-link"
+      > -->
+        <router-link 
+        :to="`/${user.id}`" 
+        class="popularUserList-link"
+        >
+          <div class="popularUserList__container__img">
+            <img :src="user.avatar" alt="" />
+          </div>
 
-        <div class="popularUserList__container__nameDetail">
-          <p class="popularUserList__container__nameDetail__name primary-bold">
-            {{ user.name }}
-          </p>
-          <p
-            class="popularUserList__container__nameDetail__account secondary-bol"
-          >
-            {{ user.account }}
-          </p>
-        </div>
+          <div class="popularUserList__container__nameDetail">
+            <p
+              class="popularUserList__container__nameDetail__name primary-bold"
+            >
+              {{ user.name }}
+            </p>
+            <p
+              class="popularUserList__container__nameDetail__account secondary-bol"
+            >
+              {{ user.account }}
+            </p>
+          </div>
+        </router-link>
 
         <button
           class="popularUserList__container__btnFollowed"
@@ -161,7 +173,6 @@ export default {
 
 <style lang="scss" scoped>
 .popularUserList {
-  height: 100%;
   display: flex;
   flex-direction: column;
   width: 273px;
@@ -209,5 +220,10 @@ export default {
       @extend %btn-checked;
     }
   }
+}
+
+.popularUserList-link {
+  display: flex;
+  align-items: center;
 }
 </style>

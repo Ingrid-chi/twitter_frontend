@@ -10,7 +10,7 @@ export const menuItems = [
     id: 2,
     title: "個人資料",
     image: "info.png",
-    path: "/user1",
+    path: "",
   },
   {
     id: 3,
