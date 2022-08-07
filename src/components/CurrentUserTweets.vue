@@ -16,7 +16,7 @@
               >{{ "@" + tweet.User.account }}．</label
             >
             <label class="tweets-container__detail__title__created-at"
-              >{{ tweet.createdAt }}
+              >{{ tweet.createdAt | fromNow }}
             </label>
           </div>
 
@@ -94,13 +94,23 @@ export default {
 
   created() {
     // console.log(this.currentUser);
-    this.fetchCurrentUserTweets(this.currentUser.id);
+    this.fetchCurrentUserTweets(this.$route.params.userId);
+  },
+
+//這裡新加的，不確定是否有用
+  beforeRouteUpdate(to, from, next) {
+    // 路由改變時重新抓取資料
+    const { id } = to.params;
+    this.fetchCurrentUserTweets(id);
+    next();
   },
 
   methods: {
-    async fetchCurrentUserTweets(id) {
+    async fetchCurrentUserTweets() {
       try {
-        const response = await usersAPI.getUserTweets(id);
+        const response = await usersAPI.getUserTweets(
+          this.$route.params.userId
+        );
         this.tweets = response.tweets;
         // console.log(this.tweets);
       } catch (error) {
@@ -126,7 +136,6 @@ export default {
               isLike: true,
               likesCount: tweet.likesCount + 1,
             };
-            
           } else {
             return tweet;
           }
@@ -171,6 +180,16 @@ export default {
 
   computed: {
     ...mapState(["currentUser"]),
+  },
+
+  watch: {
+    "$route.params.userId": async function () {
+      const response = await usersAPI.getUser(this.$route.params.userId);
+
+      const { user } = response;
+
+      this.user = user;
+    },
   },
 };
 </script>

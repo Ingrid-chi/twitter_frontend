@@ -20,7 +20,7 @@
             >{{ "@" + reply.User.account }}．</label
           >
           <label class="reply-container__detail__title__created-at"
-            >{{ reply.createdAt }}
+            >{{ reply.createdAt | fromNow }}
           </label>
         </div>
 
@@ -43,12 +43,15 @@
 </template>
 
 <script>
+import { fromNowFilter } from "./../utils/mixins";
 import { mapState } from "vuex";
 import usersAPI from "../apis/users";
 import { Toast } from "../utils/helpers";
 
 export default {
   name: "CurrentUserReply",
+
+  mixins: [fromNowFilter],
 
   components: {},
 
@@ -60,13 +63,13 @@ export default {
 
   created() {
     console.log(this.currentUserReplied);
-    this.fetchCurrentUserReplied(this.currentUser.id);
+    this.fetchCurrentUserReplied(this.$route.params.userId);
   },
 
   methods: {
-    async fetchCurrentUserReplied(id) {
+    async fetchCurrentUserReplied() {
       try {
-        const response = await usersAPI.getUserReplied(id);
+        const response = await usersAPI.getUserReplied(this.$route.params.userId);
         this.replies = response.replies;
         console.log(this.replies);
       } catch (error) {
@@ -84,6 +87,16 @@ export default {
 
   computed: {
     ...mapState(["currentUser"]),
+  },
+
+  watch: {
+    '$route.params.userId': async function () {
+      const response = await usersAPI.getUser(this.$route.params.userId);
+
+      const { user } = response;
+
+      this.user = user;
+    },
   },
 };
 </script>
