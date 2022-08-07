@@ -1,11 +1,11 @@
 <template>
   <div class="currentUserTweets-wrapper">
-    <router-link :to="`/tweets/${tweet.id}`">
+    <router-link :to="`/tweets/${currentTweet.id}`">
       <div class="tweets-container-for">
         <div class="tweets-container">
-          <router-link :to="`/${tweet.UserId}`">
+          <router-link :to="`/${currentTweet.UserId}`">
             <div class="tweets-container__avatar">
-              <img :src="tweet.User.avatar" alt="" />
+              <img :src="currentTweet.User.avatar" alt="" />
             </div>
           </router-link>
           <div class="tweets-container__detail">
@@ -13,19 +13,19 @@
             <div class="tweets-container__detail__title">
               <label
                 class="tweets-container__detail__title__name primary-bold"
-                >{{ tweet.User.name }}</label
+                >{{ currentTweet.User.name }}</label
               >
               <label class="tweets-container__detail__title__account"
-                >{{ "@" + tweet.User.account }}．</label
+                >{{ '@' + currentTweet.User.account }}．</label
               >
               <label class="tweets-container__detail__title__created-at"
-                >{{ tweet.createdAt | fromNow }}
+                >{{ currentTweet.createdAt | fromNow }}
               </label>
             </div>
 
             <!-- description -->
             <p class="tweets-container__detail__description">
-              {{ tweet.description }}
+              {{ currentTweet.description }}
             </p>
 
             <!-- reply & like icon -->
@@ -39,15 +39,15 @@
                   class="tweets-container__detail__count-panel__reply__count"
                 >
                   <!-- here -->
-                  {{ tweet.replyCount }}
+                  {{ currentTweet.replyCount }}
                 </div>
               </div>
 
               <!-- like icon -->
               <div class="tweets-container__detail__count-panel__like">
                 <button
-                  v-if="tweet.isLike"
-                  @click.stop.prevent="unLike(tweet.id)"
+                  v-if="currentTweet.isLike"
+                  @click.stop.prevent="deleteLike(currentTweet.id)"
                   class="tweets-container__detail__count-panel__like__icon"
                 >
                   <img src="./../assets/like-checked.png" alt="" />
@@ -55,14 +55,14 @@
 
                 <button
                   v-else
-                  @click.stop.prevent="addLike(tweet.id)"
+                  @click.stop.prevent="addLike(currentTweet.id)"
                   class="tweets-container__detail__count-panel__like__icon"
                 >
                   <img src="./../assets/like.png" alt="" />
                 </button>
                 <div class="tweets-container__detail__count-panel__like__count">
                   <!-- here -->
-                  {{ tweet.likeCount }}
+                  {{ currentTweet.likeCount }}
                 </div>
               </div>
             </div>
@@ -76,13 +76,13 @@
 </template>
 
 <script>
-import { fromNowFilter } from "./../utils/mixins";
-import { mapState } from "vuex";
-import usersAPI from "../apis/users";
-import { Toast } from "../utils/helpers";
+import { fromNowFilter } from './../utils/mixins';
+import { mapState } from 'vuex';
+import usersAPI from '../apis/users';
+import { Toast } from '../utils/helpers';
 
 export default {
-  name: "CurrentUserTweets",
+  name: 'CurrentUserTweets',
   mixins: [fromNowFilter],
   components: {},
   props: {
@@ -92,50 +92,50 @@ export default {
     },
   },
 
+  data() {
+    return {
+      currentTweet: {},
+    };
+  },
+
+  created() {
+    this.currentTweet = this.tweet;
+  },
+
   methods: {
     async addLike(id) {
       try {
         await usersAPI.addTweetLike(id);
-        this.tweet = this.tweet.map((tweet) => {
-          if (tweet.id === id) {
-            return {
-              ...tweet,
-              isLike: true,
-              likesCount: tweet.likesCount + 1,
-            };
-          } else {
-            return tweet;
-          }
-        });
+        this.currentTweet = {
+          ...this.currentTweet,
+          isLike: true,
+          likeCount: this.currentTweet.likeCount + 1
+        };
       } catch (error) {
         const { response } = error;
-        if (response.data.message) {
-          Toast.fire({
-            icon: "error",
-            title: response.data.message,
-          });
+        if (response) {
+          if (response.data.message) {
+            Toast.fire({
+              icon: 'error',
+              title: response.data.message,
+            });
+          }
         }
       }
     },
     async deleteLike(id) {
       try {
         await usersAPI.deleteTweetLike(id);
-        this.tweet = this.tweet.map((tweet) => {
-          if (tweet.id === id) {
-            return {
-              ...tweet,
-              isLike: false,
-              likesCount: tweet.likesCount - 1,
-            };
-          } else {
-            return tweet;
-          }
-        });
+        this.currentTweet = {
+          ...this.currentTweet,
+          isLike: false,
+          likeCount: this.currentTweet.likeCount - 1
+        };
       } catch (error) {
         const { response } = error;
-        if (response.data.message) {
+        if (response) {
           Toast.fire({
-            icon: "error",
+            icon: 'error',
             title: response.data.message,
           });
         }
@@ -169,7 +169,7 @@ export default {
   },
 
   computed: {
-    ...mapState(["currentUser"]),
+    ...mapState(['currentUser']),
   },
 };
 </script>
