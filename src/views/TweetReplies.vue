@@ -27,7 +27,20 @@
               :alt="reply.title"
               @click="showReplyModal"
             />
-            <img class="content__like-icon" :src="likeIcon" :alt="like.title" />
+            <img
+              v-if="tweet.isLike"
+              class="content__like-icon"
+              :src="checkedLikeIcon"
+              :alt="checkedLikeIcon.title"
+              @click.stop.prevent="deleteLike(tweet.id)"
+            />
+            <img
+              v-else
+              class="content__like-icon"
+              :src="likeIcon"
+              :alt="like.title"
+              @click.stop.prevent="addLike(tweet.id)"
+            />
           </div>
 
           <TweetReplyList
@@ -51,24 +64,27 @@
   </div>
 </template>
 <script>
-import NavBar from "./../components/NavBar";
-import PopularUser from "./../components/PopularUser";
-import TweetReply from "./../components/TweetReply";
-import TweetReplyList from "./../components/TweetReplyList";
-import ReplyModal from "./../components/ReplyModal";
-import { commonItems } from "../configs/commonConfigs";
+import NavBar from './../components/NavBar';
+import PopularUser from './../components/PopularUser';
+import TweetReply from './../components/TweetReply';
+import TweetReplyList from './../components/TweetReplyList';
+import ReplyModal from './../components/ReplyModal';
+import { commonItems } from '../configs/commonConfigs';
+import { Toast } from '../utils/helpers';
 
-import tweetApis from "../apis/tweet";
+import tweetApis from '../apis/tweet';
+import usersApis from '../apis/users';
 
 //getTweetById
 export default {
-  name: "TweetReplies",
+  name: 'TweetReplies',
   data() {
     return {
       replyShow: false,
       back: commonItems.back,
       reply: commonItems.reply,
       like: commonItems.like,
+      checkedLike: commonItems.checkedLike,
       tweetId: 0,
       tweet: {},
       replies: [],
@@ -94,6 +110,9 @@ export default {
     likeIcon() {
       return require(`../assets/${this.like.image}`);
     },
+    checkedLikeIcon() {
+      return require(`../assets/${this.checkedLike.image}`);
+    },
   },
   methods: {
     hideReplyModal() {
@@ -113,6 +132,44 @@ export default {
 
       this.tweet = data;
       this.replies = replies;
+    },
+    async addLike(id) {
+      try {
+        await usersApis.addTweetLike(id);
+        this.tweet = {
+          ...this.tweet,
+          isLike: true,
+          likeCount: this.tweet.likeCount + 1,
+        };
+      } catch (error) {
+        const { response } = error;
+        if (response) {
+          if (response.data.message) {
+            Toast.fire({
+              icon: 'error',
+              title: response.data.message,
+            });
+          }
+        }
+      }
+    },
+    async deleteLike(id) {
+      try {
+        await usersApis.deleteTweetLike(id);
+        this.tweet = {
+          ...this.tweet,
+          isLike: false,
+          likeCount: this.tweet.likeCount - 1
+        };
+      } catch (error) {
+        const { response } = error;
+        if (response) {
+          Toast.fire({
+            icon: 'error',
+            title: response.data.message,
+          });
+        }
+      }
     },
   },
 };
@@ -196,7 +253,7 @@ export default {
     }
     &__like-nums {
       margin-right: 4px;
-      font-family: "Montserrat", sans-serif;
+      font-family: 'Montserrat', sans-serif;
       font-weight: 700;
       font-size: 19px;
     }
