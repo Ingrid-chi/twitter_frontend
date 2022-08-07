@@ -137,7 +137,6 @@ export default {
   computed: {
     ...mapState(["currentUser"]),
   },
-
   methods: {
     ...mapMutations(["setCurrentUser"]),
     getFollowPanelItemId(itemId) {
@@ -146,8 +145,12 @@ export default {
     showModal() {
       this.show = true;
     },
-    hideModal() {
+
+    hideModal(isEdit = false) {
       this.show = false;
+      if (isEdit) {
+        this.$emit("fetch-user");
+      }
     },
   },
 };
