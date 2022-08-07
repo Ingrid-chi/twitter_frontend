@@ -208,11 +208,12 @@ export default {
           data: {
             name: this.name,
             account: this.account,
-            name: this.name,
+            // name: this.name,
             email: this.email,
             password: this.password,
           },
         });
+        console.log(response)
         Toast.fire({
           icon: "success",
           title: "成功修改設定",
