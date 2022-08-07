@@ -203,7 +203,7 @@ export default {
         }
         this.isProcessing = true;
 
-        const response = await userApis.editUserSettings({
+        await userApis.editUserSettings({
           id: this.currentUser.id,
           data: {
             name: this.name,
@@ -213,7 +213,6 @@ export default {
             password: this.password,
           },
         });
-        console.log(response)
         Toast.fire({
           icon: "success",
           title: "成功修改設定",

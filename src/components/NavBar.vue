@@ -48,14 +48,17 @@ export default {
 
   data() {
     return {
-      userId: 0, 
-    }
+      userId: 0,
+    };
   },
 
   async created() {
+    if (!localStorage.getItem("token")) {
+      this.$router.push("/signin");
+    }
     const { currentUserData } = await userApis.getCurrentUser();
     this.setCurrentUser(currentUserData);
-    this.userId = currentUserData.id
+    this.userId = currentUserData.id;
   },
 
   methods: {

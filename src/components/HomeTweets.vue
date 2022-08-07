@@ -16,71 +16,58 @@
                 >{{ tweet.User.name }}</label
               >
               <label class="tweets-container__detail__title__account"
-                >{{ '@' + tweet.User.account }}．</label
+                >{{ "@" + tweet.User.account }}．</label
               >
               <label class="tweets-container__detail__title__created-at"
                 >{{ tweet.createdAt | fromNow }}
               </label>
             </div>
 
-            <!-- like icon -->
-            <div class="tweets-container__detail__count-panel__like">
-              <button
-                v-if="tweet.isLike"
-                @click.stop.prevent="deleteLike(tweet.id)"
-                class="tweets-container__detail__count-panel__like__icon"
-              >
-                <img src="./../assets/like-checked.png" alt="" />
-              </button>
-              <!-- description -->
-              <p class="tweets-container__detail__description">
-                {{ tweet.description }}
-              </p>
+            <!-- description -->
+            <p class="tweets-container__detail__description">
+              {{ tweet.description }}
+            </p>
 
-              <!-- reply & like icon -->
-              <div class="tweets-container__detail__count-panel">
-                <!-- reply icon -->
-                <div class="tweets-container__detail__count-panel__reply">
-                  <div
-                    class="tweets-container__detail__count-panel__reply__icon"
-                  >
-                    <img :src="tweet.avatar" alt="" />
-                  </div>
-                  <div
-                    class="tweets-container__detail__count-panel__reply__count"
-                  >
-                    <!-- here -->
-                    {{ tweet.replyCount }}
-                  </div>
+            <!-- reply & like icon -->
+            <div class="tweets-container__detail__count-panel">
+              <!-- reply icon -->
+              <div class="tweets-container__detail__count-panel__reply">
+                <div class="tweets-container__detail__count-panel__reply__icon">
+                  <img src="./../assets/replied.png" alt="" />
                 </div>
+                <div
+                  class="tweets-container__detail__count-panel__reply__count"
+                >
+                  <!-- here -->
+                  {{ tweet.replyCount }}
+                </div>
+              </div>
 
-                <!-- like icon -->
-                <div class="tweets-container__detail__count-panel__like">
-                  <button
-                    v-if="tweet.isLike"
-                    @click.stop.prevent="unLike(tweet.id)"
-                    class="tweets-container__detail__count-panel__like__icon"
-                  >
-                    <img src="./../assets/like-checked.png" alt="" />
-                  </button>
+              <!-- like icon -->
+              <div class="tweets-container__detail__count-panel__like">
+                <button
+                  v-if="tweet.isLike"
+                  @click.stop.prevent="unLike(tweet.id)"
+                  class="tweets-container__detail__count-panel__like__icon"
+                >
+                  <img src="./../assets/like-checked.png" alt="" />
+                </button>
 
-                  <button
-                    v-else
-                    @click.stop.prevent="addLike(tweet.id)"
-                    class="tweets-container__detail__count-panel__like__icon"
-                  >
-                    <img src="./../assets/like.png" alt="" />
-                  </button>
-                  <div
-                    class="tweets-container__detail__count-panel__like__count"
-                  >
-                    <!-- here -->
-                    {{ tweet.likeCount }}
-                  </div>
+                <button
+                  v-else
+                  @click.stop.prevent="addLike(tweet.id)"
+                  class="tweets-container__detail__count-panel__like__icon"
+                >
+                  <img src="./../assets/like.png" alt="" />
+                </button>
+                <div class="tweets-container__detail__count-panel__like__count">
+                  <!-- here -->
+                  {{ tweet.likeCount }}
                 </div>
               </div>
             </div>
           </div>
+
           <div class="currentUserTweets-wrapper__bottom"></div>
         </div>
       </div>
@@ -89,13 +76,13 @@
 </template>
 
 <script>
-import { fromNowFilter } from './../utils/mixins';
-import { mapState } from 'vuex';
-import usersAPI from '../apis/users';
-import { Toast } from '../utils/helpers';
+import { fromNowFilter } from "./../utils/mixins";
+import { mapState } from "vuex";
+import usersAPI from "../apis/users";
+import { Toast } from "../utils/helpers";
 
 export default {
-  name: 'CurrentUserTweets',
+  name: "CurrentUserTweets",
   mixins: [fromNowFilter],
   components: {},
   props: {
@@ -124,7 +111,7 @@ export default {
         const { response } = error;
         if (response.data.message) {
           Toast.fire({
-            icon: 'error',
+            icon: "error",
             title: response.data.message,
           });
         }
@@ -148,7 +135,7 @@ export default {
         const { response } = error;
         if (response.data.message) {
           Toast.fire({
-            icon: 'error',
+            icon: "error",
             title: response.data.message,
           });
         }
@@ -182,7 +169,7 @@ export default {
   },
 
   computed: {
-    ...mapState(['currentUser']),
+    ...mapState(["currentUser"]),
   },
 };
 </script>

@@ -11,18 +11,30 @@
         <button class="save-btn" @click="save">儲存</button>
       </div>
       <div class="modal-main">
-        <img src="https://i.imgur.com/hCJiDle.png" alt="" class="cover" />
-        <img :src="camera" alt="" class="camera" />
+        <img :src="cover" alt="" class="cover" />
+        <input
+          type="file"
+          @change="changeCover"
+          id="imgUpload"
+          style="display: none"
+        />
+        <label for="imgUpload">
+          <img :src="camera" class="camera" />
+          <img :src="plus" alt="" class="plus" />
+        </label>
         <img :src="deleteWhite" alt="" class="delete-white" />
-        <img :src="plus" alt="" class="plus" />
         <div class="avator-wrapper">
-          <img
-            class="avator"
-            src="https://randomuser.me/api/portraits/lego/2.jpg"
-            alt="userImg"
+          <img class="avator" :src="avatar" alt="userImg" />
+          <input
+            type="file"
+            @change="changeAvatar"
+            id="avatarUpload"
+            style="display: none"
           />
-          <img :src="camera" alt="" class="avator-camera" />
-          <img :src="plus" alt="" class="avator-plus" />
+          <label for="avatarUpload">
+            <img :src="camera" alt="" class="avator-camera" />
+            <img :src="plus" alt="" class="avator-plus" />
+          </label>
         </div>
         <div class="modal-main-form">
           <div class="modal-main-name">
@@ -123,6 +135,30 @@ export default {
       });
       this.setCurrentUser(response.data);
       this.hideModal(true);
+    },
+
+    changeCover(e) {
+      const files = e.target.files;
+
+      const _this = this;
+      const reader = new FileReader();
+      reader.readAsDataURL(files[0]);
+      reader.onloadend = function () {
+        const base64data = reader.result;
+        _this.cover = base64data;
+      };
+    },
+
+    changeAvatar(e) {
+      const files = e.target.files;
+
+      const _this = this;
+      const reader = new FileReader();
+      reader.readAsDataURL(files[0]);
+      reader.onloadend = function () {
+        const base64data = reader.result;
+        _this.avatar = base64data;
+      };
     },
   },
 };
