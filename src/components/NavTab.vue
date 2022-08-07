@@ -6,17 +6,30 @@
         v-for="menuItem in menuItems"
         :key="menuItem.id"
       >
-        <router-link class="navTab__menu__link" :to="menuItem.path ? menuItem.path : String(userId)">
+        <router-link
+          class="navTab__menu__link"
+          :to="
+            menuItem.path
+              ? menuItem.path === '/setting'
+                ? `/${userId}${menuItem.path}`
+                : menuItem.path
+              : `/${userId}`
+          "
+        >
           <img
             class="navTab__menu__link__img"
             :src="getImg(menuItem.image)"
             alt=""
           />
 
-          <h5 
-          :class="['navTab__menu__link__title',
-          { checked: menuItem.path === currentTabPath },
-          ]">{{ menuItem.title }}</h5>
+          <h5
+            :class="[
+              'navTab__menu__link__title',
+              { checked: menuItem.path === currentTabPath },
+            ]"
+          >
+            {{ menuItem.title }}
+          </h5>
         </router-link>
       </div>
 
@@ -35,9 +48,9 @@ export default {
 
   data() {
     return {
-      menuItems: menuItems,
+      menuItems,
       show: false,
-      currentTabPath: '/user1'
+      currentTabPath: null,
     };
   },
   components: {
@@ -48,11 +61,11 @@ export default {
     userId: {
       type: Number,
       require: true,
-    }
+    },
   },
 
   created() {
-    this.currentTabPath = this.$route.path
+    this.currentTabPath = this.$route.params.userId;
   },
 
   methods: {
