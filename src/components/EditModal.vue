@@ -74,7 +74,7 @@
 import { commonItems } from "../configs/commonConfigs";
 import { mapState, mapMutations } from "vuex";
 import userApis from "../apis/users";
-import { Toast } from "./../utils/helpers";
+import { Toast } from "../utils/helpers";
 // import { fromNowFilter } from "./../utils/mixins";
 
 export default {
@@ -126,13 +126,13 @@ export default {
         return;
       }
     },
-     introduction() {
-      if (this.introduction.length >= 50) {
+    description() {
+      if (this.description.length >= 50) {
         Toast.fire({
           icon: "error",
           title: "字數上限為50字",
         });
-        this.introduction = "";
+        this.description = "";
         return;
       }
     },
@@ -154,8 +154,12 @@ export default {
           cover: this.cover,
         },
       });
-      this.setCurrentUser(response.data);
-      // this.$emit("user-edit-data",response.data );
+      this.setCurrentUser({
+        ...response.data,
+        // 後端回傳資料沒變，用下面兩個蓋掉
+        avatar: this.avatar,
+        cover: this.cover,
+      });
       // console.log(response.data)
       this.hideModal(true);
     },

@@ -16,7 +16,7 @@ export const menuItems = [
     id: 3,
     title: "設定",
     image: "setting.png",
-    path: "/user1/setting",
+    path: "/setting",
   },
 ];
 

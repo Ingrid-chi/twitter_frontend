@@ -170,6 +170,11 @@ export default {
 
       this.getIsSelf();
     },
+    currentUser() {
+      if (this.isSelf) {
+        this.user = this.currentUser;
+      }
+    },
   },
 };
 </script>
