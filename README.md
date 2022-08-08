@@ -6,13 +6,8 @@
 [後端repo連結](https://github.com/InzooC/twitter-api-2020)
 
 ---
-### 專案畫面
-![markdown](https://raw.githubusercontent.com/Ingrid-chi/
-twitter_frontend/master/src/assets/twitter_frontend_photo.jpg)
-
----
 ### 專案DEMO
-[專案入口網站](https://)
+[專案入口網站](https://ingrid-chi.github.io/twitter_frontend/#/signin)
 
 #### 測試帳號
 
@@ -119,4 +114,4 @@ ctrl + c
 ---
 ### 開發成員與GitHub連結
 * 前端：[渣渣兒](https://github.com/yaoqizha)、[Ingrid](https://github.com/Ingrid-chi)
-* 後端：[小玥](https://github.com/InzooC)、[singinw](https://github.com/singingw)
+* 後端：[小玥](https://github.com/InzooC)、[singingw](https://github.com/singingw)
