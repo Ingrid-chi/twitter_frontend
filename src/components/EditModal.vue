@@ -245,7 +245,7 @@ export default {
     border-radius: 50%;
     background-clip: content-box;
     object-fit: cover;
-    opacity: 50% !important;
+    opacity: 0.5;
     &-wrapper {
       position: absolute;
       top: 124px;
@@ -271,7 +271,7 @@ export default {
   .cover {
     @include size(100%, 200px);
     object-fit: cover;
-    opacity: 75% !important;
+    opacity: 0.75;
   }
   .camera {
     position: absolute;
