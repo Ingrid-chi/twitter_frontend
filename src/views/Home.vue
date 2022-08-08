@@ -84,6 +84,10 @@ export default {
     },
   },
   async created() {
+    if (!localStorage.getItem("token")) {
+      this.$router.push("/signin");
+      return;
+    }
     const { data } = await tweetApis.getTweets();
     this.setTweets(data);
   },
