@@ -45,21 +45,21 @@
             <div class="like-container__detail__count-panel__like">
               <button
                 v-if="likedTweet.isLike"
-                @click.stop.prevent="deleteLike(likedTweet.id)"
-                class="like-container__detail__count-panel__like__icon"
-              >
-                <img src="./../assets/like.png" alt="" />
-              </button>
-
-              <button
-                v-else
-                @click.stop.prevent="addLike(likedTweet.id)"
+                @click.stop.prevent="deleteLike(likedTweet.TweetId)"
                 class="like-container__detail__count-panel__like__icon"
               >
                 <img src="./../assets/like-checked.png" alt="" />
               </button>
+
+              <button
+                v-else
+                @click.stop.prevent="addLike(likedTweet.TweetId)"
+                class="like-container__detail__count-panel__like__icon"
+              >
+                <img src="./../assets/like.png" alt="" />
+              </button>
               <div class="like-container__detail__count-panel__like__count">
-                {{ likedTweet.Tweet.likesCount }}
+                {{ likedTweet.likesCount }}
               </div>
             </div>
           </div>
@@ -95,13 +95,13 @@ export default {
   },
 
   methods: {
-    async fetchCurrentUserLike() {
+    async fetchCurrentUserLike(id) {
       try {
-        const response = await usersAPI.getUserLikes(this.$route.params.userId);
+        const response = await usersAPI.getUserLikes(id);
         this.likedTweets = response.likedTweets;
+        console.log('response', response)
       } catch (error) {
         const { response } = error;
-
         if (response.data.message) {
           Toast.fire({
             icon: 'error',
@@ -115,7 +115,7 @@ export default {
       try {
         await usersAPI.addTweetLike(id);
         this.likedTweets = this.likedTweets.map((likedTweet) => {
-          if (likedTweet.id === id) {
+          if (likedTweet.TweetId === id) {
             return {
               ...likedTweet,
               isLike: true,
@@ -140,7 +140,7 @@ export default {
       try {
         await usersAPI.deleteTweetLike(id);
         this.likedTweets = this.likedTweets.map((likedTweet) => {
-          if (likedTweet.id === id) {
+          if (likedTweet.TweetId === id) {
             return {
               ...likedTweet,
               isLike: false,
