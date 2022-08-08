@@ -53,7 +53,7 @@
       class="currentUserInfo-followTotal"
     >
       <div class="currentUserInfo-followTotal__following">
-        <router-link to="/heyjohn/followings">
+        <router-link :to="{ name: 'followings', params: { account: user.id } }">
           <label class="currentUserInfo-followTotal__following__count">{{
             user.FollowingCount + "個"
           }}</label>
@@ -63,7 +63,7 @@
         </router-link>
       </div>
       <div class="currentUserInfo-followTotal__follower">
-        <router-link to="/heyjohn/followers">
+        <router-link :to="{ name: 'followers', params: { account: user.id } }">
           <label class="currentUserInfo-followTotal__follower__count">{{
             user.FollowerCount + "位"
           }}</label>

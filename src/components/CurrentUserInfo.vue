@@ -11,7 +11,7 @@
           {{ user.name }}
         </h5>
         <div class="currentUserInfo-title__detail__tweetsTotal secondary-bold">
-          {{ user.TweetsCount + "推文" }}
+          {{ user.TweetsCount + '推文' }}
         </div>
       </div>
     </div>
@@ -39,7 +39,7 @@
           {{ user.name }}
         </h5>
         <p class="currentUserInfo-detail__nameDetail__account">
-          {{ "@" + user.account }}
+          {{ '@' + user.account }}
         </p>
         <p class="currentUserInfo-detail__nameDetail__description">
           {{ user.introduction }}
@@ -76,9 +76,9 @@
       class="currentUserInfo-followTotal"
     >
       <div class="currentUserInfo-followTotal__following">
-        <router-link to="/heyjohn/followings">
+        <router-link :to="{ name: 'followings', params: { account: user.id } }">
           <label class="currentUserInfo-followTotal__following__count">{{
-            user.FollowingCount + "個"
+            user.FollowingCount + '個'
           }}</label>
           <label class="currentUserInfo-followTotal__following__text"
             >跟隨中</label
@@ -86,9 +86,10 @@
         </router-link>
       </div>
       <div class="currentUserInfo-followTotal__follower">
-        <router-link to="/heyjohn/followers">
+        <!-- <router-link to="/heyjohn/followers"> -->
+        <router-link :to="{ name: 'followers', params: { account: user.id } }">
           <label class="currentUserInfo-followTotal__follower__count">{{
-            user.FollowerCount + "位"
+            user.FollowerCount + '位'
           }}</label>
           <label class="currentUserInfo-followTotal__follower__text"
             >跟隨者</label
@@ -101,13 +102,13 @@
 </template>
 
 <script>
-import { currentUserFollowPanelItems } from "../configs/contentConfigs";
-import EditModal from "./EditModal";
-import userApis from "../apis/users";
-import { mapState, mapMutations } from "vuex";
+import { currentUserFollowPanelItems } from '../configs/contentConfigs';
+import EditModal from './EditModal';
+import userApis from '../apis/users';
+import { mapState, mapMutations } from 'vuex';
 
 export default {
-  name: "CurrentUserInfo",
+  name: 'CurrentUserInfo',
   components: {
     EditModal,
   },
@@ -137,10 +138,10 @@ export default {
   },
 
   computed: {
-    ...mapState(["currentUser"]),
+    ...mapState(['currentUser']),
   },
   methods: {
-    ...mapMutations(["setCurrentUser"]),
+    ...mapMutations(['setCurrentUser']),
     getFollowPanelItemId(itemId) {
       this.itemId = itemId;
     },
@@ -151,7 +152,7 @@ export default {
     hideModal(isEdit = false) {
       this.show = false;
       if (isEdit) {
-        this.$emit("fetch-user");
+        this.$emit('fetch-user');
       }
     },
     getIsSelf() {
@@ -161,12 +162,12 @@ export default {
     },
   },
   watch: {
-    "$route.params.userId": async function () {
+    '$route.params.userId': async function () {
       const response = await userApis.getUser(this.$route.params.userId);
       const { user } = response;
       this.user = user;
 
-      this.$emit("fetch-user");
+      this.$emit('fetch-user');
 
       this.getIsSelf();
     },
