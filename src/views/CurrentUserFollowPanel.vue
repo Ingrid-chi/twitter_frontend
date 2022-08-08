@@ -25,7 +25,7 @@
               <div
                 class="followPanel-title__detail__tweetsTotal secondary-bold"
               >
-                {{ user.TweetsCount + "推文" }}
+                {{ user.TweetsCount + '推文' }}
               </div>
             </div>
           </div>
@@ -37,7 +37,7 @@
             <router-link
               v-for="item in items"
               :key="item.id"
-              :to="`/heyjohn/${item.path}`"
+              :to="`/${userId}/${item.path}`"
             >
               <button
                 :class="[
@@ -54,7 +54,7 @@
 
           <!-- 追隨者 & 正在追隨 內容 -->
           <CurrentUserFollowerList
-            :userId="user.id"
+            :userId="userId"
             v-if="currentPage.includes('followers')"
           />
           <CurrentUserFollowingList :userId="user.id" v-else />
@@ -71,15 +71,16 @@
 </template>
 
 <script>
-import NavBar from "./../components/NavBar";
-import PopularUser from "./../components/PopularUser";
-import CurrentUserFollowerList from "./../components/CurrentUserFollowerList";
-import CurrentUserFollowingList from "./../components/CurrentUserFollowingList";
-import { currentUserFollowPanelItems } from "../configs/contentConfigs";
-import { mapState } from "vuex";
+import NavBar from './../components/NavBar';
+import PopularUser from './../components/PopularUser';
+import CurrentUserFollowerList from './../components/CurrentUserFollowerList';
+import CurrentUserFollowingList from './../components/CurrentUserFollowingList';
+import { currentUserFollowPanelItems } from '../configs/contentConfigs';
+import { mapState } from 'vuex';
+import userApis from '../apis/users';
 
 export default {
-  name: "CurrentUserFollowPanel",
+  name: 'CurrentUserFollowPanel',
 
   components: {
     NavBar,
@@ -91,15 +92,20 @@ export default {
   data() {
     return {
       items: currentUserFollowPanelItems,
-      currentPage: "",
+      currentPage: '',
       user: {},
+      userId: ''
     };
   },
 
-  created() {
+  async created() {
     this.currentPage = this.$route.path;
-    this.user = this.currentUser;
-    console.log(this.user);
+    const { account } = this.$route.params;
+    this.userId = account
+
+    const response = await userApis.getUser(account);
+    const { user } = response;
+    this.user = user;
   },
 
   methods: {
@@ -109,11 +115,11 @@ export default {
   },
 
   computed: {
-    ...mapState(["currentUser"]),
+    ...mapState(['currentUser']),
   },
 
   watch: {
-    "$route.path": function (newValue) {
+    '$route.path': function (newValue) {
       this.currentPage = newValue;
     },
   },
