@@ -58,7 +58,7 @@
               cols="30"
               rows="3"
               wrap="hard"
-              maxlength="140"
+              maxlength="160"
               placeholder=""
               v-model="introduction"
             ></textarea>

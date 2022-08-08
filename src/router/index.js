@@ -10,7 +10,7 @@ const routes = [
   {
     path: "/",
     name: "root",
-    redirect: "/signin",
+    // redirect: '/signin',
   },
   {
     path: "/signin",
@@ -35,9 +35,9 @@ const routes = [
     component: () => import("../views/CurrentUser.vue"),
   },
   {
-    path: '/tweets/:tweetId',
-    name: 'tweet',
-    component: () => import('../views/TweetReplies.vue')
+    path: "/tweets/:tweetId",
+    name: "tweet",
+    component: () => import("../views/TweetReplies.vue"),
   },
   {
     path: "/:account/followers",
@@ -60,6 +60,9 @@ const routes = [
     path: "/admin/signin",
     name: "admin-signin",
     component: () => import("../views/admin/AdminSignIn.vue"),
+    meta: {
+      requiresAuth: true,
+    },
   },
   //後臺管理tweets們
   {
