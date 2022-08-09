@@ -13,10 +13,7 @@
       :to="{ name: (user.name), params: { id: user.id } }"
       class="popularUserList-link"
       > -->
-        <router-link 
-        :to="`/${user.id}`" 
-        class="popularUserList-link"
-        >
+        <router-link :to="`/${user.id}`" class="popularUserList-link">
           <div class="popularUserList__container__img">
             <img :src="user.avatar" alt="" />
           </div>
@@ -28,7 +25,10 @@
               {{ user.name }}
             </p>
             <p
-              class="popularUserList__container__nameDetail__account secondary-bol"
+              class="
+                popularUserList__container__nameDetail__account
+                secondary-bol
+              "
             >
               {{ user.account }}
             </p>
@@ -86,7 +86,7 @@ export default {
         // console.log("response", response);
       } catch (error) {
         const { response } = error;
-        if (response.data.message) {
+        if (response.data.message && localStorage.getItem("token")) {
           Toast.fire({
             icon: "error",
             title: response.data.message,
