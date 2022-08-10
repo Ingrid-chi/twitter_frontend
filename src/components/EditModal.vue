@@ -1,6 +1,10 @@
 <template>
   <div class="modal-bg" v-show="show">
-    <div class="modal-container">
+    <form
+      class="modal-container"
+      @submit.stop.prevent="save"
+      enctype="multipart/form-data"
+    >
       <div class="modal-header">
         <img
           :src="deleteOrange"
@@ -8,7 +12,7 @@
           @click="hideModal(false)"
         />
         <div class="title">編輯個人資料</div>
-        <button class="save-btn" @click="save">儲存</button>
+        <button class="save-btn" type="submit">儲存</button>
       </div>
       <div class="modal-main">
         <img :src="cover" alt="" class="cover" />
@@ -17,6 +21,7 @@
           @change="changeCover"
           id="imgUpload"
           style="display: none"
+          name="cover"
         />
         <label for="imgUpload">
           <img :src="camera" class="camera" />
@@ -30,6 +35,7 @@
             @change="changeAvatar"
             id="avatarUpload"
             style="display: none"
+            name="avatar"
           />
           <label for="avatarUpload">
             <img :src="camera" alt="" class="avator-camera" />
@@ -53,7 +59,7 @@
             <label for="">自我介紹</label
             ><textarea
               class=""
-              name=""
+              name="introduction"
               id=""
               cols="30"
               rows="3"
@@ -67,7 +73,7 @@
           <p class="counter">{{ introduction.length }}/160</p>
         </div>
       </div>
-    </div>
+    </form>
   </div>
 </template>
 <script>
@@ -144,23 +150,24 @@ export default {
       this.$emit("hide-modal", isEdit);
     },
 
-    async save() {
+    async save(e) {
+      const form = e.target;
+      const formData = new FormData(form);
+      for (let [name, value] of formData.entries()) {
+        console.log(name + ": " + value);
+      }
       const response = await userApis.editUserSettings({
         id: this.currentUser.id,
-        data: {
-          name: this.name,
-          introduction: this.introduction,
-          avatar: this.avatar,
-          cover: this.cover,
-        },
+        formData,
       });
-      this.setCurrentUser({
-        ...response.data,
-        // 後端回傳資料沒變，用下面兩個蓋掉
-        avatar: this.avatar,
-        cover: this.cover,
-      });
-      // console.log(response.data)
+      // this.setCurrentUser({
+      //   ...response.data,
+      // 後端回傳資料沒變，用下面兩個蓋掉
+      //   avatar: this.avatar,
+      //   cover: this.cover,
+      // })
+      this.setCurrentUser(response.data);
+      console.log(response.data);
       this.hideModal(true);
     },
 
@@ -173,13 +180,15 @@ export default {
         });
         return;
       }
-      const _this = this;
-      const reader = new FileReader();
-      reader.readAsDataURL(files[0]);
-      reader.onloadend = function () {
-        const base64data = reader.result;
-        _this.cover = base64data;
-      };
+      const coverURL = window.URL.createObjectURL(files[0]);
+      this.cover = coverURL;
+      // const _this = this;
+      // const reader = new FileReader();
+      // reader.readAsDataURL(files[0]);
+      // reader.onloadend = function () {
+      //   const base64data = reader.result;
+      //   _this.cover = base64data;
+      // };
     },
 
     changeAvatar(e) {
@@ -192,13 +201,15 @@ export default {
         });
         return;
       }
-      const _this = this;
-      const reader = new FileReader();
-      reader.readAsDataURL(files[0]);
-      reader.onloadend = function () {
-        const base64data = reader.result;
-        _this.avatar = base64data;
-      };
+      const avatarURL = window.URL.createObjectURL(files[0]);
+      this.avatar = avatarURL;
+      // const _this = this;
+      // const reader = new FileReader();
+      // reader.readAsDataURL(files[0]);
+      // reader.onloadend = function () {
+      //   const base64data = reader.result;
+      //   _this.avatar = base64data;
+      // };
     },
   },
 };

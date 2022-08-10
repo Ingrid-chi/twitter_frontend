@@ -46,7 +46,7 @@ export default {
     return apiHelper.post(
       `/tweets/${id}/unlike`,
       {
-          id,
+        id,
       },
       {
         headers: { Authorization: `Bearer ${getToken()}` },
@@ -96,9 +96,9 @@ export default {
     });
   },
 
-  editUserSettings({ id, data }) {
+  editUserSettings({ id, formData }) {
     return apiHelper.put(`/users/${id}/setting`,
-      data,
+      formData,
       {
         headers: { Authorization: `Bearer ${getToken()}` },
       });
