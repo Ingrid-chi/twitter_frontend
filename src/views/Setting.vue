@@ -108,9 +108,7 @@ export default {
   components: {
     NavBar,
   },
-  async created() {
-    // await this.fetchUserSetting();
-  },
+  async created() {},
   watch: {
     currentUser() {
       this.UserId = this.currentUser.id;
@@ -180,7 +178,7 @@ export default {
     //   this.userId = this.$route.params.userId;
     // const response = await usersApis.getCurrentUser(this.userId);
     // },
-    async handleSubmit() {
+    async handleSubmit(e) {
       try {
         if (
           !this.name ||
@@ -203,16 +201,27 @@ export default {
         }
         this.isProcessing = true;
 
-        await userApis.editUserSettings({
+        const form = e.target;
+        const formData = new FormData(form);
+        for (let [name, value] of formData.entries()) {
+          console.log(name + ": " + value);
+        }
+        const response = await userApis.editUserSettings({
           id: this.currentUser.id,
-          data: {
-            name: this.name,
-            account: this.account,
-            // name: this.name,
-            email: this.email,
-            password: this.password,
-          },
+          formData,
         });
+        this.setCurrentUser(response.data);
+        console.log(response.data);
+
+        // await userApis.editUserSettings({
+        //   id: this.currentUser.id,
+        //   data: {
+        //     name: this.name,
+        //     account: this.account,
+        //     email: this.email,
+        //     password: this.password,
+        //   },
+        // });
         Toast.fire({
           icon: "success",
           title: "成功修改設定",
