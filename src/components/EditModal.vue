@@ -173,13 +173,13 @@ export default {
 
     changeCover(e) {
       const files = e.target.files;
-      if (files[0].size > 60000) {
-        Toast.fire({
-          icon: "warning",
-          title: `檔案不超過60MB`,
-        });
-        return;
-      }
+      // if (files[0].size > 60000) {
+      //   Toast.fire({
+      //     icon: "warning",
+      //     title: `檔案不超過60MB`,
+      //   });
+      //   return;
+      // }
       const coverURL = window.URL.createObjectURL(files[0]);
       this.cover = coverURL;
       // const _this = this;
@@ -194,13 +194,13 @@ export default {
     changeAvatar(e) {
       const files = e.target.files;
       console.log(files[0].size);
-      if (files[0].size > 60000) {
-        Toast.fire({
-          icon: "warning",
-          title: `檔案不超過60MB`,
-        });
-        return;
-      }
+      // if (files[0].size > 60000) {
+      //   Toast.fire({
+      //     icon: "warning",
+      //     title: `檔案不超過60MB`,
+      //   });
+      //   return;
+      // }
       const avatarURL = window.URL.createObjectURL(files[0]);
       this.avatar = avatarURL;
       // const _this = this;
