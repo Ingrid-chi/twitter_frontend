@@ -1,5 +1,5 @@
 <template>
-  <div class="modal-bg" v-show="show">
+  <div class="modal-bg">
     <form
       class="modal-container"
       @submit.stop.prevent="save"
@@ -53,7 +53,7 @@
               placeholder=""
             />
           </div>
-          <p class="counter">{{ name.length }}/50</p>
+          <p class="counter">{{ name?.length ?? "0" }}/50</p>
 
           <div class="modal-main-description">
             <label for="">自我介紹</label
@@ -70,7 +70,7 @@
             ></textarea>
           </div>
 
-          <p class="counter">{{ introduction.length }}/160</p>
+          <p class="counter">{{ introduction?.length ?? "0" }}/160</p>
         </div>
       </div>
     </form>
@@ -81,7 +81,6 @@ import { commonItems } from "../configs/commonConfigs";
 import { mapState, mapMutations } from "vuex";
 import userApis from "../apis/users";
 import { Toast } from "../utils/helpers";
-// import { fromNowFilter } from "./../utils/mixins";
 
 export default {
   name: "EditModal",
@@ -173,34 +172,13 @@ export default {
 
     changeCover(e) {
       const files = e.target.files;
-      // if (files[0].size > 60000) {
-      //   Toast.fire({
-      //     icon: "warning",
-      //     title: `檔案不超過60MB`,
-      //   });
-      //   return;
-      // }
       const coverURL = window.URL.createObjectURL(files[0]);
       this.cover = coverURL;
-      // const _this = this;
-      // const reader = new FileReader();
-      // reader.readAsDataURL(files[0]);
-      // reader.onloadend = function () {
-      //   const base64data = reader.result;
-      //   _this.cover = base64data;
-      // };
     },
 
     changeAvatar(e) {
       const files = e.target.files;
       console.log(files[0].size);
-      // if (files[0].size > 60000) {
-      //   Toast.fire({
-      //     icon: "warning",
-      //     title: `檔案不超過60MB`,
-      //   });
-      //   return;
-      // }
       const avatarURL = window.URL.createObjectURL(files[0]);
       this.avatar = avatarURL;
       // const _this = this;
