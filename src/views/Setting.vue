@@ -90,7 +90,7 @@
 <script>
 import NavBar from "./../components/NavBar";
 import userApis from "../apis/users";
-import { mapState, mapMutations } from "vuex";
+import { mapState } from "vuex";
 import { Toast } from "./../utils/helpers";
 
 export default {
@@ -108,15 +108,13 @@ export default {
   components: {
     NavBar,
   },
-  async created() {},
+  created() {
+    this.userId = this.currentUser.id;
+    this.name = this.currentUser.name;
+    this.account = this.currentUser.account;
+    this.email = this.currentUser.email;
+  },
   watch: {
-    currentUser() {
-      this.UserId = this.currentUser.id;
-      this.name = this.currentUser.name;
-      this.account = this.currentUser.account;
-      this.email = this.currentUser.email;
-      // this.password = this.currentUser.password;
-    },
     account() {
       if (this.account.length >= 50) {
         Toast.fire({
@@ -173,11 +171,6 @@ export default {
     ...mapState(["currentUser"]),
   },
   methods: {
-    ...mapMutations(["setCurrentUser"]),
-    // async fetchUserSetting() {
-    //   this.userId = this.$route.params.userId;
-    // const response = await usersApis.getCurrentUser(this.userId);
-    // },
     async handleSubmit(e) {
       try {
         if (
@@ -210,18 +203,8 @@ export default {
           id: this.currentUser.id,
           formData,
         });
-        this.setCurrentUser(response.data);
+        this.$store.commit("setCurrentUser", response.data.user);
         console.log(response.data);
-
-        // await userApis.editUserSettings({
-        //   id: this.currentUser.id,
-        //   data: {
-        //     name: this.name,
-        //     account: this.account,
-        //     email: this.email,
-        //     password: this.password,
-        //   },
-        // });
         Toast.fire({
           icon: "success",
           title: "成功修改設定",

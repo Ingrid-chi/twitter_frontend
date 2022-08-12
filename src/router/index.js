@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import NotFound from "../views/NotFound.vue";
 import Home from "../views/Home.vue";
 import SignIn from "../views/SignIn.vue";
+import store from './../store'
 
 Vue.use(VueRouter);
 
@@ -10,7 +11,7 @@ const routes = [
   {
     path: "/",
     name: "root",
-    component: Home,
+    redirect: '/signin',
   },
   {
     path: "/signin",
@@ -35,7 +36,7 @@ const routes = [
   },
   {
     path: "/admin",
-    name: "admin-signin",
+    name: "admin",
     component: () => import("../views/admin/AdminSignIn.vue"),
     meta: {
       requiresAuth: true,
@@ -94,5 +95,28 @@ const routes = [
 const router = new VueRouter({
   routes,
 });
+
+router.beforeEach(async (to, from, next) => {
+  const token = localStorage.getItem('token')
+  let isAuthenticated = false
+  //有token才驗證
+  if (token) {
+    isAuthenticated = await store.dispatch('fetchCurrentUser')
+
+  }
+  //驗證false且沒有要去登入頁(避免迴圈)轉到登入頁
+  if (!isAuthenticated && to.name !== 'sign-in') {
+    next('/signin')
+    return
+  }
+  //驗證true且要去登入頁直接進入home主頁
+  if (isAuthenticated && to.name === 'sign-in') {
+    next('/home')
+    return
+  }
+
+
+  next()
+})
 
 export default router;

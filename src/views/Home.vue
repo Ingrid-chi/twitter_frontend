@@ -77,17 +77,9 @@ export default {
       return !this.tweetText.length ? "內容不可空白" : "字數不可超過140字";
     },
   },
-  watch: {
-    currentUser() {
-      this.avatar = this.currentUser.avatar;
-      this.id = this.currentUser.id;
-    },
-  },
   async created() {
-    if (!localStorage.getItem("token")) {
-      this.$router.push("/signin");
-      return;
-    }
+    this.id = this.currentUser.id;
+    this.avatar = this.currentUser.avatar;
     const { data } = await tweetApis.getTweets();
     this.setTweets(data);
   },

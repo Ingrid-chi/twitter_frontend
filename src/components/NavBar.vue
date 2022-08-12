@@ -28,9 +28,8 @@
 <script>
 import NavTab from "./../components/NavTab";
 import AdminNavTab from "./../components/AdminNavTab";
-import userApis from "../apis/users";
-// import { mapState, mapMutations } from "vuex";
-import { mapMutations } from "vuex";
+import { mapState } from "vuex";
+
 export default {
   name: "NavBar",
 
@@ -51,15 +50,15 @@ export default {
       userId: 0,
     };
   },
+  computed: {
+    ...mapState(["currentUser", "isAuthenticated"]),
+  },
 
   async created() {
-    const { currentUserData } = await userApis.getCurrentUser();
-    this.setCurrentUser(currentUserData);
-    this.userId = currentUserData.id;
+    this.userId = this.currentUser.id;
   },
 
   methods: {
-    ...mapMutations(["setCurrentUser"]),
     handleLogOut() {
       if (this.isAdmin) {
         localStorage.removeItem("admin-token");
