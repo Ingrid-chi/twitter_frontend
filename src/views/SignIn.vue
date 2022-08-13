@@ -145,8 +145,6 @@ export default {
           icon: "warning",
           title: `${error.response.data.message}`,
         });
-
-        console.log("!!", error.response.data);
       }
     },
   },

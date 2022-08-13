@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import userApis from './../apis/users'
 
 Vue.use(Vuex);
 
@@ -39,6 +40,7 @@ export default new Vuex.Store({
         // 從外部傳進來的(通常透過 API 取得)，修改上方 state.currentUser 的資料
         ...currentUser,
       };
+      state.isAuthenticated = true
     },
 
     setFollowUsers(state, followUsers) {
@@ -49,6 +51,29 @@ export default new Vuex.Store({
     },
   },
 
-  actions: {},
+  actions: {
+    async fetchCurrentUser({ commit }) {
+      try {
+        const { currentUserData } = await userApis.getCurrentUser();
+        const { id, name, email, avatar, role, account, cover, introduction, createdAt, updatedAt } = currentUserData
+        commit('setCurrentUser', {
+          id,
+          name,
+          email,
+          avatar,
+          role,
+          account,
+          cover,
+          introduction,
+          createdAt,
+          updatedAt
+        })
+        return true
+      } catch (error) {
+        console.log(error.response.data)
+        return false
+      }
+    }
+  },
   modules: {},
 });

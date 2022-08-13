@@ -4,7 +4,6 @@ const getToken = () => localStorage.getItem("token");
 export default {
   // 帶入需要的參數
   getUser(id) {
-    console.log('222', id)
     return apiHelper.get(`/users/${id}`, {
       headers: { Authorization: `Bearer ${getToken()}` },
     });
